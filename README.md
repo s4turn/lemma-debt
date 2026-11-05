@@ -2,6 +2,8 @@
 
 **Theorems are property. Understanding is a liability.**
 
+**[Play in your browser](https://s4turn.github.io/lemma-debt/)** · [Source on GitHub](https://github.com/s4turn/lemma-debt)
+
 An original, darkly comic browser tactics game about corporations privatizing mathematical truth. Command three obsolete mathematicians through eighteen operations and three connected campaigns, recover the evidence, and decide whether to verify the work or automate the claim.
 
 No downloads needed. Inspired by Syndicate [1993] (and [FreeSynd](https://freesynd.sourceforge.io/)). FreeSynd was consulted during research; its code and assets are not included. See [provenance](PROVENANCE.md).
