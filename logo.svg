@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 260" role="img" aria-labelledby="title desc"><title id="title">Lemma Debt</title><desc id="desc">An original angular wordmark and a repossessed proof crossed by a red debt line.</desc>
+<g transform="translate(0 20)"><path d="M24 10H106L142 46V174L120 196H24Z" fill="#17292a" stroke="#d5ec72" stroke-width="6"/><path d="M106 10V46H142" fill="none" stroke="#d5ec72" stroke-width="6"/><path d="M45 145H120" stroke="#769891" stroke-width="4"/><path d="M45 160H105" stroke="#769891" stroke-width="4"/><path d="M83 65l9 9-9 9-9-9Zm-22 35 9 9-9 9-9-9Zm44 0 9 9-9 9-9-9Z" fill="#d5ec72"/><path d="M8 178 151 122" stroke="#10161a" stroke-width="24"/><path d="M8 178 151 122" stroke="#ef7968" stroke-width="11"/><path d="m5 200 32-12m96-38 24-9" stroke="#ef7968" stroke-width="3"/></g>
+<g transform="translate(180 20) scale(1.5)" fill="#ecebdc" fill-rule="evenodd">
+<path transform="translate(0 0)" d="M0 0H10V50H44V60H0Z"/>
+<path transform="translate(60 0)" d="M0 0H44V10H10V24H37V34H10V50H44V60H0Z"/>
+<path transform="translate(120 0)" d="M0 60V0H10L24 24L38 0H48V60H38V19L24 42L10 19V60Z"/>
+<path transform="translate(180 0)" d="M0 60V0H10L24 24L38 0H48V60H38V19L24 42L10 19V60Z"/>
+<path transform="translate(240 0)" d="M0 60L17 0H31L48 60H37L33 46H15L11 60ZM18 36H30L24 13Z"/>
+</g>
+<g transform="translate(180 126) scale(1.5)" fill="#ef7968" fill-rule="evenodd">
+<path transform="translate(0 0)" d="M0 0H28L44 16V44L28 60H0ZM10 10V50H24L34 40V20L24 10Z"/>
+<path transform="translate(60 0)" d="M0 0H44V10H10V24H37V34H10V50H44V60H0Z"/>
+<path transform="translate(120 0)" d="M0 0H30L42 12V23L35 30L44 39V48L32 60H0ZM10 10V25H26L32 19V16L26 10ZM10 35V50H28L34 44V41L28 35Z"/>
+<path transform="translate(180 0)" d="M0 0H48V10H29V60H19V10H0Z"/>
+</g>
+<path d="M181 239H610" stroke="#567971" stroke-width="3"/><path d="M181 239H247" stroke="#d5ec72" stroke-width="3"/></svg>

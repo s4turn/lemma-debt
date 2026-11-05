@@ -1,0 +1,17 @@
+'use strict';const assert=require('node:assert/strict');const {E,play,switches}=require('./harness');
+for(let route of ['verify','automate','mixed']){let s=E.fresh(),rows=[];E.buy(s,'tools');for(let i=0;i<18;i++){while(s.understanding<50&&s.credits>=25)E.buy(s,'seminar');rows.push(play(s));s=JSON.parse(JSON.stringify(s));assert.ok(E.resolve(s,route==='mixed'?(i%2?'automate':'verify'):route));if(s.phase==='ending'){assert.equal(s.ending,route==='verify'?'commons':route==='automate'?'hollow':'contested');if(i<17)assert.ok(E.continueCampaign(s));}}assert.equal(s.mission,18);assert.equal(s.phase,'ending');console.log(route+': 18 operations, rounds '+rows.map(r=>r.rounds).join(','));}
+let s=E.fresh();E.start(s);let b=s.battle;assert.ok(E.act(s,0,7).ok);assert.equal(b.agents[0].ap,0);assert.equal(b.turn,0);assert.equal(E.act(s,0,6).ok,false);b.selected=1;assert.ok(E.act(s,3,7).ok);b.selected=2;assert.ok(E.act(s,0,6).ok);assert.equal(b.turn,1);assert.ok(b.agents.every(a=>a.ap===1));
+// Movement previews and execution agree, including obstacles and two-step limit.
+s=E.fresh();E.start(s);for(let y=0;y<9;y++)for(let x=0;x<9;x++){let o=E.order(s,x,y);if(o.kind==='move'&&o.ok){assert.ok(o.path.length<=2);let copy=JSON.parse(JSON.stringify(s));assert.ok(E.act(copy,x,y).ok);assert.equal(copy.battle.agents[0].x,x);assert.equal(copy.battle.agents[0].y,y);}}
+// Old in-battle saves gain an action budget without losing health or position.
+for(let a of s.battle.agents)delete a.ap;let old=JSON.parse(JSON.stringify(s));E.ensureRound(old.battle);assert.ok(old.battle.agents.every(a=>a.ap===1));assert.equal(old.battle.agents[0].hp,s.battle.agents[0].hp);
+// A/B/C/D path network has a unique, nonempty binary solution; several travel orders work.
+for(let i of [2,8,14]){let clean=E.fresh();clean.mission=i;E.start(clean);assert.equal(clean.battle.network.length,4);assert.equal(switches(clean.battle).length,i===14?3:2);let a=E.fresh();a.mission=i;let normal=play(a),z=E.fresh();z.mission=i;let reversed=play(z,{reverse:true}),f=E.fresh();f.mission=i;let shortcut=play(f,{force:true});assert.equal(shortcut.understanding,65);assert.equal(normal.understanding,80);console.log('Puzzle '+(i+1)+': '+JSON.stringify({normal,reversed,shortcut}));}
+// AP and circuit state persist across a save in the middle of a round.
+s=E.fresh();s.mission=2;E.start(s);E.act(s,0,7);let copy=JSON.parse(JSON.stringify(s));E.wait(s);E.wait(copy);assert.deepEqual(copy,s);
+console.log('Action budget, exact movement, legacy-save migration, puzzle alternatives and round restore passed.');
+// All 16 switch configurations have exactly one parity solution, by finite enumeration.
+for(let initial=0;initial<16;initial++){let count=0;for(let mask=0;mask<16;mask++){let bits=initial;for(let i=0;i<4;i++)if(mask>>i&1)for(let j=0;j<4;j++)if(Math.abs(i-j)<=1)bits^=1<<j;if(bits===0)count++;}assert.equal(count,1);}
+// Coordinating two agents is an alternative to visiting the orange override.
+s=E.fresh();s.mission=1;E.start(s);b=s.battle;b.agents[0].x=b.target.x-1;b.agents[0].y=b.target.y;assert.equal(E.order(s,b.target.x,b.target.y).ok,false);b.agents[1].x=b.target.x;b.agents[1].y=b.target.y+1;assert.equal(E.order(s,b.target.x,b.target.y).ok,true);assert.ok(E.act(s,b.target.x,b.target.y).ok);assert.ok(b.secured);assert.equal(b.lock.unlocked,false);
+console.log('Parity solution uniqueness (finite enumeration) and coordinated alternative passed.');

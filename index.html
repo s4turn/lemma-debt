@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#10161a">
+<title>Lemma Debt</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div><span class="brand">∴ LEMMA DEBT</span><span class="tag">A hostile takeover of knowledge</span></div><div class="header-actions"><button id="case-file" class="quiet">Case file</button><button id="backup" class="quiet">Save / restore</button><button id="sound" class="quiet" aria-label="Toggle sound">Sound: off</button><button id="help" class="quiet">How to play</button></div></header>
+<div id="storage-warning" role="status" hidden></div><main>
+<section id="screen" aria-live="polite"></section>
+<section id="game" hidden>
+  <div class="mission-top"><div><span class="eyebrow" id="mission-number"></span><h1 id="mission-title"></h1></div><div class="mission-meters"><span id="turn"></span><span id="rival"></span><span id="understanding"></span></div></div>
+  <div class="mission-objective" id="mission-objective"><div class="objective-heading"><span id="objective-step"></span><strong id="objective-title"></strong><button id="locate-objective">Locate evidence ↗</button></div><p id="objective"></p></div>
+  <div id="network" hidden></div><div id="agents" class="squad-strip"></div><div class="tactical-layout"><div class="board-wrap" id="map-wrap"><canvas id="board" aria-label="Isometric tactical map. Select an agent, then tap a tile to move, attack, interact, or extract."></canvas><div id="board-hint">Blue tiles: move · Red rings: attack · Gold: evidence · Cyan: exit</div></div>
+  <aside><div class="panel command-panel"><div class="panel-title">ORDER CONSOLE</div><div id="selected"></div><div class="mode-tabs"><button id="mode-move">Move</button><button id="mode-attack">Attack</button></div><div id="order-preview" role="status"></div><button id="confirm-order" disabled>Select a highlighted tile</button><button id="wait">End squad round</button><details><summary>Squad tools &amp; extraction shortcuts</summary><div class="actions"><button id="force" class="quiet">Force decode · −15 understanding</button><button id="recenter" class="quiet">Explain orders · +10 understanding</button><button id="retreat" class="quiet">Abort mission</button></div></details></div><div class="panel"><div class="panel-title">HOSTILE OFFICERS</div><div id="enemies"></div></div><div class="panel log-panel"><div class="panel-title">INCIDENT REPORT</div><div id="log"></div></div></aside></div>
+</section>
+</main>
+<div id="modal" class="modal" hidden><div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><button id="close-modal" class="close" aria-label="Close">×</button><h2 id="modal-title"></h2><div id="modal-body"></div></div></div>
+<script src="expansions.js"></script><script src="engine.js"></script><script src="narrative.js"></script><script src="scenes.js"></script><script src="practice.js"></script><script src="figures.js"></script><script src="game.js"></script>
+</body></html>

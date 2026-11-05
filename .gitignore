@@ -1,0 +1,24 @@
+.DS_Store
+.env
+.env.*
+node_modules/
+dist/
+coverage/
+*.log
+*.save.json
+.openai/
+
+# Keep internal development records outside the public repository.
+/docs/
+/internal/
+/private-records/
+/release-evidence/
+/reviews/
+/playtests/
+/lemma-debt-*-review*/
+/lemma-debt-preservation-*/
+/lemma-debt-private-records-*/
+*-critique.md
+*-playtest.md
+*-tests.txt
+*-release.md
