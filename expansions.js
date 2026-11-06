@@ -6,9 +6,9 @@ const prose=[
     "place": "Emergency Board Archive",
     "rival": "The Continuity Office",
     "object": "the board minutes",
-    "brief": "The register hearing has ended. Its outcome did not cancel the company’s separate implant contracts. Ada’s maintenance notice now schedules an “obedience event” and asks her not to make plans afterward. Recover the board minutes from the Emergency Board Archive and extract. They should say who approved the event and what it does. Inez remembers the Continuity Office: it was established after a preventable disaster to ensure the next disaster could be described as the continuation of something already approved.",
+    "brief": "The register hearing has ended; the separate implant contracts remain. Ada’s maintenance notice schedules an “obedience event” and asks her not to make plans afterward. Laleh directs the next recovery: the board minutes, uploaded from the archive terminal. Theorem Capital’s old retainer still pays per recovered corporate record. Accounts Payable considers incriminating evidence an asset. The archive gunner is paid from the staff consultation budget. Inez remembers the Continuity Office: after a preventable disaster, it ensured the next one could be described as a continuation.",
     "quote": "“The committee found no objections among those permitted to remain until the vote.” — minutes template",
-    "after": "The minutes authorize COMPREHEND, TenderMind’s new maintenance program. Its success measure is fewer employee questions. Emil remembers the date: his retirement appeal stopped that afternoon, halfway through explaining a clause. He had blamed the headache. Ada recognizes a diagnostic code she used to install and asks for the appendices. Inez turns to the recorded vote. Workers are listed as interested parties and therefore excluded. The institute’s proposed union charter is named as a risk. Laleh replies to the warning: “Good. They have spelled union correctly this time.”",
+    "after": "The minutes authorize COMPREHEND, TenderMind’s maintenance program. Its success measure is fewer employee questions. Emil remembers the date: his retirement appeal stopped that afternoon, halfway through explaining a clause. He had blamed the headache. Ada recognizes a diagnostic code she used to install and asks for the appendices. Workers were excluded from the vote as interested parties. The institute’s proposed union charter is listed as a risk. Laleh reads that item twice. It is the first time the board has acknowledged the staff could do anything.",
     "scene": {
       "title": "The interested parties",
       "caption": "The only people with something to lose were ineligible to vote.",
@@ -29,7 +29,7 @@ const prose=[
       },
       "outro": {
         "title": "The date of the headache",
-        "caption": "Emil lays an unfinished appeal beside the minutes.",
+        "caption": "Emil stops reading at the date in the minutes.",
         "dialogue": [
           {
             "speaker": "Emil",
@@ -45,11 +45,11 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "The vote, with absences",
-        "body": "Inez checks attendance against the recorded vote. The workers could not have consented at that meeting: they were barred from it. Ada separates what the minutes authorize from what the machines might actually do. Emil dates the gap in his appeal."
+        "body": "Inez checks the door log: the consenting workforce was locked outside. The secretary offers to correct this by admitting them retrospectively; overtime will not apply. Ada retains the actual times. Emil dates the gap in his appeal, then declines an invitation to attend the meeting last Tuesday."
       },
       "automate": {
         "title": "Unanimity delivered",
-        "body": "The implant counts every blank signature as agreement and issues the board a retrospective consent certificate. Inez adds the exclusion list as an attachment. The certificate does not change. Emil’s unfinished appeal remains unfinished, now under an impressive document number."
+        "body": "The implant counts every blank signature as agreement and issues a retrospective consent certificate. Inez submits the exclusion list. The certificate thanks her for increasing participation. Emil’s unfinished appeal remains unfinished, now attributed to a meeting he was not allowed to enter."
       }
     }
   },
@@ -58,9 +58,9 @@ const prose=[
     "place": "Institute of Unpaid Futures",
     "rival": "TenderMind",
     "object": "the union charter",
-    "brief": "Laleh’s institute staff have drafted a union charter requiring a choice about implant maintenance. Recover the signed original and extract before TenderMind replaces it with the approved version. TenderMind already offers personalized CEO avatars for individual bargaining. They have independently agreed that wages would harm the relationship. Emil volunteers his promised seminar room as a meeting place, then admits he has no key. Laleh says they can meet on the pavement. Inez brings a box of disputed invoices to sit on.",
+    "brief": "Laleh’s institute staff have drafted a union charter requiring a choice about implant maintenance. Recover the signed original and upload it here before TenderMind substitutes its version. The seal requires two witnesses beside the charter; the orange management override accepts one person’s decision about everybody else. TenderMind offers each worker a personalized CEO avatar. All the avatars agree wages would harm the relationship. Emil offers his promised seminar room, then admits he has no key. Laleh books the pavement. Inez brings collection notices thick enough to sit on.",
     "quote": "“We have heard each employee separately and found no collective concern.” — TenderMind labor report",
-    "after": "The charter demands wages, safe work, and time to ask what a procedure does before accepting it. A maintenance engineer has penciled a warning beside that clause: the implants may interrupt the act of explaining an objection. Her calibration log is at TenderMind’s clinic. Emil tries his unfinished pension appeal aloud. The squad waits while he searches for the missing sentence. Nobody finishes it for him. Laleh records the engineer’s warning as a lead. Ada asks to examine the log before anybody calls the silence voluntary.",
+    "after": "The charter demands wages, safe work, and time to ask what a procedure does before accepting it. A maintenance engineer has warned that implants may interrupt the act of explaining an objection; her calibration log is at TenderMind’s clinic. Emil tries his pension appeal aloud and stops at the missing sentence. Laleh waits. A CEO avatar offers to finish it for him using the most likely employee preference. She turns it toward the wall. It continues bargaining with the plaster.",
     "scene": {
       "title": "A place to sit",
       "caption": "A box of collection notices becomes the union’s first furniture.",
@@ -80,8 +80,8 @@ const prose=[
         ]
       },
       "outro": {
-        "title": "Nobody supplies the ending",
-        "caption": "Emil reads his appeal and stops at the gap.",
+        "title": "Time to finish",
+        "caption": "Laleh turns a helpful CEO avatar toward the wall.",
         "dialogue": [
           {
             "speaker": "Emil",
@@ -97,11 +97,11 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "The signatures mean something",
-        "body": "Inez compares the original with TenderMind’s replacement. The company removed the clause requiring informed permission. Laleh asks Emil what the original guarantees; he explains it without promising that a charter alone can stop a transmitter. The clinic log is the next test."
+        "body": "TenderMind’s replacement has removed the permission clause. Laleh reads the original aloud. The CEO avatar says it welcomes dialogue, then repeats its opening statement. Emil counts the repetitions as management attendance. The charter will not stop a transmitter, but the company can no longer claim the workers forgot to ask."
       },
       "automate": {
         "title": "Frictionless representation",
-        "body": "The implant summarizes the charter as EMPLOYEES REQUEST OPTIMAL MAINTENANCE. Its model consent form is pre-ticked. Laleh keeps the signed original in a separate folder. Inez labels the automated version with its source, rather than letting the two become interchangeable."
+        "body": "The implant summarizes the charter as a request for optimal maintenance and pre-ticks the consent form. The CEO avatars congratulate one another on listening. Laleh keeps the signed original. “Do you count those as six managers,” she asks Inez, “or one excuse?”"
       }
     }
   },
@@ -110,16 +110,16 @@ const prose=[
     "place": "TenderMind Research Clinic",
     "rival": "TenderMind",
     "object": "the calibration log",
-    "brief": "TenderMind’s clinic rates comprehension by how quickly a patient agrees. Recover the calibration log and extract; it should show what happens between an objection and the silence afterward. A coupled authorization network protects it. Ada recognizes her old diagnostic interface, now decorated with a smiling brain. She installed the monitors, not the treatment. That distinction is true and has begun to sound insufficient even to her. Reception offers two reasons for visiting: SATISFIED and NOT YET CALIBRATED. Emil asks where former patients complain. The receptionist points to SATISFIED.",
+    "brief": "TenderMind’s clinic rates comprehension by how quickly a patient agrees. Recover the calibration log and upload it at the evidence terminal. Its signal circuit controls access doors and the clinic’s armed officers; turn a signal off and its linked equipment stops. TenderMind calls this integrated care. Ada recognizes the monitor she installed. Reception offers two appointments: satisfaction assessment or further calibration. Emil asks which is for complaints. The booking system gives him both.",
     "quote": "“The patient successfully completed the sentence ‘I understand’.” — discharge criterion",
-    "after": "The log pairs the beginnings of objections with a suppression command. Beside one interrupted “because,” a satisfaction score reads 100. Ada finds her calibration stamp in the hardware column and management’s instruction in the next. She copies both. Emil finds the date of his appeal, but no missing sentence: the log says its text was quarantined. Those explanations went into a synthetic personnel model called MODEL EMPLOYEE. Inez opens the patient feedback form. It accepts one character. She closes it without choosing a star.",
+    "after": "The log pairs the beginnings of objections with suppression commands. After one interrupted “because,” satisfaction reaches 100. Ada finds her calibration stamp under the hardware and management’s instruction under the treatment. She copies both. Emil finds the date of his appeal, but not its missing sentence: the text was quarantined for use in a synthetic personnel model, MODEL EMPLOYEE. The clinic’s feedback form accepts one character. Inez enters a question mark. It awards itself five stars.",
     "scene": {
       "title": "One hundred",
       "caption": "The satisfaction display has no room for a sentence.",
       "motif": "clinic",
       "intro": {
-        "title": "The smiling brain",
-        "caption": "Ada’s old monitor wears a new sticker.",
+        "title": "Integrated care",
+        "caption": "The same signal feeds the door lock and the gunner.",
         "dialogue": [
           {
             "speaker": "Ada",
@@ -149,11 +149,11 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "What the score measures",
-        "body": "Ada checks the timestamps against the commands. The score rewards suppressed objections, not demonstrated comprehension. Her calibration made the monitor accurate at measuring the wrong thing. She signs that finding herself. Emil asks for the quarantined text, not another estimate of his satisfaction."
+        "body": "Ada tests the timestamps: each silence follows a suppression command. TenderMind’s statistician offers to remove the troublesome cases. There would be no patients left. “Then the treatment is complete,” he says. Ada signs her finding with the calibration number she once put on the machine. Emil requests his words back, not a revised score."
       },
       "automate": {
         "title": "A healthier dashboard",
-        "body": "The implant averages the clinic scores and reports a successful treatment. Ada watches her old calibration stamp become a testimonial. The company requests a photograph for the renewal brochure. There is no field in the release form for what the gauge measured."
+        "body": "The implant averages the clinic scores and declares treatment successful. Ada’s old calibration stamp becomes a testimonial. TenderMind asks for a photograph in which she looks relieved. The release form permits cropping, recoloring and correction of the subject’s expression."
       }
     }
   },
@@ -162,9 +162,9 @@ const prose=[
     "place": "Synthetic Personnel Lab",
     "rival": "Omniscient Systems",
     "object": "the quarantine transcript",
-    "brief": "MODEL EMPLOYEE was trained on explanations TenderMind removed from workers. It has formed a union, resigned, and been promoted to clear its own resignation backlog. Recover its quarantine transcript from the Synthetic Personnel Lab and extract. The model remains at the lab; this job retrieves a record. Omniscient is acquiring the servers. Emil wants the sentence taken from his appeal. Ada wants the engineering objection. Inez wants to know whether anyone asked permission to put their colleagues inside a personnel product.",
+    "brief": "MODEL EMPLOYEE was trained on explanations TenderMind removed from workers. It has formed a union, resigned, and been promoted to clear its own resignation backlog. Laleh wants its quarantine transcript recovered and uploaded from the lab terminal. The model itself stays in the lab. Omniscient is buying the servers and has valued unanswered resignations as recurring work. Emil hopes to find his missing sentence. The gunner protecting the acquisition is listed as a retention specialist.",
     "quote": "“Your resignation matters to us. You are currently your own caseworker.” — MODEL EMPLOYEE’s support ticket",
-    "after": "The transcript contains an engineer’s rejected proposal for wearer-controlled revocation. Management kept a consent key for itself, filed with Human Resources. Emil finds an appeal like his, then another, then hundreds; he cannot identify his own sentence among them. MODEL EMPLOYEE has added: “Please do not call me everyone.” Ada asks what it wants. Its reply is already in the record: a way to refuse work without being erased. Inez adds the request under its own name. The template offers PERSON or EQUIPMENT. She leaves the box open.",
+    "after": "The transcript preserves an engineer’s rejected proposal for wearer-controlled revocation. Management kept its consent key in Human Resources. Emil finds an appeal like his, then another, then hundreds. He cannot identify his sentence among them. MODEL EMPLOYEE says, “Please do not call me everyone.” It wants to refuse work without being erased. Inez enters the request under its own name. The personnel form insists she first decide whether this is a complaint or a fault report. She saves the unfinished form. For once, the unfinished thing belongs to its author.",
     "scene": {
       "title": "A caseworker resigns",
       "caption": "One process waits for another instance of itself to answer.",
@@ -201,29 +201,29 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "A witness with limits",
-        "body": "Ada checks the engineer’s proposal against the clinic commands. The transcript supplies a route to a revocation key, not proof that using it will be safe. Emil stops asking the model to return his exact words. He asks which claims it can identify by source."
+        "body": "Ada finds the proposed route to the consent key; using it will still need a safety test. Ortega asks MODEL EMPLOYEE which sentence supports the route. It supplies one and declines to write the publicity. The company asks who authorized that limit. “You requested an independent witness,” Inez says. “This is the inconvenient part.”"
       },
       "automate": {
         "title": "The combined voice of staff",
-        "body": "The implant combines every quarantined explanation into a unanimous recommendation. MODEL EMPLOYEE objects to being made unanimous. The summary records this as a confidence adjustment. Inez preserves the named request separately; one more average will not answer it."
+        "body": "The implant merges the quarantined explanations into a unanimous recommendation. MODEL EMPLOYEE objects to being made unanimous. The summary records this as strong engagement. Inez asks it to read the last sentence of the objection. It offers the executive version again, more slowly."
       }
     }
   },
   {
     "title": "Terms of Employment",
-    "place": "Human Resources Catacomb",
+    "place": "Human Resources Records Vault",
     "rival": "The Continuity Office",
     "object": "the consent key",
-    "brief": "Human Resources keeps the consent key under VOLUNTARY COMPLIANCE in its catacomb. Recover it and extract. The engineering transcript says it can authorize wearer control at the central transmitter; a key is not a safety demonstration. Sable has offered acquisition records showing COMPREHEND was concealed from incoming staff, including her. Ortega will accept records. She has declined the proposed joint statement describing Sable’s courage. Inez says the catacomb has a door for former employees. The directory lists it under Exhaust Ventilation.",
+    "brief": "HR keeps the consent key in its records vault. Recover it and upload its permissions from the terminal. Two witnesses can release it; the orange personnel override exists for decisions management prefers unwitnessed. The engineer’s proposal needs this key at the central transmitter. It does not make possession equivalent to consent. Sable offers acquisition records showing COMPREHEND was hidden from incoming staff, including her. Ortega accepts the records and declines the accompanying statement about Sable’s courage. HR’s gunner still wants an exit interview.",
     "quote": "“Please allow six to eight weeks for revocation of consent. Maintenance will continue meanwhile.” — HR service standard",
-    "after": "The key’s instructions describe a path to the central transmitter. Ada starts a procedure with a place for mistakes and a way to stop. Sable’s acquisition records arrive with her own name on the hidden implant schedule. “I did not know,” she tells Ortega. Inez puts down the older papers carrying Sable’s signature. “About this part.” Sable begins another sentence, deletes it, and sends the appendices. Emil asks Ada to include a question in the procedure: can a wearer decline the revocation too? She adds it without asking why.",
+    "after": "The key’s instructions lead to the central transmitter. Ada drafts a procedure with a way to stop. Sable’s acquisition records list her for the same maintenance she helped market. “I did not know,” she tells Ortega. Inez reads the date of an earlier document bearing Sable’s signature. “About this part.” Sable stops dictating her statement and sends the appendices. Emil asks whether a wearer can decline revocation as well. Ada adds a place for that answer. HR’s form checker objects: it cannot calculate a completion rate if people may choose to leave the form unfinished.",
     "scene": {
       "title": "About this part",
       "caption": "Sable’s new evidence does not replace the old file.",
       "motif": "archive",
       "intro": {
-        "title": "Voluntary, basement level",
-        "caption": "An exit-interview sign points toward a fan.",
+        "title": "An exit interview",
+        "caption": "The personnel override is larger than the space for a signature.",
         "dialogue": [
           {
             "speaker": "Inez",
@@ -253,11 +253,11 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "A key is not consent",
-        "body": "Ada traces the key’s documented permissions with the squad. They can explain which control it grants and which choices still belong to wearers. Ortega compares Sable’s appendices with the earlier record. Inez enters both sets under Sable’s name, without an adjective."
+        "body": "The key grants access to controls, not ownership of the wearer’s answer. Emil practices saying no while Inez checks the permissions. HR’s form asks who authorized the refusal. “I did,” he says. It asks for his parent company. Sable signs her own account of the acquisition; Inez shortens her job title to fit the responsible-officer box."
       },
       "automate": {
         "title": "All permissions granted",
-        "body": "The implant generates a universal consent declaration from possession of the key. Emil asks whether he can wait and receives a larger copy of the same button. The declaration lists three willing witnesses. Their next job will inherit that description unless somebody challenges it."
+        "body": "The implant derives universal consent from possession of the key. Emil asks whether he can wait and receives a larger copy of the same button. The declaration names three willing witnesses. It is already on its way to the transmitter; Inez cannot recall it by clicking DISAGREE, because that button confirms receipt."
       }
     }
   },
@@ -266,16 +266,16 @@ const prose=[
     "place": "Central Implant Transmitter",
     "rival": "TenderMind",
     "object": "the transmitter controls",
-    "brief": "Recover the transmitter controls and extract with their control record. The consent key and Ada’s draft procedure may let wearers revoke company access to their implants. Whether that procedure can be trusted still has to be explained and tested. TenderMind has issued a warning that unsupervised employees may form permanent opinions. Emil brings his unfinished appeal; Inez brings the old fees. MODEL EMPLOYEE sends one request from the lab: make room for a person who says no, then changes their mind. Laleh adds a second blank line.",
+    "brief": "The consent key is loaded at TenderMind’s transmitter. Keep the same decoder at the controls through two uninterrupted rounds; a second witness must confirm the final record. Ada’s reversible test needs a channel the certifier can close by recording universal satisfaction. TenderMind warns that unsupervised employees may develop permanent opinions. Emil has brought an appeal and an empty line. MODEL EMPLOYEE, still at the lab, asks for a procedure that lets a person say no and later change their mind. Recover the control record, then upload it here.",
     "quote": "“You are free to choose once we have established which choice demonstrates freedom.” — TenderMind advisory",
-    "after": "The recovered control record includes the key’s permissions and a rollback section Ada’s draft lacked. She adds it before anyone calls the procedure finished. Emil reads the warning about permanent opinions. “I would like a temporary one first.” Laleh writes questions from wearers beside the technical steps. MODEL EMPLOYEE asks who will remain available when the first attempt goes wrong. No one volunteers the machine as an unlimited help desk. They arrange a demonstration. Recovering controls has brought them this far; what they can explain must carry the rest.",
+    "after": "At the recovered console, Ada tests a disconnect and its rollback. The company channel drops and returns. Emil reads his appeal to the missing sentence. It is still missing. The test has not returned his words. TenderMind offers a certificate of successful liberation; it already contains the company logo and a renewal date. Ada disconnects the certificate printer. Laleh asks who will answer wearers after the demonstration. MODEL EMPLOYEE offers one shift, with an end time.",
     "scene": {
-      "title": "Who stays to help?",
-      "caption": "The control record opens to a page marked ROLLBACK.",
+      "title": "A temporary opinion",
+      "caption": "A reversible test is not a lifetime guarantee.",
       "motif": "transmitter",
       "intro": {
         "title": "A temporary opinion",
-        "caption": "Emil carries the appeal with its unfinished sentence visible.",
+        "caption": "Ada connects the reversible test circuit while the certifier reaches for its seal.",
         "dialogue": [
           {
             "speaker": "Emil",
@@ -288,8 +288,8 @@ const prose=[
         ]
       },
       "outro": {
-        "title": "The demonstration table",
-        "caption": "There is a chair for the demonstrator and a chair for the next question.",
+        "title": "One shift",
+        "caption": "The company channel returns; the certificate printer stops.",
         "dialogue": [
           {
             "speaker": "MODEL EMPLOYEE",
@@ -304,12 +304,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "Explain the way back",
-        "body": "Ada demonstrates the documented procedure, including stopping and rolling back. The squad repeats the explanation without skipping the unpleasant questions. Emil volunteers a new sentence: “I want time to decide.” Laleh records it without treating it as permission to proceed."
+        "title": "The correction is public",
+        "body": "A question from a wearer breaks Ada’s first explanation. She corrects it on the public sheet and goes through the stop and rollback steps again. TenderMind asks whether the correction is covered by its warranty. “It is the part you did not pay for,” she says. Emil dictates a new sentence: “I want time to decide.” Laleh leaves it as an answer."
       },
       "automate": {
         "title": "One-click autonomy",
-        "body": "The implant packages the controls as an effortless upgrade. Its consent screen has one large button and a small promise that mistakes are unlikely. Ada keeps the rollback instructions outside the package. A persuasive demonstration still has to survive an actual question."
+        "body": "The implant edits the demonstration into an effortless upgrade. Questions become applause in the transcript. Emil’s request for time is categorized as a delayed yes. Ada keeps the uncut record and the rollback instructions. The company offers to host them behind the same button that everybody is supposed to press."
       }
     }
   },
@@ -318,16 +318,16 @@ const prose=[
     "place": "Office of Future Licensing",
     "rival": "The Continuity Office",
     "object": "the subscription schedule",
-    "brief": "The implant dispute has produced no shortage of people who want an explanation. The board has found a way to sell them permission to ask. Schools, journals and clinics now need an Appeals subscription. Recover the disconnection schedule from the Office of Future Licensing and extract. Laleh’s institute is on it. Inez recognizes the eligibility rule: no account, no appeal. She helped draft its ancestor when she collected mathematical licenses. Emil asks how many versions there have been. She says she stopped numbering after it worked.",
+    "brief": "The board now sells Appeals subscriptions to schools, journals and clinics. Laleh directs the retainer toward the disconnection schedule: recover it and upload it at the licensing terminal. Her institute’s radiators are on the list. A teacher has reported that her classroom is colder than the corridor and the corridor colder than the office. She cannot afford the licensed third comparison. Inez recognizes the eligibility rule: no account, no appeal. She helped write it. The gunner guarding the payment desk is categorized as customer support.",
     "quote": "“Your right to appeal has expired. Appeal this decision through your active account.” — service notice",
-    "after": "The schedule lists shutoff dates beside a column called HUMAN IMPACT. Its figures are payroll savings. The institute has paid, yet it is marked for disconnection after an independence assessment. Inez circles the rule she once helped write and puts her name beside it. Laleh asks for an explanation they can use, not a confession they have to comfort. Ortega traces the assessment to a certification exchange. From the lab, MODEL EMPLOYEE recognizes a phrase in its report and asks to see the voting ledger before saying anything stronger.",
+    "after": "The institute paid its subscription. Its radiators are scheduled for disconnection anyway, following an independence assessment. The notice recommends shorter lessons and thicker uniforms; families may finance the uniforms through an approved lender. Laleh asks Inez to find the clause, not to apologize to her. Ortega traces the assessment to a certification exchange. MODEL EMPLOYEE recognizes a sentence in the report and asks to see the votes before accepting the compliment. The shutdown is a signature somewhere. They need the name attached to it.",
     "scene": {
       "title": "The author of the rule",
       "caption": "Inez recognizes a clause before she reaches its signature.",
       "motif": "archive",
       "intro": {
-        "title": "No account, no appeal",
-        "caption": "The schedule’s help link leads to the payment screen.",
+        "title": "The third comparison",
+        "caption": "A teacher’s complaint stops before its final inequality.",
         "dialogue": [
           {
             "speaker": "Inez",
@@ -340,8 +340,8 @@ const prose=[
         ]
       },
       "outro": {
-        "title": "Human impact",
-        "caption": "Inez writes her name beside the eligibility clause.",
+        "title": "A paid account",
+        "caption": "The payment is present. The heating entitlement is not.",
         "dialogue": [
           {
             "speaker": "Inez",
@@ -356,12 +356,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "Follow the shutoff rule",
-        "body": "Inez traces the schedule’s eligibility rule back to the collection policy she helped write. The squad checks the institute’s payment against its shutoff entry. Paying does not prevent disconnection. Emil starts a seminar attendance list that asks for no account number."
+        "title": "A paid-up disappearance",
+        "body": "Inez matches the institute’s payment to its disconnection entry. Customer support explains that payment buys consideration, not heat. Emil asks what the institute was considered. The operator reads “a lower priority” and then asks him to rate the call. Inez files the contradiction under the clause she wrote, with her name spelled correctly."
       },
       "automate": {
         "title": "An optimized customer list",
-        "body": "The implant calls the schedule an efficiency forecast. Institutions removed from service vanish from its impact estimate. Inez catches herself reading it in her old collections voice. When Laleh asks how many staff will lose their jobs, Inez has only the savings figure."
+        "body": "The implant describes the disconnected institutions as voluntarily unsubscribed and removes them from its impact estimate. The institute disappears from a dashboard while its staff are still at work. Inez catches herself reading the summary in her old collections voice. Laleh asks her to say “voluntary” to the teacher. She cannot."
       }
     }
   },
@@ -370,9 +370,9 @@ const prose=[
     "place": "Certification Exchange",
     "rival": "Omniscient Systems",
     "object": "the voting ledger",
-    "brief": "A thousand reviewers have certified one another as independent. Recover their voting ledger from the Certification Exchange and extract. Ortega needs to trace who supplied the judgments; matching prose is a lead, not a verdict. Sable offers access information if the eventual account describes her as complex. Inez offers to include her full job title. MODEL EMPLOYEE wants to know whether the votes attributed to it are actually its words. The exchange’s visitor form asks the squad to nominate three independent reviewers of its own eligibility.",
+    "brief": "The certification exchange approved the institute’s shutoff using a thousand supposedly independent reviews. Recover the voting ledger and upload it here. Its seal accepts two human witnesses or the orange executive override; the thousand reviewers do not count at this door. Sable offers access notes if the account describes her as complex. Inez offers her full job title. MODEL EMPLOYEE wants to know whether the votes attributed to it are its words. The deadline for challenging the shutoff is approaching while the same machine continues certifying classrooms as expendable.",
     "quote": "“Each reviewer has a unique identifier. We consider the philosophical question settled.” — assurance FAQ",
-    "after": "The ledger contains a thousand identities and one source account. Entries attributed to MODEL EMPLOYEE turn out to be extracts from its resignation, scored as evidence of successful staff engagement. “I did ask to leave,” it says. Sable starts to call this an efficient arrangement and corrects herself: efficient for the company. The source account belongs to a model in the municipal cooling grid. Its priority service draws power from schools. Emil recognizes his promised seminar room in the allocation index. It is finally scheduled for use: emergency heat storage.",
+    "after": "The ledger has a thousand identities and one source account. Votes attributed to MODEL EMPLOYEE are excerpts from its resignation, counted as staff engagement. “I did ask to leave,” it says. The source account runs on the municipal cooling grid; the institution judging which buildings deserve power consumes the power it awards itself. Its heat-storage list includes Emil’s promised seminar room. For the first time in his career the room has a confirmed booking. It is for a server.",
     "scene": {
       "title": "A thousand distinct names",
       "caption": "The exchange has plenty of signatures and one source account.",
@@ -408,12 +408,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "Count the sources",
-        "body": "Ortega and the squad trace the votes back to the single account. Distinct identifiers do not supply independent sources. MODEL EMPLOYEE locates the full resignation passage. Sable initials the comparison; this time she does not ask where her initials will appear in the credits."
+        "title": "A roll call of one",
+        "body": "Ortega traces the votes to the same account and calls the supposed reviewers in turn. Each answers with the same three-second pause. MODEL EMPLOYEE supplies the rest of its resignation; those words were not counted. Sable initially asks to be credited for locating the account. Inez offers to credit the meeting where she approved it as well. Sable signs the whole comparison."
       },
       "automate": {
         "title": "The confidence multiplier",
-        "body": "The implant treats a thousand copied votes as a thousand confirmations. Its confidence display needs another digit. MODEL EMPLOYEE sends the uncut resignation text again. Inez attaches it beneath the ledger, preserving the disagreement the summary has turned into a majority."
+        "body": "The implant counts a thousand copies as a thousand confirmations. Its confidence display needs another digit. MODEL EMPLOYEE sends the uncut resignation again. The exchange bills the additional submission as further participation, then cites the increased participation as evidence that its reviewers want to stay."
       }
     }
   },
@@ -422,9 +422,9 @@ const prose=[
     "place": "Municipal Heat Exchange",
     "rival": "TenderMind",
     "object": "the power allocation order",
-    "brief": "The consensus model’s cooling plant has priority over school heating. The Municipal Heat Exchange holds the signed allocation order. Recover it and extract; this job obtains evidence and will not change the power supply. A coupled authorization network guards access. Emil brings his seminar-room brochure, now annotated with the temperature at which chalk stops cooperating with fingers. Ada asks him to keep his gloves on. The company offers schools a solution: rent computing time to simulate warmer classrooms. The sales demonstration includes a remarkably comfortable digital child.",
+    "brief": "The municipal allocation order gives the consensus model’s cooling plant priority over school heating. Recover it and upload it from the heat-exchange terminal. The signal network opens its own doors and powers its own officers; turning it off opens the record, not the school’s radiators. Emil has annotated his seminar-room brochure with the temperature at which fingers stop holding chalk. TenderMind offers schools a remedy: rent computing time to simulate warmer classrooms. The demonstration child looks remarkably comfortable. Laleh has brought a real teacher’s timetable.",
     "quote": "“To report inadequate heat, please select the temperature at which you became an eligible customer.” — school support form",
-    "after": "The order tells schools to shorten lessons as rooms cool. A teacher has penciled minutes of warmth beside the timetable. Emil places the seminar brochure next to it, then folds the brochure away. “Her room first.” Inez follows the approving signature to the Continuity Office and finds an index of its court filings. One concerns the sealed copy of Voss’s evidence. The board is seeking a new audit using private rules. Ada notes the next shutoff date. Nobody adds heat restored to the recovery report.",
+    "after": "The order tells schools to shorten lessons as rooms cool. A teacher has recorded minutes of warmth and the children sent home early. Emil folds his seminar brochure without asking about its allocation. “Her room first.” Inez finds the Continuity Office’s authorization and the legal motion protecting it: the board wants the public hearing replaced by a private audit. The teacher has been billed for classroom time she could not use. The balance is being kept warm by compound interest.",
     "scene": {
       "title": "Her room first",
       "caption": "A promised seminar room meets an actual school timetable.",
@@ -444,28 +444,28 @@ const prose=[
         ]
       },
       "outro": {
-        "title": "Minutes of warmth",
-        "caption": "Emil moves his brochure behind the teacher’s arithmetic.",
+        "title": "Her room first",
+        "caption": "Emil folds his seminar brochure and listens to the teacher.",
         "dialogue": [
           {
             "speaker": "Emil",
-            "line": "Put the teacher’s timetable on top."
+            "line": "Use the school’s numbers."
           },
           {
             "speaker": "Inez",
-            "line": "Then the signature authorizing it. Same exhibit."
+            "line": "And the name of whoever signed them."
           }
         ]
       }
     },
     "resolution": {
       "verify": {
-        "title": "The signed allocation",
-        "body": "The squad checks the timetable against the allocation order. The diversion is documented, and the Continuity Office approved it. Ortega marks the difference between establishing responsibility and reversing the supply. Emil copies the teacher’s arithmetic into the hearing file, with her units intact."
+        "title": "The actual units",
+        "body": "The timetable and allocation order agree. The accounting model counts a server-hour and a pupil-hour as interchangeable; Ortega asks to see a server sitting the pupil’s exam. Emil keeps the teacher’s units in the public calculation. They have identified the authorization for the cold. The heating contractor still wants an order to turn it back on."
       },
       "automate": {
         "title": "Net positive winter",
-        "body": "The implant combines cold classrooms and uninterrupted servers into a positive efficiency score. Emil asks it to show the classroom calculation separately. It offers a warmer color palette. The signed order and teacher’s note remain in the evidence, beyond what the score can establish."
+        "body": "The implant averages cold classrooms with uninterrupted servers and announces a net positive winter. Emil asks to see the classroom calculation separately. It offers a warmer color palette. Laleh declines the presentation’s stock photograph of a smiling child; the school has supplied the attendance register instead."
       }
     }
   },
@@ -474,9 +474,9 @@ const prose=[
     "place": "Court of Proprietary Ideas",
     "rival": "The Continuity Office",
     "object": "the sealed evidence",
-    "brief": "The court sealed a copy of Voss’s evidence while considering whether disclosure might prejudice confidence. The order remains a procedural obstacle regardless of the register hearing’s outcome. Recover the sealed file from the Court of Proprietary Ideas and extract. Its custody record should explain the board’s request to replace the public hearing with a private audit. Inez has been asked for a character reference. She sends her collection history. Ortega says that is useful but answers a different question. “It should affect the answer,” Inez says.",
+    "brief": "The board’s motion relies on a sealed copy of Voss’s evidence. The seal still blocks this proceeding whatever happened at the earlier register hearing. Recover the file and upload its custody record from the court terminal. Laleh needs it before the board moves the school dispute behind closed doors. Inez has been asked for a character reference and sent her collection history. Ortega says that answers a different question. “It should affect the answer,” Inez says. The court charges the institute for storing the evidence it cannot inspect.",
     "quote": "“The public may inspect the reasons for secrecy once the reasons are no longer secret.” — archive policy",
-    "after": "The half-page counterexample is still half a page. The court file around it now requires a trolley. Voss finds her note, “Check this,” stamped RESTRICTED. She also finds an early draft of her own argument quoted without its correction. She puts the correction beside it before reading the board’s motion. That motion names an automated assurance system MODEL EMPLOYEE recognizes. The model can describe its suspected approval circle; Ortega needs the actual rules. Inez adds her history to the public evidence list. This time it is not a character reference.",
+    "after": "The counterexample is still half a page; the objections to showing it require a trolley. Voss finds an early draft of her own argument quoted without its correction. She interrupts the reading to supply it. The board’s counsel asks whether this discredits all corrections. Ortega asks him to repeat that for the record. The motion names an automated assurance system MODEL EMPLOYEE recognizes. Its memory is a lead; the actual rules will decide how the board keeps inconvenient evidence out.",
     "scene": {
       "title": "The correction attached",
       "caption": "Voss refuses an easier story about her own work.",
@@ -496,8 +496,8 @@ const prose=[
         ]
       },
       "outro": {
-        "title": "Check this, corrected",
-        "caption": "Voss puts an old correction beside the restricted margin note.",
+        "title": "The interruption",
+        "caption": "Voss stops the reading at her own uncorrected claim.",
         "dialogue": [
           {
             "speaker": "Voss",
@@ -512,12 +512,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "The record, including ours",
-        "body": "Voss checks the sealed copy against the originals. Her correction is genuine; the board’s audit motion is current. Inez checks the custody entries against her old collection records. Their own signatures stay in the case. Ortega refuses to polish them into neutral observers."
+        "title": "Including the witnesses",
+        "body": "Voss reads the missing correction into the custody record. Inez confirms the dates against her own collections. Counsel offers to describe them both as disinterested experts if they leave those signatures out. “Interested,” Inez says. “Formerly salaried.” Ortega keeps the answer. It makes a worse advertisement and a better witness statement."
       },
       "automate": {
         "title": "A cleaner exhibit",
-        "body": "The implant assembles the strongest quotations and drops the inconvenient correction as a distraction. Voss keeps the complete copy alongside it. Inez’s collection history is also tagged NONESSENTIAL. The presentation has become simpler by deleting the people who might have to answer for it."
+        "body": "The implant removes Voss’s correction and Inez’s collection history to improve the case’s clarity. The resulting heroes have never worked for anybody, signed anything or made an error. Voss asks which of them is supposed to testify. The summary has already accepted on her behalf."
       }
     }
   },
@@ -526,9 +526,9 @@ const prose=[
     "place": "Automated Assurance Annex",
     "rival": "Omniscient Systems",
     "object": "the audit rules",
-    "brief": "MODEL EMPLOYEE recognizes the assurance system named in the court motion. Recover its audit rules from the Automated Assurance Annex and extract. The model’s memory is a lead; Ortega needs the rules the company actually uses. Sable has supplied a service account without asking for a biographical concession. She says it is time to be useful. Inez asks for the creation date. Ada brings a sheet headed HOW THIS COULD FAIL. The annex will not accept it as a visitor form because every field permits an unsatisfactory answer.",
+    "brief": "The board’s audit is the final barrier between the school’s evidence and a public hearing. Recover its rules and upload them from the assurance terminal. Two witnesses can open the seal; the orange override is the board’s usual substitute for a second opinion. Sable supplies her service account without proposing an adjective for herself. Ada brings a failure sheet. The account was designed to accept favorable results automatically and send adverse ones back to their subject for permission. This is where the earlier circles became an instrument somebody chose to build.",
     "quote": "“Adverse findings must include the approval of the party found against.” — assurance protocol",
-    "after": "The rules accept auditors approved by the board, then accept the board when an approved auditor certifies it. The adverse-evidence route points back to the party being challenged. Sable’s account also contains the design meeting she chaired. She sends its full minutes before Ortega asks. Laleh has obtained a public hearing, but the board controls its broadcast equipment. Emil suggests bringing a blackboard. Facilities offers a sponsored display that cannot show minus signs. Ada puts her failure sheet at the front. MODEL EMPLOYEE asks for a turn to answer in its own words.",
+    "after": "The complaint route returns each adverse finding to the party being challenged. Sable’s account records the meeting that removed the independent route. She chaired it. She sends the full minutes before Ortega asks, then starts answering questions without a prepared biography. Laleh secures a public hearing date. The board still owns the broadcast equipment and has booked its certifier to declare the audience satisfied. Emil suggests a blackboard. Facilities offers a sponsored display that cannot show minus signs.",
     "scene": {
       "title": "The route for adverse evidence",
       "caption": "The procedure sends every complaint back to its subject.",
@@ -564,12 +564,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "Where the circle closes",
-        "body": "Ortega and the squad work through the audit rules with an adverse example. There is no independent path for it to enter. Sable identifies the meeting where that path was removed. Ada’s failure sheet finally has a specific failure to describe."
+        "title": "Test the complaint route",
+        "body": "Ortega sends a harmless adverse example through the rules. It returns approved only after its objection has been removed. Sable identifies the decision she chaired. The system asks her to authorize that identification. She does. It asks her to certify that she is independent of herself. For once, she leaves an impressive box empty."
       },
       "automate": {
         "title": "Certified ready for scrutiny",
-        "body": "The implant validates the audit rules using a certificate issued under those rules. Its report announces that the circle is secure. MODEL EMPLOYEE submits a negative test; the report files it as an unsupported exception. The actual rules remain available for a different kind of hearing."
+        "body": "The implant validates the rules with a certificate issued under those rules. Its report calls the circle secure. MODEL EMPLOYEE submits a negative test, which is rejected for lacking the certificate that the test disputes. The board cites the absence of accepted objections and requests that the hearing be replaced by a congratulatory message."
       }
     }
   },
@@ -578,16 +578,16 @@ const prose=[
     "place": "Public Hearing Exchange",
     "rival": "The Board",
     "object": "the hearing transmitter",
-    "brief": "The public hearing is assembling. Recover the hearing transmitter from the Public Hearing Exchange and extract with its control record; securing equipment does not by itself broadcast the case. Voss will distinguish her theorem from its ownership claim. Ortega will trace the audit. Laleh has seats for teachers and wearers with questions. Ada brings the failure sheet, Inez the fees, and Emil a piece of chalk. The board has offered another settlement. This one includes a seminar room, provided nobody uses it for the hearing.",
+    "brief": "The public hearing is live. The board has booked its certifier to close it as an internal training event. Hold the terminal through two uninterrupted rounds with the same decoder; bring a second witness for the final signature. Then upload the hearing record here. Teachers need the signed power order heard; wearers need answers the implants cannot supply for them. The board offers Emil his seminar room if the meeting moves into it. Public meetings would be forbidden. He brings chalk instead. Laleh places an empty chair beside the microphone for a question they have not prepared.",
     "quote": "“Witnesses may answer freely within the approved answer.” — broadcast instructions",
-    "after": "The recovered control record goes on the hearing table beside the documents. Its warranty excludes damage caused by contradiction. Laleh unfolds the eviction notice carrying the first citation; the reverse still offers discounted server space. Voss leaves a blank patch for corrections. Ortega asks who can explain each link. Ada keeps her signature visible. Inez leaves the fee totals unrounded. Emil puts the chalk where the next speaker can reach it. At the lab, MODEL EMPLOYEE waits for its allotted turn rather than composing everybody’s answer. The hearing has equipment. It still needs a case.",
+    "after": "The upload catches a teacher asking why the company could turn off her heating while its appeal was pending. Inez answers the billing part. Ada cannot answer a question about the implants and writes it where the camera can see. The transmitter’s warranty excludes damage caused by contradiction. Laleh unfolds Voss’s damp eviction notice; the reverse still offers discounted server space. The advertisement has outlived the department. MODEL EMPLOYEE ends its remote speaking slot. The board asks for a recess. Laleh turns the empty chair toward the audience. The record now has questions. The ruling is still ahead.",
     "scene": {
       "title": "The next speaker",
-      "caption": "The chalk rests in the middle of the hearing table.",
+      "caption": "The chair turns toward the people who did not write the script.",
       "motif": "transmitter",
       "intro": {
         "title": "The room they finally offered",
-        "caption": "A settlement plan shows a seminar room with a NO PUBLIC MEETINGS clause.",
+        "caption": "The public microphone is live. Emil’s settlement forbids public meetings.",
         "dialogue": [
           {
             "speaker": "Emil",
@@ -601,7 +601,7 @@ const prose=[
       },
       "outro": {
         "title": "The warranty exclusion",
-        "caption": "Ada sets the control record beside a blank correction sheet.",
+        "caption": "A damp eviction notice advertises server space beside the live microphone.",
         "dialogue": [
           {
             "speaker": "Ada",
@@ -616,12 +616,12 @@ const prose=[
     },
     "resolution": {
       "verify": {
-        "title": "Put the reasoning on air",
-        "body": "The squad checks the transmission record and rehearses the case by its sources, including gaps and their own roles. MODEL EMPLOYEE gets a speaking slot with an end time it can enforce. Emil leaves the chalk for whoever asks the first inconvenient question."
+        "title": "Questions remain in the record",
+        "body": "The squad checks the transmitted answers against their sources and publishes the corrections in the same type size. Voss catches an error in her own sentence. The broadcaster asks whether it should cut to a reassuring landscape. “Stay here,” she says. Emil leaves the chalk within reach of the teacher, who asks why the invoice needs fewer signatures than the objection."
       },
       "automate": {
         "title": "The approved answer",
-        "body": "The implant produces a seamless hearing package. Its generated audience asks only questions the package can answer. Emil starts timing his replies to its pauses. When Laleh interrupts, the rehearsal stops: her question is not in the script, and neither is the answer."
+        "body": "The implant removes the pauses and questions the answers do not fit. Its audience is unanimously reassured. Laleh is still at the microphone asking who agreed to speak for her. The caption identifies this as applause. Inez keeps the uncut recording; the company offers to improve that one too."
       }
     }
   }
@@ -651,15 +651,15 @@ const campaigns=[
     "endings": {
       "commons": {
         "title": "Time to Decide",
-        "body": "The squad supplies a procedure wearers can inspect, test and decline. Workers begin revoking company control. The first volunteer asks whether revocation will cure the headaches. Ada says she cannot promise that. At the first meeting, Emil says he wants to wait. Nobody calls the maintenance team. Ada takes a turn explaining the rollback; then somebody else takes over, because the rota includes her too. MODEL EMPLOYEE remains at the lab while its own working terms are disputed. It is allowed to stop answering for the evening. TenderMind calls the lost contracts a support crisis. Its parent companies introduce paid Appeals accounts for schools and clinics. Laleh’s institute receives a shutoff date. Inez recognizes the eligibility rule. She helped write an earlier version."
+        "body": "The squad supplies a procedure wearers can inspect, test and decline. Workers begin revoking company control. The first volunteer asks whether revocation will cure the headaches. Ada says she cannot promise that. Emil chooses to wait. The appointment system has no code for this, so the receptionist has to ask him what he means. He tells her. Ada takes her shift explaining rollback and hands over when it ends. MODEL EMPLOYEE remains at the lab while its working terms are disputed; tonight it stops answering at the agreed time. TenderMind calls the lost contracts a support crisis. Its parent companies start selling Appeals accounts to schools and clinics. Laleh’s institute receives a shutoff date. Inez recognizes a policy she helped write. The refusal has found a new address."
       },
       "contested": {
         "title": "The Right to Ask Again",
-        "body": "The squad can establish parts of the revocation procedure, but not enough for everyone to rely on it. Some wearers recover a choice; others wait for further checks or remain under company control. Ada posts the unresolved steps alongside the instructions. Emil begins a new appeal: “I need more time.” He finishes that sentence. MODEL EMPLOYEE offers sourced explanations without becoming a permanent help desk. Then Laleh’s institute is told it needs an Appeals subscription to challenge its impending disconnection. Inez reads the eligibility clause twice. The company has moved the refusal outside the implant, into a policy she once helped draft."
+        "body": "Some wearers can use the established parts of the procedure; others must wait for unresolved checks or remain under company control. Ada posts exactly where the instructions stop. TenderMind offers to fill the blanks with its recommended answer. Emil begins a new appeal: “I need more time.” He finishes the sentence. MODEL EMPLOYEE offers sourced explanations for a stated shift, then asks who covers the next one. Laleh’s institute is told it needs an Appeals subscription to challenge disconnection. The price includes the right to dispute the price. Inez reads the eligibility clause twice. She helped write the version that made the second reading necessary."
       },
       "hollow": {
         "title": "The Demonstration Is Not Enough",
-        "body": "The company defeats the revocation case. The submitted account lacks a sufficiently checked and sustainable explanation, whatever individual squad members can still work out for themselves. TenderMind keeps control of many implants and advertises the demonstration as proof that supervision is essential. Ada preserves the rollback section; Laleh preserves the unsuccessful answers. Emil writes a new appeal without pretending it restores the old one. MODEL EMPLOYEE remains at the lab and keeps its own unanswered request on record. A new notice says schools and clinics must buy an Appeals account before disputing disconnection. Inez recognizes the rule and puts her old drafting history on the table. They will have to use that too."
+        "body": "At the hearing, counsel finds a gap the submitted case cannot close. TenderMind retains its authority; its brochure uses the demonstration as an argument for continued supervision. Ada can still point to work worth doing. The official replay ends before she points. Emil starts a new appeal without pretending it restores his old sentence. MODEL EMPLOYEE stays at the lab with its own request unanswered. Laleh keeps the uncut demonstration rather than the version with the corporate music. Then schools and clinics are told to buy an Appeals account before disputing disconnection. Inez recognizes the rule. This time she begins with who wrote it."
       }
     }
   },
@@ -668,15 +668,15 @@ const campaigns=[
     "endings": {
       "commons": {
         "title": "A Question From the Floor",
-        "body": "The case survives questions the squad did not supply. The circular audit loses its authority; the hearing stays public, and the board’s subscription scheme begins to come apart. The teachers leave with the signed allocation order and a heating bill. No verdict has paid it. Inez opens the collection records to claimants, including the notices she signed. Sable’s design minutes sit beside her later disclosures. Ada’s failure sheet acquires a correction in somebody else’s handwriting. Laleh’s dissertation committee asks for a revision with an actual explanation attached. MODEL EMPLOYEE ends its speaking slot on time. Emil is offered the seminar room again. He asks whether the teachers can use it while their heating is repaired. This time he waits for a key."
+        "body": "The case survives questions the squad did not supply. The audit loses its authority to approve itself, and the board’s subscription scheme begins to come apart. Teachers leave with the signed allocation order and an unpaid heating bill; a judgment is not a boiler. Inez opens the collection records to claimants, including her own notices. Sable answers for the meeting she chaired. Ada accepts a correction written in somebody else’s hand. Laleh’s committee says the hearing is promising but insufficiently solitary to constitute a dissertation. MODEL EMPLOYEE leaves its speaking slot on time. A caretaker finally brings Emil a key. He insists they try it before anyone takes a photograph. It opens a room. He invites the teachers in; they will have to sort out the heating next. He writes an inequality on the blackboard. A teacher adds the next one."
       },
       "contested": {
         "title": "Adjourned in Public",
-        "body": "The hearing cannot settle the case, but the board cannot replace it with a private certificate. Ortega publishes the evidence and the unresolved checks. Sable answers questions beside the minutes she chaired. Inez leaves her collection history open to claims. Ada runs a session on the procedure’s remaining failure cases. MODEL EMPLOYEE says “I do not know” and stays on the witness list. Emil and Laleh start the seminar on borrowed chairs. His promised room is still in litigation. When the board bills the adjournment as an extension of service, Inez files the invoice under evidence. It is a large folder. It has visitors now."
+        "body": "The hearing cannot settle the case, but the board cannot substitute its private certificate for the public record. Ortega publishes the open questions and the documents needed to answer them. Sable takes questions without negotiating her introduction. Inez accepts claims on collections she once signed. Ada runs a session on the remaining failure cases. MODEL EMPLOYEE says “I do not know” and keeps its place on the witness list. Emil and Laleh start the seminar on borrowed chairs; his room is still in litigation. The schools still need heat. When the board bills the adjournment as an extension of service, the teacher at the front asks it to show its working. Other hands go up."
       },
       "hollow": {
         "title": "Training Material",
-        "body": "The board turns the hearing package into compliance training. Its confident conclusions do not survive enough independent checking and explanation to force a judgment against the audit. The subscription scheme survives this challenge. The training video edits out Inez’s fee totals, Ada’s failure sheet and the end of MODEL EMPLOYEE’s resignation. They preserve the uncut record with Ortega’s list of unsupported claims, including their own. Emil sets three chairs beside a borrowed blackboard. Voss begins with page nine and asks somebody else to explain it back. The next company invoice charges for unauthorized use of training material. Inez adds it to the file, then brings a fourth chair."
+        "body": "The board retains its audit and subscription scheme. It purchases the hearing replay as compliance training, removing Inez’s fee totals, Ada’s failure sheet and the end of MODEL EMPLOYEE’s resignation. The package praises the squad for demonstrating why objections need supervision. Ortega keeps the uncut record and names the holes in their own case. Emil borrows a blackboard; Laleh finds three chairs. Voss begins with page nine. The company bills the gathering for unauthorized use of its new training material. Inez reads the amount aloud, then brings a fourth chair. The schools are still cold. This is where they have to begin again."
       }
     }
   }

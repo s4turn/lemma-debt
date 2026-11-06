@@ -1,13 +1,16 @@
 {
   "name": "lemma-debt",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Original browser squad tactics about the privatization of mathematical truth",
   "license": "MIT",
   "author": "Marshall Ball",
   "private": true,
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
-    "test": "node tests/campaign.test.js && node tests/practice.test.js && node tests/narrative.test.js && node tests/interface.test.js && node tests/tutorial.test.js && node tests/school.test.js && node tests/drill.test.js",
+    "check:public": "node scripts/check-public-files.mjs",
+    "test": "node tests/campaign.test.js && node tests/practice.test.js && node tests/narrative.test.js && node tests/interface.test.js && node tests/tutorial.test.js && node tests/school.test.js && node tests/drill.test.js && node tests/narrative-continuity.test.js",
     "build": "node scripts/build.mjs"
   }
 }

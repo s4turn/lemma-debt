@@ -173,3 +173,45 @@ el('continue').onclick();assert.equal(storage['lemma-debt-save-v1'],campaignSnap
 // A practice snapshot must never be imported over the real campaign.
 el('backup').onclick();el('save-import').value=JSON.stringify(global.LemmaSchool.create(global.Lemma));el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
 console.log('School UI: opening entry, free touch tips, mute/reopen, real enemy response, restart, campaign-only backup, exit/resume and practice-import rejection preserve the campaign byte for byte.');
+
+// Hostile rows always preview an attack, except Ada's explicit interrupt mode.
+// Wren's protection and Quill's traversal must never be advertised as attacks.
+const originalQuery=document.querySelectorAll,row=el('test-enemy-row');row.dataset.enemy='0';
+document.querySelectorAll=selector=>selector==='[data-enemy]'?[row]:originalQuery(selector);
+for(const selected of [0,1,2]){
+ const fixture=global.Lemma.fresh();global.Lemma.start(fixture);const b=fixture.battle;
+ b.selected=selected;b.guide={done:[],off:false};b.enemies=[{id:0,x:2,y:5,type:'patrol',hp:4,max:4,alive:true}];global.Lemma.planEnemies(fixture);
+ el('backup').onclick();el('save-import').value=JSON.stringify(fixture);el('restore').onclick();el('ability').onclick();
+ assert.match(el('enemies').innerHTML,selected===0?/INTERRUPT AVAILABLE/:/ATTACK AVAILABLE/);
+ const before=storage['lemma-debt-save-v1'];row.onclick();assert.equal(storage['lemma-debt-save-v1'],before);
+ assert.match(el('order-preview').innerHTML,selected===0?/Objection · cancel one enemy response/:/Attack/);
+ el('confirm-order').onclick();const result=JSON.parse(storage['lemma-debt-save-v1']);
+ assert.equal(result.battle.agents[selected].ap,0);assert.equal(result.battle.enemies[0].hp,selected===0?4:selected===1?2:1);
+ if(selected===0)assert.ok(result.battle.enemies[0].stunned);
+}
+document.querySelectorAll=originalQuery;
+
+// Saves preserve an in-progress recharge; malformed or future counters cannot replace them.
+const recharging=global.Lemma.fresh();global.Lemma.start(recharging);recharging.battle.turn=1;recharging.battle.relay.lastStayRound=0;
+el('backup').onclick();el('save-import').value=JSON.stringify(recharging);el('restore').onclick();
+const rechargeSave=storage['lemma-debt-save-v1'];assert.equal(global.Lemma.relayReady(JSON.parse(rechargeSave).battle),false);
+for(const invalidRound of [-1,2,0.5,'0',null]){
+ const invalidRecharge=JSON.parse(rechargeSave);invalidRecharge.battle.relay.lastStayRound=invalidRound;
+ el('backup').onclick();el('save-import').value=JSON.stringify(invalidRecharge);el('restore').onclick();
+ assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],rechargeSave);
+}
+delete recharging.battle.relay.lastStayRound;el('backup').onclick();el('save-import').value=JSON.stringify(recharging);el('restore').onclick();assert.equal(global.Lemma.relayReady(JSON.parse(storage['lemma-debt-save-v1']).battle),true);
+console.log('Hostile rows preview and execute the advertised attack/interrupt; relay recharge survives restore, rejects invalid counters, and accepts older saves.');
+
+// The map and confirmation panel must agree with the coach at the final upload.
+const uploadRefresh=global.Lemma.fresh();global.Lemma.start(uploadRefresh);
+uploadRefresh.battle.secured=true;uploadRefresh.battle.enemies=[];uploadRefresh.battle.selected=2;
+Object.assign(uploadRefresh.battle.agents[2],{x:uploadRefresh.battle.exit.x-1,y:uploadRefresh.battle.exit.y,ap:0});
+el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);el('restore').onclick();
+assert.match(el('tutorial').innerHTML,/Refresh actions to upload/);assert.match(el('order-preview').innerHTML,/End round to refresh the uploader/);assert.match(el('board-hint').textContent,/End round.*refresh.*upload/);
+el('wait').onclick();assert.doesNotMatch(el('order-preview').innerHTML,/has acted/);
+assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[2].ap,1);
+uploadRefresh.battle.enemies=[{id:0,x:8,y:8,type:'clerk',hp:4,max:4,alive:true}];
+el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);el('restore').onclick();
+assert.doesNotMatch(el('order-preview').innerHTML,/No officers remain|refresh the uploader/);assert.match(el('order-preview').innerHTML,/This agent has acted/);
+console.log('Upload refresh guidance agrees across coach, map and order panel; live threats retain ordinary spent-agent guidance.');

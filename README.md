@@ -8,7 +8,9 @@ An original, darkly comic browser tactics game about corporations privatizing ma
 
 No downloads needed. Inspired by Syndicate [Bullfrog, 1993]. FreeSynd was consulted during research; its code and assets are not included. See [provenance](PROVENANCE.md).
 
-**Revision 04.1 makes Night School’s opening a guided drill: follow a named agent, a marked target and confirmation before the next instruction.**
+**Revision 04.2 connects the three campaigns through revised briefings, aftermaths and endings, with specific consequences for checked, automated and repaired evidence. Console cancellation now needs an intervening enemy response to recharge; cooling uses still reopen sealed evidence.**
+
+**Night School’s opening is a guided drill: follow a named agent, a marked target and confirmation before the next instruction.**
 
 **Tactical revision 02:** visible enemy orders, three squad abilities, four officer behaviors, circuit-controlled doors and enemies, defended hearings, and a compact phone grid.
 
@@ -68,6 +70,8 @@ npm test
 npm run build
 ```
 
+In a Git checkout, `npm run check:public` checks tracked filenames against the release allowlist before publication.
+
 The title-screen logo and scene can be regenerated with `node scripts/title-art.mjs`; all letterforms and illustration shapes are authored in that script.
 
 The build copies an explicit list of game assets into `dist/`. It does not bundle tests, development records or hosting credentials.
@@ -76,7 +80,7 @@ The build copies an explicit list of game assets into `dist/`. It does not bundl
 
 The included GitHub Actions workflow checks every change and deploys the static game from `main` when GitHub Pages is configured to use **GitHub Actions**. Forks must enable Pages themselves. Pull requests run checks without deploying. The build also works on any static host; upload the contents of `dist/`.
 
-Gameplay runs entirely in each player's browser. The complete game payload is about 277 KB before compression, so 500 fresh loads transfer roughly 139 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
+Gameplay runs entirely in each player's browser. The complete game payload is about 286 KB before compression, so 500 fresh loads transfer roughly 143 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
 
 ## License
 

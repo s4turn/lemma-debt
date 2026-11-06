@@ -18,5 +18,22 @@ s=E.fresh();E.start(s);T.record(s,'attack');assert.equal(T.suggest(s,E,null,'mov
 s.battle.rules=undefined;assert.equal(T.ensure(s),null);s.mission=1;s.battle.rules=2;assert.equal(T.ensure(s),null);
 console.log('Tutorial: all six lessons, valid suggested orders, zero-cost previews, live-rule completion, save round trips, out-of-order play, skip/resume and legacy exclusion passed.');
 
+// Browser regression: recovery spent the only nearby agent's action. With the
+// officers defeated, the guide should teach refresh instead of a needless walk.
+{
+ const School=require('../school.js'),q=School.create(E),b=q.battle;
+ b.secured=true;b.selected=2;b.agents[2].x=b.exit.x-1;b.agents[2].y=b.exit.y;b.agents[2].ap=0;
+ b.enemies.forEach(e=>e.alive=false);T.ensure(q);
+ const before=JSON.stringify(q),hint=T.suggest(q,E,null,'move');
+ assert.equal(hint.action.kind,'focus');assert.equal(hint.action.target,'wait');assert.equal(JSON.stringify(q),before);
+ E.wait(q);const upload=T.suggest(q,E,null,'move');assert.equal(upload.key,'upload');
+ b.selected=upload.action.agent;assert.equal(E.order(q,upload.action.x,upload.action.y).kind,'extract');
+ assert.ok(E.act(q,upload.action.x,upload.action.y).ok);assert.equal(q.phase,'decision');
+ // A living officer must not be waved away by the safe-refresh suggestion.
+ q.phase='battle';b.agents[2].ap=0;b.enemies[0].alive=true;
+ assert.notEqual(T.suggest(q,E,null,'move').key,'refresh-upload');
+}
+console.log('Recovered-record coaching refreshes a spent nearby agent only after all officers are defeated; the suggested upload completes through real rules.');
+
 // A danger warning moves the threatened agent, not a more conveniently placed ally.
 s=E.fresh();E.start(s);T.ensure(s).done=['move','attack','ability','round'];s.battle.enemies=[{x:1,y:2,hp:4,max:4,id:0,alive:true,type:'sentinel',intent:{kind:'fire',x:s.battle.agents[0].x,y:s.battle.agents[0].y,damage:3}}];const evade=T.suggest(s,E,null,'move');assert.equal(evade.key,'danger');assert.equal(evade.action.kind,'plan');assert.equal(evade.action.agent,s.battle.selected);assert.notDeepEqual({x:evade.action.x,y:evade.action.y},{x:s.battle.agents[0].x,y:s.battle.agents[0].y});
