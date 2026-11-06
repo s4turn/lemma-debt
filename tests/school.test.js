@@ -1,9 +1,9 @@
 'use strict';
-const assert=require('node:assert/strict'),{E,play,switches}=require('./harness'),S=require('../school'),H=require('../hints'),T=require('../tutorial');
+const assert=require('node:assert/strict'),{E,play,switches}=require('./harness'),S=require('../school'),H=require('../hints'),T=require('../tutorial'),R=require('../drill');
 // Full legal playthroughs, including both signature routes and both circuit orders.
 const runs=[];
 for(let stage=0;stage<S.lessons.length;stage++)for(const alternate of [false,true]){
- const s=S.create(E,stage),b=s.battle,units=[...b.agents,...b.enemies];
+ const s=S.create(E,stage);R.skip(s);const b=s.battle,units=[...b.agents,...b.enemies];
  assert.equal(new Set(units.map(p=>p.x+','+p.y)).size,units.length);
  for(const p of [...units,b.target,b.lock,b.relay,...(b.network||[])].filter(Boolean))assert.ok(!b.walls.includes(p.x+','+p.y));
  const stats=play(s,{alreadyStarted:true,cooperate:alternate,reverse:alternate,objectiveFirst:alternate});
@@ -15,7 +15,7 @@ for(let stage=0;stage<S.lessons.length;stage++)for(const alternate of [false,tru
  const retry=S.create(E,stage,s);assert.equal(retry.school.stage,stage);assert.equal(retry.battle.turn,0);assert.ok(retry.battle.agents.every(a=>a.hp===a.max));
 }
 // The optional first-class guide offers legal, free previews and reaches upload.
-let s=S.create(E),planned=null,mode='move';
+let s=S.create(E),planned=null,mode='move';R.skip(s);
 for(let n=0;n<100&&s.phase==='battle';n++){
  T.ensure(s);const snapshot=JSON.stringify(s),hint=T.suggest(s,E,planned,mode);assert.equal(JSON.stringify(s),snapshot);
  if(hint.key==='confirm'){const r=mode==='ability'?E.ability(s,planned.x,planned.y):E.act(s,planned.x,planned.y);assert.ok(r.ok);T.record(s,r.kind);planned=null;mode='move';}
