@@ -8,7 +8,7 @@ global.document={getElementById:el,querySelectorAll(){return []}};
 global.window=global;global.devicePixelRatio=1;global.addEventListener=()=>{};
 global.localStorage={getItem(k){return storage[k]||null},setItem(k,v){storage[k]=v}};
 global.confirm=()=>true;
-require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../game.js');
+require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../tutorial.js');require('../game.js');
 assert.match(el('screen').innerHTML,/LEMMA/);
 el('new').onclick();assert.match(el('screen').innerHTML,/Repossession of a Proof/);
 const beforePractice=storage['lemma-debt-save-v1'];el('practice').onclick();assert.match(el('modal-body').innerHTML,/Blue tiles/);for(let step=0;step<10&&!el('modal-body').innerHTML.includes('Rehearsal complete');step++){const target=el('modal-body').innerHTML.match(/id="practice-cell-(\d+)" class="practice-cell available  hostile/);const cell=target?+target[1]:[8,4,5][Math.min(step,2)];el('practice-cell-'+cell).onclick();el('practice-confirm').onclick()}assert.match(el('modal-body').innerHTML,/Rehearsal complete/);assert.equal(storage['lemma-debt-save-v1'],beforePractice);el('practice-exit').onclick();assert.equal(el('modal').hidden,true);
@@ -151,3 +151,10 @@ for(const mission of [3,6]){
  assert.doesNotThrow(()=>global.Lemma.wait(roundtrip));assert.equal(roundtrip.battle.turn,1);
 }
 console.log('Published-engine battle fixtures retain layout, exit, actions, circuit and playable enemy response.');
+// Tutorial suggestions preview an order without spending AP; progress and off/on
+// preference survive the same backup/restore path as campaign progress.
+let learner=global.Lemma.fresh();global.Lemma.start(learner);el('backup').onclick();el('save-import').value=JSON.stringify(learner);el('restore').onclick();
+assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Make your first move/);const learnerBefore=JSON.parse(storage['lemma-debt-save-v1']);el('tutorial-hint').onclick();assert.match(el('tutorial').innerHTML,/Check it/);assert.deepEqual(JSON.parse(storage['lemma-debt-save-v1']),learnerBefore);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let learned=JSON.parse(storage['lemma-debt-save-v1']);assert.ok(learned.battle.guide.done.includes('move'));assert.equal(learned.battle.agents.filter(a=>a.ap===0).length,1);
+el('toggle-guide').onclick();learned=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(learned.battle.guide.off,true);el('backup').onclick();el('save-import').value=JSON.stringify(learned);el('restore').onclick();assert.equal(el('tutorial').hidden,true);el('toggle-guide').onclick();assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Choose a READY/);
+const malformed=JSON.parse(JSON.stringify(learned));malformed.battle.guide.done=['invented'];el('backup').onclick();el('save-import').value=JSON.stringify(malformed);el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+console.log('Tutorial UI: free preview, confirmed action, learned lesson, skip/resume, saved preference and malformed-state rejection passed.');
