@@ -1,0 +1,39 @@
+/* Short, rule-aware explanations. Reading a hint never issues an order. */
+(function(root){'use strict';
+const tips={
+ move:['Move, then confirm','Blue numbered tiles are reachable in one action. Tap one to see the white route; Confirm move commits it. Each READY agent has one action per round.'],
+ attack:['Aim before you fire','Tap an officer or Attack, then a target. The preview shows exact damage and remaining HP. Confirm spends one action; a defeated officer loses its queued order.'],
+ armor:['Get around the armour','Custodians subtract 2 damage from distant shots (minimum 1). An attack from an adjacent tile bypasses armour. The preview already includes this.'],
+ round:['Read the next response','Red crossed tiles are queued shots. Enemies respond after everyone acts, or when you end the round. Move away, interrupt, or protect before that happens.'],
+ interrupt:['Ada: Objection','Tap an officer within 4 tiles, then confirm. Its next response is cancelled. This costs Ada one action and deals no damage.'],
+ protect:['Wren: Injunction','Confirm to shield Wren and allies within 2 tiles for 3 total damage each this response. It also interrupts every certifier. Staying unharmed preserves a decode.'],
+ traverse:['Quill: Traverse','Choose a reachable blue tile up to 3 steps away, then confirm. It costs one action and still works when low understanding stalls normal movement.'],
+ recovery:['Gold is the objective','Stand on a neighbouring tile (not diagonally). Tap gold and confirm to recover the record. Recovery and upload are separate actions.'],
+ upload:['One more action: upload','The record is recovered. Any READY agent beside this terminal can tap it and confirm Transmit evidence. No return walk.'],
+ legacyHold:['Decode on separate rounds','This older saved operation needs two decode actions on different rounds. Any living agent beside gold can perform the next one. After recovery, take a survivor to the cyan exit.'],
+ legacyRelay:['One use: jam enforcement','Stand beside violet and confirm to clear the seal and filing, reduce rival progress by 40, and cancel the next enemy response. This older saved operation allows one use of this relay.'],
+ training:['A rehearsal with real rules','Enemy responses, damage and puzzle rules are real. The rival clock is paused and emergency puzzle bypass is disabled. Each class starts fresh; school never changes or replaces your campaign save.'],
+ legacyUpload:['Take the record to cyan','This saved operation uses the older extraction layout. Move a survivor beside the cyan exit, tap it and confirm Extract squad.'],
+ paired:['Two ways through the seal','Bring two living agents beside gold; one can then recover it. Or send one agent beside the orange override and activate it first. Both routes are valid.'],
+ network:['Switches flip their neighbours','A letter flips itself AND every letter joined to it by a line. Tap to preview; stand beside it to confirm. All OFF releases gold. OFF also opens matching doors and disables linked officers.'],
+ cycle:['New wiring: a loop','The connections now form a loop. Each switch flips itself and both neighbours, including the line from D back to A. Inspect the preview before committing. Aim for all OFF.'],
+ branch:['New wiring: a branch','This circuit is a triangle with a tail. Follow the drawn lines: C flips all four letters. A and B have identical effects. Plan the order around doors and powered officers.'],
+ hold:['Hold the thought for two rounds','Decode beside gold, then do it again next round with the SAME agent. Moving away, taking damage, or missing a round resets progress. Wren can shield; violet can cancel the response.'],
+ hearing:['A second witness must sign','Decode twice in consecutive rounds with the same unharmed agent beside gold. For the second decode, another living agent must also be beside gold. A witness may already have acted. Protect or jam before the response.'],
+ clerk:['The certifier seals the record','Every active certifier files once per response. At 3 filings, gold is sealed. Interrupt, defeat or power them down. The violet console clears filings and the seal.'],
+ relay:['Violet cancels a response','Stand beside violet and confirm Jam enforcement: clear the seal, erase filings, reduce rival progress by 40, and cancel the next enemy response. It is reusable.'],
+ sealed:['Gold has been sealed','Reach the violet console and jam enforcement to clear the seal. Defeating the certifier stops new filings but does not remove an existing seal.'],
+ low:['Understanding is slipping','Below 40, normal movement stalls every fourth round (sixth with an anchor). The preview warns you. Attacks, abilities and interactions still work. Explain orders restores 6 once per operation.'],
+ force:['Fast access leaves a fragile record','Force access costs one action and 20 understanding. It bypasses the puzzle but leaves fragile provenance. A later review costs 30 credits; forced final testimony blocks the checked ending.'],
+ rival:['The rival can publish first','Rival progress rises each round. At 100%, it takes a 10-credit recovery cut and summons a bailiff every third response while full. You can still finish. Violet reduces progress by 40.'],
+ publication:['Speed or a durable proof','Verify earns 20 credits and +8 understanding, but the next rival starts 15 points ahead. Automate earns 45 and costs 18 understanding. Specific checked records matter for the ending.'],
+ case:['The ending needs its evidence','A checked chapter ending needs these three specific links, four human reviews, and 40 understanding. Repair an automated or fragile record for 30 credits; the next rival starts 10 points further ahead.']
+};
+function objective(s){const b=s.battle;if(!b)return 'case';if(b.secured)return b.rules===2?'upload':'legacyUpload';if(b.sealed)return 'sealed';if(b.rules!==2&&b.puzzle.type==='hold')return 'legacyHold';if(b.network){const edges=b.edges||[[0,1],[1,2],[2,3]];return edges.length===3?'network':edges.every(([a,z])=>a!==z)&&edges.some(([a,z])=>(a===0&&z===3)||(a===3&&z===0))?'cycle':'branch';}return b.puzzle.type==='paired'?'paired':b.puzzle.type==='hold'?(b.hearing?'hearing':'hold'):'recovery';}
+function context(s,order,mode){if(mode==='ability')return ['interrupt','protect','traverse'][s.battle.selected];if(order?.kind==='attack'){const e=s.battle.enemies.find(e=>e.id===order.enemy);return e?.type==='guard'?'armor':'attack';}return ({secure:objective(s),extract:objective(s),toggle:objective(s),relay:s.battle.rules===2?'relay':'legacyRelay',unlock:'paired',traverse:'traverse'})[order?.kind]||'move';}
+function candidates(s,order,mode){if(s.phase==='hub')return ['case'];if(s.phase==='decision')return ['publication'];if(s.phase!=='battle')return [];const b=s.battle,ids=[];if(b.sealed)ids.push('sealed');if(s.understanding<40)ids.push('low');ids.push(objective(s));if(order||mode==='ability')ids.push(context(s,order,mode));if(b.puzzle.type==='hold'&&!b.hearing)ids.push('hold');if(b.enemies.some(e=>e.alive&&e.type==='clerk'))ids.push('clerk');if(b.relay)ids.push(b.rules===2?'relay':'legacyRelay');if(!s.practice&&b.rival>0)ids.push('rival');return [...new Set(ids)];}
+function explain(s,id){const [title,source]=tips[id];let text=source;if(s?.battle&&s.battle.rules!==2){if(id==='force')text=text.replace('20 understanding','15 understanding');if(id==='low')text=text.replace('restores 6','restores 10');}return {id,title,text};}
+function acknowledge(s,id){if(!tips[id]&&!id.startsWith('tutorial:'))return;s.coaching=s.coaching||{seen:[],off:false};if(!s.coaching.seen.includes(id))s.coaching.seen.push(id);}
+function next(s,ids){return s.coaching?.off?null:ids.find(id=>!s.coaching?.seen.includes(id));}
+root.LemmaHints={tips,objective,context,candidates,acknowledge,next,explain};if(typeof module!=='undefined')module.exports=root.LemmaHints;
+})(typeof globalThis!=='undefined'?globalThis:this);

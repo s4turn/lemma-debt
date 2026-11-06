@@ -8,7 +8,7 @@ global.document={getElementById:el,querySelectorAll(){return []}};
 global.window=global;global.devicePixelRatio=1;global.addEventListener=()=>{};
 global.localStorage={getItem(k){return storage[k]||null},setItem(k,v){storage[k]=v}};
 global.confirm=()=>true;
-require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../tutorial.js');require('../game.js');
+require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../tutorial.js');require('../school.js');require('../hints.js');require('../game.js');
 assert.match(el('screen').innerHTML,/LEMMA/);
 el('new').onclick();assert.match(el('screen').innerHTML,/Repossession of a Proof/);
 const beforePractice=storage['lemma-debt-save-v1'];el('practice').onclick();assert.match(el('modal-body').innerHTML,/Blue tiles/);for(let step=0;step<10&&!el('modal-body').innerHTML.includes('Rehearsal complete');step++){const target=el('modal-body').innerHTML.match(/id="practice-cell-(\d+)" class="practice-cell available  hostile/);const cell=target?+target[1]:[8,4,5][Math.min(step,2)];el('practice-cell-'+cell).onclick();el('practice-confirm').onclick()}assert.match(el('modal-body').innerHTML,/Rehearsal complete/);assert.equal(storage['lemma-debt-save-v1'],beforePractice);el('practice-exit').onclick();assert.equal(el('modal').hidden,true);
@@ -71,7 +71,7 @@ for(const journal of [[0,1,2].map(mission=>({mission,method:'automate',captured:
   el('backup').onclick();el('save-import').value=JSON.stringify({...old,journal,captured:0});el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
 }
 // Fresh-page Case file reads the saved journal without requiring Continue first.
-let boot=global.Lemma.fresh();boot.mission=1;boot.automated=1;boot.journal=[{mission:0,method:'automate',captured:false}];storage['lemma-debt-save-v1']=JSON.stringify(boot);delete require.cache[require.resolve('../game.js')];require('../game.js');el('case-file').onclick();assert.ok(el('modal-body').innerHTML.includes(escapeHtml(global.Lemma.MISSIONS[0].resolution.automate.body)));assert.equal(storage['lemma-debt-save-v1'],JSON.stringify(boot));
+let boot=global.Lemma.fresh();boot.mission=1;boot.automated=1;boot.journal=[{mission:0,method:'automate',captured:false}];storage['lemma-debt-save-v1']=JSON.stringify(boot);delete require.cache[require.resolve('../game.js')];require('../school.js');require('../hints.js');require('../game.js');el('case-file').onclick();assert.ok(el('modal-body').innerHTML.includes(escapeHtml(global.Lemma.MISSIONS[0].resolution.automate.body)));assert.equal(storage['lemma-debt-save-v1'],JSON.stringify(boot));
 console.log('All three high-understanding hollow outcomes, journal consistency and fresh-page Case file passed.');
 
 // Later endings acknowledge exactly the recorded earlier outcomes, including missing old history.
@@ -158,3 +158,18 @@ assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,
 el('toggle-guide').onclick();learned=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(learned.battle.guide.off,true);el('backup').onclick();el('save-import').value=JSON.stringify(learned);el('restore').onclick();assert.equal(el('tutorial').hidden,true);el('toggle-guide').onclick();assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Choose a READY/);
 const malformed=JSON.parse(JSON.stringify(learned));malformed.battle.guide.done=['invented'];el('backup').onclick();el('save-import').value=JSON.stringify(malformed);el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
 console.log('Tutorial UI: free preview, confirmed action, learned lesson, skip/resume, saved preference and malformed-state rejection passed.');
+
+// Opening-menu school is isolated even while an unfinished campaign is loaded.
+const campaignSnapshot=storage['lemma-debt-save-v1'];
+require('../school.js');require('../hints.js');delete require.cache[require.resolve('../game.js')];require('../game.js');
+assert.match(el('screen').innerHTML,/night-school/);el('night-school').onclick();assert.match(el('screen').innerHTML,/Attendance Is a Liability/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+el('school-enter').onclick();assert.equal(el('mission-title').textContent,'Attendance Is a Liability');assert.equal(el('rival').textContent,'CAMPAIGN SAVE UNTOUCHED');assert.equal(el('school-exit').hidden,false);assert.equal(el('force').disabled,true);
+const schoolPreview=el('order-preview').innerHTML;el('objective-help').onclick();assert.match(el('coach-title').textContent,/Gold/);el('tip-close').onclick();el('round-help').onclick();assert.match(el('coach-text').textContent,/queued shots/);el('tip-auto').onclick();el('ability-help').onclick();assert.match(el('tip-auto').textContent,/Enable/);el('tip-close').onclick();assert.equal(el('order-preview').innerHTML,schoolPreview);
+el('wait').onclick();assert.match(el('turn').textContent,/ROUND 2/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+el('backup').onclick();assert.equal(el('save-export').value,campaignSnapshot);el('close-modal').onclick();
+el('retreat').onclick();assert.match(el('screen').innerHTML,/Attendance Is a Liability/);el('school-enter').onclick();assert.match(el('turn').textContent,/ROUND 1/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+for(let rounds=0;rounds<100&&!el('game').hidden;rounds++)el('wait').onclick();assert.match(el('screen').innerHTML,/An educational casualty/);el('school-next').onclick();el('school-enter').onclick();assert.match(el('turn').textContent,/ROUND 1/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);el('school-exit').onclick();assert.match(el('screen').innerHTML,/Continue campaign/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+el('continue').onclick();assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+// A practice snapshot must never be imported over the real campaign.
+el('backup').onclick();el('save-import').value=JSON.stringify(global.LemmaSchool.create(global.Lemma));el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+console.log('School UI: opening entry, free touch tips, mute/reopen, real enemy response, restart, campaign-only backup, exit/resume and practice-import rejection preserve the campaign byte for byte.');

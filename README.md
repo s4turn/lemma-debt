@@ -8,7 +8,7 @@ An original, darkly comic browser tactics game about corporations privatizing ma
 
 No downloads needed. Inspired by Syndicate [Bullfrog, 1993]. FreeSynd was consulted during research; its code and assets are not included. See [provenance](PROVENANCE.md).
 
-**Revision 03 adds a guided first assignment and a clearer department cutaway.**
+**Revision 04 adds Night School: a separate four-class practice mission on the opening screen, with dark school bureaucracy and a graduation certificate.**
 
 **Tactical revision 02:** visible enemy orders, three squad abilities, four officer behaviors, circuit-controlled doors and enemies, defended hearings, and a compact phone grid.
 
@@ -31,7 +31,9 @@ The game needs a modern browser with JavaScript, Canvas and localStorage. Audio 
 - Recover the gold evidence and upload at that same terminal. Old in-battle saves retain their cyan exit.
 - Each agent has one action per round. Enemies respond after all surviving agents act, or when you end the round.
 
-The first operation has an optional, contextual tutorial: its prompts and “Show me” previews respond to your actual moves, attacks and recovery. You still confirm every order. Toggle it off or resume it at any time.
+Short, dismissible tooltips introduce new objectives, circuit layouts and mechanics. Tap the **?** controls to reopen explanations or pause automatic tips. The first operation and first school class have an optional, contextual tutorial: its prompts and “Show me” previews respond to your actual moves, attacks and recovery. You still confirm every order. Toggle it off or resume it at any time.
+
+Choose **Night school · learn by playing** at the opening screen to learn movement and combat, two-signature seals, linked switches, and a witnessed two-round decode. Every class uses the real tactical rules, with a fresh squad and no rival clock. School progress is session-only and never overwrites a campaign; leaving or reloading returns to the opening screen.
 
 The optional **How to play** guide has four short action cards and expandable rules. Headquarters offers small practice boards that use the real rules without changing campaign progress.
 
@@ -56,6 +58,7 @@ Progress saves automatically in the current browser under `lemma-debt-save-v1`. 
 | `game.js`, `style.css`, `index.html` | Interface, Canvas map, help and synthesized audio |
 | `figures.js`, `logo.svg`, `mark.svg`, `landing-art.svg` | Original pixel characters, portraits, title-screen art and branding |
 | `scenes.js`, `practice.js`, `tutorial.js` | Animated scenes, playable rehearsals and first-mission coaching |
+| `school.js`, `hints.js` | Independent four-class school scenario and contextual mechanic explanations |
 | `tests/` | Campaign simulations, narrative coverage and mocked UI interactions |
 
 Node.js 20 or newer runs the checks; no package installation is needed:
@@ -73,7 +76,7 @@ The build copies an explicit list of game assets into `dist/`. It does not bundl
 
 The included GitHub Actions workflow checks every change and deploys the static game from `main` when GitHub Pages is configured to use **GitHub Actions**. Forks must enable Pages themselves. Pull requests run checks without deploying. The build also works on any static host; upload the contents of `dist/`.
 
-Gameplay runs entirely in each player's browser. The complete game payload is about 240 KB before compression, so 500 fresh loads transfer roughly 120 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
+Gameplay runs entirely in each player's browser. The complete game payload is about 264 KB before compression, so 500 fresh loads transfer roughly 132 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
 
 ## License
 
