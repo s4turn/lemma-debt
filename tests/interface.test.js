@@ -11,7 +11,7 @@ global.confirm=()=>true;
 require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../game.js');
 assert.match(el('screen').innerHTML,/LEMMA/);
 el('new').onclick();assert.match(el('screen').innerHTML,/Repossession of a Proof/);
-const beforePractice=storage['lemma-debt-save-v1'];el('practice').onclick();assert.match(el('modal-body').innerHTML,/Blue tiles/);for(const cell of [8,4,6,6]){el('practice-cell-'+cell).onclick();el('practice-confirm').onclick()}assert.match(el('modal-body').innerHTML,/Rehearsal complete/);assert.equal(storage['lemma-debt-save-v1'],beforePractice);el('practice-exit').onclick();assert.equal(el('modal').hidden,true);
+const beforePractice=storage['lemma-debt-save-v1'];el('practice').onclick();assert.match(el('modal-body').innerHTML,/Blue tiles/);for(let step=0;step<10&&!el('modal-body').innerHTML.includes('Rehearsal complete');step++){const target=el('modal-body').innerHTML.match(/id="practice-cell-(\d+)" class="practice-cell available  hostile/);const cell=target?+target[1]:[8,4,5][Math.min(step,2)];el('practice-cell-'+cell).onclick();el('practice-confirm').onclick()}assert.match(el('modal-body').innerHTML,/Rehearsal complete/);assert.equal(storage['lemma-debt-save-v1'],beforePractice);el('practice-exit').onclick();assert.equal(el('modal').hidden,true);
 el('deploy').onclick();assert.match(el('modal-body').innerHTML,/scene/);el('scene-deploy').onclick();assert.equal(el('game').hidden,false);assert.match(el('mission-title').textContent,/Repossession/);
 assert.ok(el('board').onpointerup);el('board').onpointerup({clientX:177,clientY:264.5});
 assert.match(el('order-preview').innerHTML,/Move/);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let save=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(save.phase,'battle');assert.equal(save.battle.turn,0);assert.equal(save.battle.agents[0].ap,0);
@@ -32,11 +32,11 @@ continued.mission=12;continued.phase='ending';continued.ending='contested';conti
 continued.mission=14;continued.verified=8;continued.automated=6;global.Lemma.start(continued);global.Lemma.wait(continued);el('backup').onclick();el('save-import').value=JSON.stringify(continued);el('restore').onclick();let later=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(later.phase,'battle');assert.equal(later.mission,14);assert.equal(later.battle.turn,1);assert.match(el('mission-title').textContent,/Cooling Argument/);
 console.log('Mock interface: legacy completed save, both campaign transitions and later battle restore passed.');
 // First-use combat is visible before opening the manual and confirms exact damage.
-let combat=global.Lemma.fresh();global.Lemma.start(combat);combat.battle.enemies[0].x=1;combat.battle.enemies[0].y=5;el('backup').onclick();el('save-import').value=JSON.stringify(combat);el('restore').onclick();assert.match(el('agents').innerHTML,/READY · 1 action/);assert.match(el('enemies').innerHTML,/ATTACK AVAILABLE · 2 damage/);el('board').onpointerup({clientX:294,clientY:245});assert.match(el('order-preview').innerHTML,/4 → 2 HP/);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let hit=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(hit.battle.enemies[0].hp,2);assert.equal(hit.battle.agents[0].ap,0);assert.match(el('agents').innerHTML,/ACTED · 0 actions/);assert.match(el('log').innerHTML,/2 damage/);el('backup').onclick();el('save-import').value=JSON.stringify(hit);el('restore').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[0].ap,0);
+let combat=global.Lemma.fresh();global.Lemma.start(combat);combat.battle.enemies[0].type='patrol';combat.battle.enemies[0].x=3;combat.battle.enemies[0].y=6;el('backup').onclick();el('save-import').value=JSON.stringify(combat);el('restore').onclick();assert.match(el('agents').innerHTML,/READY · 1 action/);assert.match(el('enemies').innerHTML,/ATTACK AVAILABLE · 2 damage/);el('board').onpointerup({clientX:333,clientY:303.5});assert.match(el('order-preview').innerHTML,/4 → 2 HP/);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let hit=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(hit.battle.enemies[0].hp,2);assert.equal(hit.battle.agents[0].ap,0);assert.match(el('agents').innerHTML,/ACTED · 0 actions/);assert.match(el('log').innerHTML,/2 damage/);el('backup').onclick();el('save-import').value=JSON.stringify(hit);el('restore').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[0].ap,0);
 console.log('Discoverability: visible ready states, target availability, damage preview, confirm, damage feedback and spent-action restore passed.');
 
 // Force decode bypasses a live network: the objective must immediately become extraction.
-let forced=global.Lemma.fresh();forced.mission=2;forced.verified=2;global.Lemma.start(forced);forced.battle.agents[0].x=forced.battle.target.x-1;forced.battle.agents[0].y=forced.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(forced);el('restore').onclick();assert.equal(el('force').disabled,false);el('force').onclick();assert.match(el('objective').textContent,/EVIDENCE SECURED/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).understanding,65);
+let forced=global.Lemma.fresh();forced.mission=2;forced.verified=2;global.Lemma.start(forced);forced.battle.agents[0].x=forced.battle.target.x-1;forced.battle.agents[0].y=forced.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(forced);el('restore').onclick();assert.equal(el('force').disabled,false);el('force').onclick();assert.match(el('objective').textContent,/EVIDENCE SECURED/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).understanding,60);
 console.log('Practice completion leaves campaign save unchanged; bypassed-network objective points to extraction.');
 
 // Every mission's actual choice receives its own memo and persists only that choice.
@@ -87,7 +87,7 @@ const drawnLabels=[];let badgeBounds;ctx.fillText=text=>drawnLabels.push(String(
 let objective=global.Lemma.fresh();global.Lemma.start(objective);el('backup').onclick();el('save-import').value=JSON.stringify(objective);el('restore').onclick();
 assert.match(el('objective-title').textContent,/RECOVER/);assert.equal(el('objective-step').textContent,'01 / 02');assert.equal(drawnLabels.at(-1),'◆ EVIDENCE');
 const unchanged=storage['lemma-debt-save-v1'];el('board').onpointerup({clientX:badgeBounds.x+badgeBounds.width/2,clientY:badgeBounds.y+badgeBounds.height/2});assert.match(el('order-preview').innerHTML,/Secure evidence/);assert.equal(storage['lemma-debt-save-v1'],unchanged);el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Secure evidence/);assert.equal(storage['lemma-debt-save-v1'],unchanged);assert.ok(Number.isFinite(scrollLeft)&&scrollLeft>0);
-objective.battle.agents[0].x=objective.battle.target.x-1;objective.battle.agents[0].y=objective.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(objective);el('restore').onclick();el('force').onclick();assert.equal(el('objective-title').textContent,'EXTRACT THE SQUAD');assert.equal(el('objective-step').textContent,'02 / 02');assert.equal(drawnLabels.at(-1),'↑ EXTRACT');assert.equal(el('locate-objective').textContent,'Locate exit ↗');const extractedView=storage['lemma-debt-save-v1'];el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Extract squad/);assert.equal(storage['lemma-debt-save-v1'],extractedView);
+objective.battle.agents[0].x=objective.battle.target.x-1;objective.battle.agents[0].y=objective.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(objective);el('restore').onclick();el('force').onclick();assert.equal(el('objective-title').textContent,'TRANSMIT THE EVIDENCE');assert.equal(el('objective-step').textContent,'02 / 02');assert.equal(drawnLabels.at(-1),'↑ UPLOAD');assert.equal(el('locate-objective').textContent,'Locate uplink ↗');const extractedView=storage['lemma-debt-save-v1'];el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Transmit evidence/);assert.equal(storage['lemma-debt-save-v1'],extractedView);
 console.log('Objective UI: evidence/extraction beacons, exact stage labels and free locate actions passed.');
 
 // Larger figure hit areas must select the person shown, including at narrow-board scale.
@@ -114,3 +114,40 @@ el('confirm-order').onclick();const moved=JSON.parse(storage['lemma-debt-save-v1
 // Help and its rehearsal never replace the active operation's save.
 const beforeGuide=storage['lemma-debt-save-v1'];el('help').onclick();assert.equal(el('modal').className,'modal help-modal');el('help-practice').onclick();assert.equal(storage['lemma-debt-save-v1'],beforeGuide);assert.equal(el('modal').className,'modal ');el('practice-exit').onclick();el('help').onclick();el('help-close').onclick();assert.equal(el('modal').hidden,true);assert.equal(storage['lemma-debt-save-v1'],beforeGuide);
 console.log('Visual interaction: narrow-board figure selection, white destination, route preview, explicit move confirmation and save-safe help rehearsal passed.');
+// Every legal destination center wins over sprite overlap, on both map projections.
+for(const view of ['iso','flat']){
+ el('board').getBoundingClientRect=()=>({width:view==='flat'?390:580,height:view==='flat'?390:360,left:0,top:0});
+ if(view==='flat')el('map-view').onclick();
+ const start=global.Lemma.fresh();global.Lemma.start(start);
+ // Reproduce Astra's original overlapping destination geometry exactly.
+ if(view==='iso'){start.battle.agents[0].x=1;start.battle.agents[0].y=7;start.battle.agents[1].x=2;start.battle.agents[1].y=7;start.battle.agents[2].x=1;start.battle.agents[2].y=6;}
+ let checked=0;
+ for(let y=0;y<9;y++)for(let x=0;x<9;x++){
+  const o=global.Lemma.order(start,x,y);if(!o.ok||o.kind!=='move')continue;
+  el('backup').onclick();el('save-import').value=JSON.stringify(start);el('restore').onclick();
+  const cell=354/9,tw=Math.min(550/9,260/9*2,78),th=tw/2,oy=Math.max(70,(360-9*th)/2-16);
+  const point=view==='flat'?{clientX:18+(x+.5)*cell,clientY:14+(y+.5)*cell}:{clientX:290+(x-y)*tw/2,clientY:oy+(x+y)*th/2+th/2};
+  el('board').onpointerdown(point);el('board').onpointerup(point);assert.equal(el('confirm-order').disabled,false,view+' '+x+','+y);
+  assert.match(el('confirm-order').textContent,/Confirm move/);el('confirm-order').onclick();const result=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(result.battle.agents[0].x,x);assert.equal(result.battle.agents[0].y,y);checked++;
+ }
+ assert.ok(checked>=5);if(view==='flat'){assert.equal(el('grid-controls').hidden,false);assert.equal((el('grid-controls').innerHTML.match(/data-cell=/g)||[]).length,81);}
+}
+// Optional new save fields are validated rather than trusted as executable game state.
+for(const fields of [{caseRecords:'not an array'},{caseRecords:[{mission:999,method:'verify',forced:false,repaired:false}]},{endingGaps:['bad']},{explainedMission:999}]){
+ el('backup').onclick();el('save-import').value=JSON.stringify({...global.Lemma.fresh(),...fields});el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+}
+console.log('All legal move centers in both projections, original sprite-overlap regression, 81 keyboard-accessible grid cells and new save validation passed.');
+
+// Repair can raise the rival head start to 25; that campaign must remain importable.
+let repaired=global.Lemma.fresh();repaired.phase='decision';repaired.battle={captured:false,forced:true};global.Lemma.resolve(repaired,'verify');assert.ok(global.Lemma.repair(repaired,0));assert.equal(repaired.headstart,25);
+el('backup').onclick();el('save-import').value=JSON.stringify(repaired);el('restore').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).headstart,25);assert.match(el('screen').innerHTML,/CHECKED/);
+console.log('Repaired evidence with maximum rival head start survives save import.');
+// Actual version-1 battle snapshots generated by the published b1308d0 engine.
+for(const mission of [3,6]){
+ const legacy=require('./fixtures/legacy-op'+mission+'.json'),original=JSON.parse(JSON.stringify(legacy));
+ el('backup').onclick();el('save-import').value=JSON.stringify(legacy);el('restore').onclick();
+ el('backup').onclick();const roundtrip=JSON.parse(el('save-export').value);
+ assert.equal(roundtrip.battle.rules,undefined);assert.deepEqual(roundtrip.battle.agents,original.battle.agents);assert.deepEqual(roundtrip.battle.exit,original.battle.exit);assert.deepEqual(roundtrip.battle.walls,original.battle.walls);assert.deepEqual(roundtrip.battle.network,original.battle.network);assert.equal(roundtrip.battle.agents[0].ap,0);
+ assert.doesNotThrow(()=>global.Lemma.wait(roundtrip));assert.equal(roundtrip.battle.turn,1);
+}
+console.log('Published-engine battle fixtures retain layout, exit, actions, circuit and playable enemy response.');

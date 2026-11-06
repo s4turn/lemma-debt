@@ -8,6 +8,8 @@ An original, darkly comic browser tactics game about corporations privatizing ma
 
 No downloads needed. Inspired by Syndicate [1993] (and [FreeSynd](https://freesynd.sourceforge.io/)). FreeSynd was consulted during research; its code and assets are not included. See [provenance](PROVENANCE.md).
 
+**Tactical revision 02:** visible enemy orders, three squad abilities, four officer behaviors, circuit-controlled doors and enemies, defended hearings, and a compact phone grid.
+
 ## Play locally
 
 From this directory:
@@ -22,9 +24,9 @@ The game needs a modern browser with JavaScript, Canvas and localStorage. Audio 
 
 ## Play
 
-- Select a READY agent, then tap a bright blue diamond. The white destination and route preview show the move; **Confirm move** spends the action.
+- Select a READY agent, then tap a bright blue tile. The white destination and route preview show the move; **Confirm move** spends the action.
 - Tap a red-ringed officer to preview damage, then confirm an attack.
-- Recover the gold evidence and extract at the cyan exit. Any surviving agent can extract the squad.
+- Recover the gold evidence and upload at that same terminal. Old in-battle saves retain their cyan exit.
 - Each agent has one action per round. Enemies respond after all surviving agents act, or when you end the round.
 
 The optional **How to play** guide has four short action cards and expandable rules. Headquarters offers small practice boards that use the real rules without changing campaign progress.
@@ -35,7 +37,7 @@ The optional **How to play** guide has four short action cards and expandable ru
 2. **The Department of Comprehension** — workers and an inconvenient model investigate implants that suppress explanations.
 3. **The Last Audit** — the squad challenges a subscription to reality and a circular public audit.
 
-Each campaign has six operations and three possible endings. Credits, understanding, upgrades and recorded outcomes carry forward. Choices get persistent case-file entries; old saves do not invent missing history.
+Each campaign has six operations and three possible endings. Credits, understanding, upgrades and recorded outcomes carry forward. Choices change the next operation’s enforcement and get persistent case-file entries. Checked endings require three specific evidence links as well as enough review and understanding; old saves do not invent missing history.
 
 ## Saves
 
@@ -45,7 +47,7 @@ Progress saves automatically in the current browser under `lemma-debt-save-v1`. 
 
 | File | Purpose |
 | --- | --- |
-| `engine.js` | Tactical rules, progression and save state |
+| `engine.js`, `encounters.js` | Tactical rules, eighteen encounter layouts, progression and save state |
 | `expansions.js`, `narrative.js` | Campaigns, characters, branches and endings |
 | `game.js`, `style.css`, `index.html` | Interface, Canvas map, help and synthesized audio |
 | `figures.js`, `logo.svg`, `mark.svg`, `landing-art.svg` | Original pixel characters, portraits, title-screen art and branding |
@@ -67,7 +69,7 @@ The build copies an explicit list of game assets into `dist/`. It does not bundl
 
 The included GitHub Actions workflow checks every change and deploys the static game from `main` when GitHub Pages is configured to use **GitHub Actions**. Forks must enable Pages themselves. Pull requests run checks without deploying. The build also works on any static host; upload the contents of `dist/`.
 
-Gameplay runs entirely in each player's browser. The complete game payload is about 189 KB before compression, so 500 fresh loads transfer roughly 95 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
+Gameplay runs entirely in each player's browser. The complete game payload is about 228 KB before compression, so 500 fresh loads transfer roughly 114 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
 
 ## License
 

@@ -1,0 +1,149 @@
+{
+  "version": 1,
+  "mission": 2,
+  "credits": 55,
+  "understanding": 80,
+  "verified": 2,
+  "automated": 0,
+  "captured": 0,
+  "headstart": 0,
+  "baselineVerified": 0,
+  "baselineAutomated": 0,
+  "history": [],
+  "upgrades": {
+    "armor": 0,
+    "tools": 0,
+    "focus": 0
+  },
+  "phase": "battle",
+  "battle": {
+    "turn": 0,
+    "rival": 0,
+    "captured": false,
+    "secured": false,
+    "selected": 0,
+    "log": [
+      "Dr. Ada Null moves 2 tiles. Action spent.",
+      "Orders received. The coffee is legally a controlled substance."
+    ],
+    "agents": [
+      {
+        "name": "Dr. Ada Null",
+        "role": "Analyst",
+        "max": 10,
+        "damage": 2,
+        "range": 3,
+        "x": 0,
+        "y": 6,
+        "ap": 0,
+        "hp": 10
+      },
+      {
+        "name": "Prof. Emil Wren",
+        "role": "Logician",
+        "max": 11,
+        "damage": 2,
+        "range": 3,
+        "x": 2,
+        "y": 7,
+        "ap": 1,
+        "hp": 11
+      },
+      {
+        "name": "Dr. Inez Quill",
+        "role": "Topologist",
+        "max": 9,
+        "damage": 3,
+        "range": 2,
+        "x": 1,
+        "y": 6,
+        "ap": 1,
+        "hp": 9
+      }
+    ],
+    "enemies": [
+      {
+        "x": 7,
+        "y": 3,
+        "hp": 4,
+        "id": 0,
+        "alive": true,
+        "max": 4
+      },
+      {
+        "x": 6,
+        "y": 1,
+        "hp": 4,
+        "id": 1,
+        "alive": true,
+        "max": 4
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "hp": 4,
+        "id": 2,
+        "alive": true,
+        "max": 4
+      }
+    ],
+    "walls": [
+      "2,1",
+      "2,2",
+      "4,3",
+      "5,3",
+      "6,3",
+      "2,5",
+      "3,5",
+      "5,6"
+    ],
+    "target": {
+      "x": 8,
+      "y": 1
+    },
+    "exit": {
+      "x": 1,
+      "y": 8
+    },
+    "relay": {
+      "x": 8,
+      "y": 4,
+      "used": false
+    },
+    "lock": null,
+    "puzzle": {
+      "type": "network",
+      "progress": 0,
+      "lastRound": -1
+    },
+    "jammed": false,
+    "network": [
+      {
+        "x": 0,
+        "y": 2,
+        "on": true,
+        "id": 0
+      },
+      {
+        "x": 4,
+        "y": 7,
+        "on": false,
+        "id": 1
+      },
+      {
+        "x": 5,
+        "y": 0,
+        "on": true,
+        "id": 2
+      },
+      {
+        "x": 0,
+        "y": 4,
+        "on": true,
+        "id": 3
+      }
+    ],
+    "feedback": []
+  },
+  "ending": null
+}

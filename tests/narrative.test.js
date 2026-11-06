@@ -41,3 +41,7 @@ const hostile={title:'Escaping',scene:{intro:{title:'<script>',caption:'<svg onl
 const html=scenes.html(hostile);assert.ok(!html.includes('<script>'));assert.ok(html.includes('&lt;img'));
 console.log('Narrative coverage: 18 missions, 36 disposition memos, 36 phase scenes, 9 endings, 6 recaps and 27 outcome-history combinations.');
 console.log('Legacy scene fallback, dialogue escaping and high-understanding hollow branch checked.');
+const beats=new Set();for(let mission=0;mission<18;mission++)for(const method of ['verify','automate']){const beat=N.choiceBeat(mission,method);text(beat,'distinct character reaction');beats.add(beat);}assert.equal(beats.size,36);
+const stages=new Set();for(const motif of ['department','archive','court','clinic','transmitter'])for(const phase of ['intro','outro'])stages.add(scenes.html({title:'Stage',scene:{motif}},phase));assert.equal(stages.size,10);
+for(const outcome of ['commons','contested','hollow']){const s=E.fresh();s.mission=6;s.history=[{campaign:0,outcome}];s.caseRecords=[{mission:5,method:'verify',forced:false,repaired:false}];const arrival=N.arrival(s);assert.ok(arrival.includes(outcome==='hollow'?'extra certifier':'first response'));}
+console.log('36 distinct character disagreements, 10 stage compositions, and ending-dependent arrival continuity passed.');

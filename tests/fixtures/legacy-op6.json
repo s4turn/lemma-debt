@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "mission": 5,
+  "credits": 55,
+  "understanding": 80,
+  "verified": 5,
+  "automated": 0,
+  "captured": 0,
+  "headstart": 0,
+  "baselineVerified": 0,
+  "baselineAutomated": 0,
+  "history": [],
+  "upgrades": {
+    "armor": 0,
+    "tools": 0,
+    "focus": 0
+  },
+  "phase": "battle",
+  "battle": {
+    "turn": 0,
+    "rival": 0,
+    "captured": false,
+    "secured": false,
+    "selected": 0,
+    "log": [
+      "Dr. Ada Null moves 2 tiles. Action spent.",
+      "Orders received. The coffee is legally a controlled substance."
+    ],
+    "agents": [
+      {
+        "name": "Dr. Ada Null",
+        "role": "Analyst",
+        "max": 10,
+        "damage": 2,
+        "range": 3,
+        "x": 0,
+        "y": 6,
+        "ap": 0,
+        "hp": 10
+      },
+      {
+        "name": "Prof. Emil Wren",
+        "role": "Logician",
+        "max": 11,
+        "damage": 2,
+        "range": 3,
+        "x": 2,
+        "y": 7,
+        "ap": 1,
+        "hp": 11
+      },
+      {
+        "name": "Dr. Inez Quill",
+        "role": "Topologist",
+        "max": 9,
+        "damage": 3,
+        "range": 2,
+        "x": 1,
+        "y": 6,
+        "ap": 1,
+        "hp": 9
+      }
+    ],
+    "enemies": [
+      {
+        "x": 7,
+        "y": 3,
+        "hp": 5,
+        "id": 0,
+        "alive": true,
+        "max": 5
+      },
+      {
+        "x": 6,
+        "y": 1,
+        "hp": 5,
+        "id": 1,
+        "alive": true,
+        "max": 5
+      },
+      {
+        "x": 7,
+        "y": 6,
+        "hp": 5,
+        "id": 2,
+        "alive": true,
+        "max": 5
+      },
+      {
+        "x": 5,
+        "y": 1,
+        "hp": 5,
+        "id": 3,
+        "alive": true,
+        "max": 5
+      }
+    ],
+    "walls": [
+      "2,1",
+      "4,1",
+      "4,2",
+      "2,3",
+      "4,4",
+      "6,3",
+      "6,5",
+      "3,6"
+    ],
+    "target": {
+      "x": 7,
+      "y": 1
+    },
+    "exit": {
+      "x": 0,
+      "y": 7
+    },
+    "relay": {
+      "x": 0,
+      "y": 4,
+      "used": false
+    },
+    "lock": {
+      "x": 5,
+      "y": 7,
+      "unlocked": false
+    },
+    "puzzle": {
+      "type": "hold",
+      "progress": 0,
+      "lastRound": -1
+    },
+    "jammed": false,
+    "feedback": []
+  },
+  "ending": null
+}

@@ -4,7 +4,7 @@ const E=root.Lemma||(typeof require==='function'?require('./engine'):null);
 const titles={combat:'Move, then attack',paired:'Two signatures',hold:'Hold across rounds',network:'Linked switches'};
 function create(kind){
   const s=E.fresh();E.start(s);const b=s.battle;s.practice=kind;
-  b.walls=[];for(let x=0;x<9;x++)for(let y=0;y<9;y++)if(x>3||y>3)b.walls.push(x+','+y);
+  b.rules=1;delete b.network;delete b.gates;delete b.edges;b.hearing=false;b.certification=0;b.sealed=false;b.jammed=false;b.walls=[];for(let x=0;x<9;x++)for(let y=0;y<9;y++)if(x>3||y>3)b.walls.push(x+','+y);
   b.target={x:3,y:0};b.exit={x:0,y:0};b.relay=null;b.lock=null;b.enemies=[];b.rival=0;
   b.agents.forEach((a,i)=>{a.x=i;a.y=3;a.ap=1;if(kind!=='paired'&&kind!=='hold'&&i>0){a.hp=0;a.ap=0}});
   b.puzzle={type:kind==='combat'?'recovery':kind,progress:0,lastRound:-1};
@@ -12,7 +12,7 @@ function create(kind){
   if(kind==='paired'){b.agents[0].x=1;b.agents[1].x=3;b.agents[2].hp=0;b.agents[2].ap=0;b.lock={x:8,y:8,unlocked:false}}
   if(kind==='hold'){b.agents[0].x=1;b.agents[0].y=1;b.target={x:2,y:1}}
   if(kind==='network'){b.agents[0].x=1;b.agents[0].y=1;b.network=[[0,1],[1,0],[2,1],[1,2]].map(([x,y],id)=>({x,y,id,on:[true,false,true,true][id]}))}
-  b.log=['Practice board. Campaign progress is untouched.'];return s;
+  E.planEnemies(s);b.log=['Practice board. Campaign progress is untouched.'];return s;
 }
 function done(s){return s.practice==='combat'?s.battle.enemies.every(e=>!e.alive):s.practice==='network'?s.battle.network.every(n=>!n.on):s.battle.secured}
 function hint(s){let b=s.battle,a=b.agents[b.selected];if(s.phase==='failed')return 'Training accident. Reset board → try again.';if(done(s))return '✓ Rehearsal complete. The company denies this counted as training.';
