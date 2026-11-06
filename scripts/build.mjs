@@ -4,7 +4,7 @@ import path from 'node:path';
 
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const out=path.join(root, 'dist');
-const files=['index.html','style.css','engine.js','expansions.js','narrative.js','scenes.js','practice.js','figures.js','game.js','logo.svg','mark.svg','LICENSE'];
+const files=['index.html','style.css','engine.js','expansions.js','narrative.js','scenes.js','practice.js','figures.js','game.js','logo.svg','mark.svg','landing-art.svg','LICENSE'];
 await rm(out, {recursive:true, force:true});
 await mkdir(out);
 let bytes=0;

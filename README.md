@@ -48,7 +48,7 @@ Progress saves automatically in the current browser under `lemma-debt-save-v1`. 
 | `engine.js` | Tactical rules, progression and save state |
 | `expansions.js`, `narrative.js` | Campaigns, characters, branches and endings |
 | `game.js`, `style.css`, `index.html` | Interface, Canvas map, help and synthesized audio |
-| `figures.js`, `logo.svg`, `mark.svg` | Original pixel characters, portraits and branding |
+| `figures.js`, `logo.svg`, `mark.svg`, `landing-art.svg` | Original pixel characters, portraits, title-screen art and branding |
 | `scenes.js`, `practice.js` | Animated scene illustrations and playable rehearsals |
 | `tests/` | Campaign simulations, narrative coverage and mocked UI interactions |
 
@@ -59,13 +59,15 @@ npm test
 npm run build
 ```
 
+The title-screen logo and scene can be regenerated with `node scripts/title-art.mjs`; all letterforms and illustration shapes are authored in that script.
+
 The build copies an explicit list of game assets into `dist/`. It does not bundle tests, development records or hosting credentials.
 
 ## Hosting
 
 The included GitHub Actions workflow checks every change and deploys the static game from `main` when GitHub Pages is configured to use **GitHub Actions**. Forks must enable Pages themselves. Pull requests run checks without deploying. The build also works on any static host; upload the contents of `dist/`.
 
-Gameplay runs entirely in each player's browser. The complete game payload is about 161 KB before compression, so 500 fresh loads transfer roughly 81 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
+Gameplay runs entirely in each player's browser. The complete game payload is about 189 KB before compression, so 500 fresh loads transfer roughly 95 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
 
 ## License
 
