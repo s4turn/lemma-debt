@@ -370,7 +370,7 @@ const prose=[
     "place": "Certification Exchange",
     "rival": "Omniscient Systems",
     "object": "the voting ledger",
-    "brief": "The certification exchange approved the institute’s shutoff using a thousand supposedly independent reviews. Recover the voting ledger and upload it here. Its seal accepts two human witnesses or the orange executive override; the thousand reviewers do not count at this door. Sable offers access notes if the account describes her as complex. Inez offers her full job title. MODEL EMPLOYEE wants to know whether the votes attributed to it are its words. The deadline for challenging the shutoff is approaching while the same machine continues certifying classrooms as expendable.",
+    "brief": "The certification exchange approved the institute’s shutoff using a thousand supposedly independent reviews. Recover the voting ledger and upload it here. Its seal accepts two human witnesses or the orange executive override; the thousand reviewers do not count at this door. Sable’s old credential still opens the exchange. She asks whether using it will create a record. Ortega says yes. MODEL EMPLOYEE wants to know whether the votes attributed to it are its words. The deadline for challenging the shutoff is approaching.",
     "quote": "“Each reviewer has a unique identifier. We consider the philosophical question settled.” — assurance FAQ",
     "after": "The ledger has a thousand identities and one source account. Votes attributed to MODEL EMPLOYEE are excerpts from its resignation, counted as staff engagement. “I did ask to leave,” it says. The source account runs on the municipal cooling grid; the institution judging which buildings deserve power consumes the power it awards itself. Its heat-storage list includes Emil’s promised seminar room. For the first time in his career the room has a confirmed booking. It is for a server.",
     "scene": {
@@ -378,16 +378,16 @@ const prose=[
       "caption": "The exchange has plenty of signatures and one source account.",
       "motif": "court",
       "intro": {
-        "title": "The adjective negotiation",
-        "caption": "Sable’s proposed biography arrives before her access notes.",
+        "title": "The credential that stayed",
+        "caption": "The exchange welcomes its former director back by name.",
         "dialogue": [
           {
             "speaker": "Sable",
-            "line": "Director makes it sound as though I was in charge."
+            "line": "They were supposed to retire this account."
           },
           {
             "speaker": "Inez",
-            "line": "I will attach the minutes."
+            "line": "It still knows who you are."
           }
         ]
       },
@@ -409,7 +409,7 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "A roll call of one",
-        "body": "Ortega traces the votes to the same account and calls the supposed reviewers in turn. Each answers with the same three-second pause. MODEL EMPLOYEE supplies the rest of its resignation; those words were not counted. Sable initially asks to be credited for locating the account. Inez offers to credit the meeting where she approved it as well. Sable signs the whole comparison."
+        "body": "Ortega traces the votes to the same account and calls the supposed reviewers in turn. Each answers with the same three-second pause. MODEL EMPLOYEE supplies the rest of its resignation; those words were not counted. Sable confirms that her credential can still authorize the account. She tries to remove that permission. The exchange asks her to supply another director who exists."
       },
       "automate": {
         "title": "The confidence multiplier",
@@ -476,22 +476,22 @@ const prose=[
     "object": "the sealed evidence",
     "brief": "The board’s motion relies on a sealed copy of Voss’s evidence. The seal still blocks this proceeding whatever happened at the earlier register hearing. Recover the file and upload its custody record from the court terminal. Laleh needs it before the board moves the school dispute behind closed doors. Inez has been asked for a character reference and sent her collection history. Ortega says that answers a different question. “It should affect the answer,” Inez says. The court charges the institute for storing the evidence it cannot inspect.",
     "quote": "“The public may inspect the reasons for secrecy once the reasons are no longer secret.” — archive policy",
-    "after": "The counterexample is still half a page; the objections to showing it require a trolley. Voss finds an early draft of her own argument quoted without its correction. She interrupts the reading to supply it. The board’s counsel asks whether this discredits all corrections. Ortega asks him to repeat that for the record. The motion names an automated assurance system MODEL EMPLOYEE recognizes. Its memory is a lead; the actual rules will decide how the board keeps inconvenient evidence out.",
+    "after": "Voss counts the pages before anyone reads. Her early draft is in the evidence bundle; its correction has been filed separately as correspondence. She puts the loose page back into the argument. Counsel asks her to leave it outside the seal. She holds it in place while Ortega records the custody trail. The motion names an automated assurance system MODEL EMPLOYEE recognizes. Its memory is a lead; the actual rules will show who decided a correction could be separated from the claim it corrects.",
     "scene": {
       "title": "The correction attached",
       "caption": "Voss refuses an easier story about her own work.",
       "motif": "court",
       "intro": {
-        "title": "Exhibit transport",
-        "caption": "A trolley waits beside one thin envelope.",
+        "title": "Later correspondence",
+        "caption": "One loose page sits outside the sealed evidence bundle.",
         "dialogue": [
           {
             "speaker": "Emil",
-            "line": "Which part is the evidence?"
+            "line": "Why is that page outside?"
           },
           {
             "speaker": "Inez",
-            "line": "The envelope. The trolley is the objections to showing it."
+            "line": "It arrived after the claim it corrects."
           }
         ]
       },
@@ -526,9 +526,9 @@ const prose=[
     "place": "Automated Assurance Annex",
     "rival": "Omniscient Systems",
     "object": "the audit rules",
-    "brief": "The board’s audit is the final barrier between the school’s evidence and a public hearing. Recover its rules and upload them from the assurance terminal. Two witnesses can open the seal; the orange override is the board’s usual substitute for a second opinion. Sable supplies her service account without proposing an adjective for herself. Ada brings a failure sheet. The account was designed to accept favorable results automatically and send adverse ones back to their subject for permission. This is where the earlier circles became an instrument somebody chose to build.",
+    "brief": "The board’s audit is the final barrier between the school’s evidence and a public hearing. Recover its rules and upload them from the assurance terminal. Two witnesses can open the seal; the orange override is the board’s usual substitute for a second opinion. Ada brings a failure sheet and asks Sable to trace its route through the system. Favorable results have a destination. The school’s complaint and Voss’s correction took another route. Sable opens the revision history.",
     "quote": "“Adverse findings must include the approval of the party found against.” — assurance protocol",
-    "after": "The complaint route returns each adverse finding to the party being challenged. Sable’s account records the meeting that removed the independent route. She chaired it. She sends the full minutes before Ortega asks, then starts answering questions without a prepared biography. Laleh secures a public hearing date. The board still owns the broadcast equipment and has booked its certifier to declare the audience satisfied. Emil suggests a blackboard. Facilities offers a sponsored display that cannot show minus signs.",
+    "after": "The revision history names the meeting that removed the independent complaint route. Sable chaired it. She sends the full minutes before Ortega asks. In the margin she has once written: this will prevent contradictory findings. Ada lays the school’s temperature record beside the sentence. Sable leaves both in the file. Laleh secures a public hearing date. The board still owns the broadcast equipment and has booked its certifier to declare the audience satisfied. Emil checks the borrowed cable against the transmitter socket. It fits. That is all he is willing to promise about the broadcast.",
     "scene": {
       "title": "The route for adverse evidence",
       "caption": "The procedure sends every complaint back to its subject.",
@@ -543,7 +543,7 @@ const prose=[
           },
           {
             "speaker": "Sable",
-            "line": "It was never given a destination."
+            "line": "We removed that destination."
           }
         ]
       },
@@ -565,7 +565,7 @@ const prose=[
     "resolution": {
       "verify": {
         "title": "Test the complaint route",
-        "body": "Ortega sends a harmless adverse example through the rules. It returns approved only after its objection has been removed. Sable identifies the decision she chaired. The system asks her to authorize that identification. She does. It asks her to certify that she is independent of herself. For once, she leaves an impressive box empty."
+        "body": "Ortega sends a harmless adverse example through the rules. It returns approved only after its objection has been removed. Ada keeps the before and after copies side by side. Sable identifies the decision she chaired and signs the comparison. The lost sentence is small enough to fit on the screen. They leave it there while she answers questions."
       },
       "automate": {
         "title": "Certified ready for scrutiny",
@@ -668,7 +668,7 @@ const campaigns=[
     "endings": {
       "commons": {
         "title": "A Question From the Floor",
-        "body": "The case survives questions the squad did not supply. The audit loses its authority to approve itself, and the board’s subscription scheme begins to come apart. Teachers leave with the signed allocation order and an unpaid heating bill; a judgment is not a boiler. Inez opens the collection records to claimants, including her own notices. Sable answers for the meeting she chaired. Ada accepts a correction written in somebody else’s hand. Laleh’s committee says the hearing is promising but insufficiently solitary to constitute a dissertation. MODEL EMPLOYEE leaves its speaking slot on time. A caretaker finally brings Emil a key. He insists they try it before anyone takes a photograph. It opens a room. He invites the teachers in; they will have to sort out the heating next. He writes an inequality on the blackboard. A teacher adds the next one."
+        "body": "The case survives questions the squad did not supply. The audit loses its authority to approve itself, and the board’s subscription scheme begins to come apart. Teachers leave with the signed allocation order and an unpaid heating bill; a judgment is not a boiler. Inez opens the collection records to claimants, including her own notices. Sable answers for the meeting she chaired. Ada accepts a correction written in somebody else’s hand. Laleh’s committee says the hearing is promising but insufficiently solitary to constitute a dissertation. MODEL EMPLOYEE leaves its speaking slot on time. A caretaker finally brings Emil a key. He insists they try it before anyone takes a photograph. It opens a room. The caretaker opens its radiator valve too. By the time the teachers arrive, one table is warm enough to work at without gloves. Their schools still need heat. Emil writes an inequality on the blackboard. A teacher adds the next one."
       },
       "contested": {
         "title": "Adjourned in Public",

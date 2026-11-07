@@ -8,7 +8,7 @@ An original, darkly comic browser tactics game about corporations privatizing ma
 
 No downloads needed. Inspired by Syndicate [Bullfrog, 1993]. FreeSynd was consulted during research; its code and assets are not included. See [provenance](PROVENANCE.md).
 
-**Revision 04.2 connects the three campaigns through revised briefings, aftermaths and endings, with specific consequences for checked, automated and repaired evidence. Console cancellation now needs an intervening enemy response to recharge; cooling uses still reopen sealed evidence.**
+**Revision 05 adds Reassign: push an adjacent officer and redirect its announced shot. Circuit doors now constrain routes, the final hearing combines circuits and witnesses, and repeated publication choices change who trusts the squad.**
 
 **Night School’s opening is a guided drill: follow a named agent, a marked target and confirmation before the next instruction.**
 
@@ -30,14 +30,17 @@ The game needs a modern browser with JavaScript, Canvas and localStorage. Audio 
 
 - Select a READY agent, then tap a bright blue tile. The white destination and route preview show the move; **Confirm move** spends the action.
 - Tap a red-ringed officer to preview damage, then confirm an attack.
+- In newly deployed campaign operations, **Reassign** deals 1 damage and pushes an adjacent officer one tile away. Its announced firing tile moves with it. Preview the destination, new target and damage before confirming. Officers respond in their displayed number order; a defeated officer loses its later order.
 - Recover the gold evidence and upload at that same terminal. Old in-battle saves retain their cyan exit.
 - Each agent has one action per round. Enemies respond after all surviving agents act, or when you end the round.
 
 Short, dismissible tooltips introduce new objectives, circuit layouts and mechanics. Tap the **?** controls to reopen explanations or pause automatic tips. The first operation and first school class have an optional, contextual tutorial: its prompts and “Show me” previews respond to your actual moves, attacks and recovery. You still confirm every order. Toggle it off or resume it at any time.
 
-Choose **Night school · learn by playing** at the opening screen to learn movement and combat, two-signature seals, linked switches, and a witnessed two-round decode. Its first class begins with a fixed demonstration: only the designated input advances the instruction. **Locate control** points without choosing or executing anything. After **Take command**, recovery and upload are yours to solve. **Skip guided drill** explicitly unlocks free play; later classes are open-ended. Every class uses the real tactical rules, with a fresh squad and no rival clock. School progress is session-only and never overwrites a campaign; leaving or reloading returns to the opening screen.
+Choose **Night school · learn by playing** at the opening screen to learn movement and combat, two-signature seals, linked switches, and a witnessed two-round decode. Its first class begins with a fixed demonstration: only the designated input advances the instruction. **Locate control** points without choosing or executing anything. After **Take command**, recovery and upload are yours to solve. **Skip guided drill** explicitly unlocks free play; later classes are open-ended. Every class uses the real tactical rules, with a fresh squad and no rival clock. School saves a separate local checkpoint, including the current guided step. Return from the opening screen to resume; completed classes unlock direct replay. The campaign save stays untouched.
 
 The optional **How to play** guide has four short action cards and expandable rules. Headquarters offers small practice boards that use the real rules without changing campaign progress.
+
+Tools II grants its second damage point only at adjacent range; Quill retains her stronger ranged challenge. Wren shields allies and stops certifier filings within two tiles. The previews name the recipients. Older in-progress battles retain their earlier effects.
 
 ## Campaigns
 
@@ -45,11 +48,11 @@ The optional **How to play** guide has four short action cards and expandable ru
 2. **The Department of Comprehension** — workers and an inconvenient model investigate implants that suppress explanations.
 3. **The Last Audit** — the squad challenges a subscription to reality and a circular public audit.
 
-Each campaign has six operations and three possible endings. Credits, understanding, upgrades and recorded outcomes carry forward. Choices change the next operation’s enforcement and get persistent case-file entries. Checked endings require three specific evidence links as well as enough review and understanding; old saves do not invent missing history.
+Each campaign has six operations and three possible endings. Credits, understanding, upgrades and recorded outcomes carry forward. Choices change the next operation’s enforcement and get persistent case-file entries. Repeated automated claims also change the witnesses’ terms of cooperation. A later repair gets a personal acknowledgment without erasing the original publication. At headquarters, the Case file allows repairs to optional records as well as required links. Checked endings require three specific evidence links as well as enough review and understanding; old saves do not invent missing history.
 
 ## Saves
 
-Progress saves automatically in the current browser under `lemma-debt-save-v1`. Saves are separate for each device, browser and website origin. **Save / restore** exports a portable text backup: use it when moving between a private development site, GitHub Pages or a custom domain. Clearing browser data removes the local save. A new campaign replaces it after confirmation.
+Progress saves automatically in the current browser under `lemma-debt-save-v1`. Saves are separate for each device, browser and website origin. **Save / restore** can copy or download a portable backup and import a saved file or pasted text. It shows the imported campaign before replacing the current one: use it when moving between a private development site, GitHub Pages or a custom domain. Clearing browser data removes the local save. A new campaign replaces it after confirmation. Existing in-progress battles retain their previous combat rules; newly deployed operations use revision 05. Night School checkpoints use a separate storage key and are not included in campaign exports.
 
 ## Source and checks
 
@@ -74,13 +77,13 @@ In a Git checkout, `npm run check:public` checks tracked filenames against the r
 
 The title-screen logo and scene can be regenerated with `node scripts/title-art.mjs`; all letterforms and illustration shapes are authored in that script.
 
-The build copies an explicit list of game assets into `dist/`. It does not bundle tests, development records or hosting credentials.
+The build copies an explicit list of game assets into `dist/` and combines the ordered runtime scripts into one versioned `bundle.js`, so the interface loads with all its helpers. It does not bundle tests, development records or hosting credentials.
 
 ## Hosting
 
 The included GitHub Actions workflow checks every change and deploys the static game from `main` when GitHub Pages is configured to use **GitHub Actions**. Forks must enable Pages themselves. Pull requests run checks without deploying. The build also works on any static host; upload the contents of `dist/`.
 
-Gameplay runs entirely in each player's browser. The complete game payload is about 286 KB before compression, so 500 fresh loads transfer roughly 143 MB of file content. This supports using static hosting for hundreds of independent players; it is not a load-tested concurrency guarantee. GitHub Pages documents a [100 GB monthly soft bandwidth limit](https://docs.github.com/en/pages/getting-started-with-github-pages/github-pages-limits).
+Gameplay runs entirely in each player's browser. Players do not share a game server or campaign state. The build prints the uncompressed asset size; hosting bandwidth depends on that size, caching and traffic. This architecture supports static hosting for hundreds of independent players, but is not a load-tested concurrency guarantee. Consult the host's current limits before promoting a large event.
 
 ## License
 

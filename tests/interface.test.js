@@ -8,6 +8,7 @@ global.document={getElementById:el,querySelectorAll(){return []}};
 global.window=global;global.devicePixelRatio=1;global.addEventListener=()=>{};
 global.localStorage={getItem(k){return storage[k]||null},setItem(k,v){storage[k]=v}};
 global.confirm=()=>true;
+function restoreReviewed(){el('restore').onclick();if(!el('restore-review').hidden)el('restore-confirm').onclick();}
 require('../engine.js');require('../narrative.js');require('../scenes.js');require('../practice.js');require('../figures.js');require('../tutorial.js');require('../drill.js');require('../school.js');require('../hints.js');require('../game.js');
 assert.match(el('screen').innerHTML,/LEMMA/);
 el('new').onclick();assert.match(el('screen').innerHTML,/Repossession of a Proof/);
@@ -18,32 +19,32 @@ assert.match(el('order-preview').innerHTML,/Move/);assert.equal(el('confirm-orde
 el('help').onclick();assert.equal(el('modal').hidden,false);assert.match(el('modal-body').innerHTML,/Field|command/);
 console.log('Mock interface: title, new campaign, deployment, map order, save and help passed.');
 // Backup and restore operate on complete saved state; invalid input cannot replace it.
-el('backup').onclick();const exported=el('save-export').value;assert.equal(JSON.parse(exported).battle.turn,0);el('save-import').value='{bad json';el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.turn,0);el('save-import').value=exported;el('restore').onclick();assert.equal(el('game').hidden,false);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.turn,0);
+el('backup').onclick();const exported=el('save-export').value;assert.equal(JSON.parse(exported).battle.turn,0);el('save-import').value='{bad json';restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.turn,0);el('save-import').value=exported;restoreReviewed();assert.equal(el('game').hidden,false);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.turn,0);
 // A browser refusing storage is surfaced and the current in-memory save remains exportable.
 global.localStorage.setItem=()=>{throw Error('quota')};el('wait').onclick();assert.equal(el('storage-warning').hidden,false);assert.match(el('storage-warning').textContent,/failed/);el('backup').onclick();assert.equal(JSON.parse(el('save-export').value).battle.turn,1);
 console.log('Mock interface: backup, invalid and valid restore, and storage-failure warning passed.');
 // A version-1 save completed before the expansion remains valid and can continue.
 global.localStorage.setItem=(k,v)=>{storage[k]=v};
 let old=global.Lemma.fresh();old.mission=6;old.phase='ending';old.ending='commons';old.verified=4;old.automated=2;old.credits=123;old.upgrades.tools=1;delete old.baselineVerified;delete old.baselineAutomated;delete old.history;
-el('backup').onclick();el('save-import').value=JSON.stringify(old);el('restore').onclick();assert.ok(el('screen').innerHTML.includes(global.LemmaNarrative.endings.commons.title));assert.match(el('screen').innerHTML,/The Department of Comprehension/);el('next-campaign').onclick();let continued=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(continued.mission,6);assert.equal(continued.phase,'hub');assert.equal(continued.credits,123);assert.equal(continued.upgrades.tools,1);assert.deepEqual(continued.history,[{campaign:0,outcome:'commons'}]);assert.equal(continued.baselineVerified,4);assert.match(el('screen').innerHTML,/Minutes of the Disaster/);
+el('backup').onclick();el('save-import').value=JSON.stringify(old);restoreReviewed();assert.ok(el('screen').innerHTML.includes(global.LemmaNarrative.endings.commons.title));assert.match(el('screen').innerHTML,/The Department of Comprehension/);el('next-campaign').onclick();let continued=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(continued.mission,6);assert.equal(continued.phase,'hub');assert.equal(continued.credits,123);assert.equal(continued.upgrades.tools,1);assert.deepEqual(continued.history,[{campaign:0,outcome:'commons'}]);assert.equal(continued.baselineVerified,4);assert.match(el('screen').innerHTML,/Minutes of the Disaster/);
 // A second-campaign ending survives restore and leads to the final campaign.
-continued.mission=12;continued.phase='ending';continued.ending='contested';continued.verified=7;continued.automated=5;continued.battle=null;el('backup').onclick();el('save-import').value=JSON.stringify(continued);el('restore').onclick();assert.ok(el('screen').innerHTML.includes(global.Lemma.CAMPAIGNS[1].endings.contested.title));el('next-campaign').onclick();continued=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(continued.mission,12);assert.equal(continued.history.length,2);assert.match(el('screen').innerHTML,/Subscription to Reality/);
+continued.mission=12;continued.phase='ending';continued.ending='contested';continued.verified=7;continued.automated=5;continued.battle=null;el('backup').onclick();el('save-import').value=JSON.stringify(continued);restoreReviewed();assert.ok(el('screen').innerHTML.includes(global.Lemma.CAMPAIGNS[1].endings.contested.title));el('next-campaign').onclick();continued=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(continued.mission,12);assert.equal(continued.history.length,2);assert.match(el('screen').innerHTML,/Subscription to Reality/);
 // A save in a later tactical mission restores its current positions and turn.
-continued.mission=14;continued.verified=8;continued.automated=6;global.Lemma.start(continued);global.Lemma.wait(continued);el('backup').onclick();el('save-import').value=JSON.stringify(continued);el('restore').onclick();let later=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(later.phase,'battle');assert.equal(later.mission,14);assert.equal(later.battle.turn,1);assert.match(el('mission-title').textContent,/Cooling Argument/);
+continued.mission=14;continued.verified=8;continued.automated=6;global.Lemma.start(continued);global.Lemma.wait(continued);el('backup').onclick();el('save-import').value=JSON.stringify(continued);restoreReviewed();let later=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(later.phase,'battle');assert.equal(later.mission,14);assert.equal(later.battle.turn,1);assert.match(el('mission-title').textContent,/Cooling Argument/);
 console.log('Mock interface: legacy completed save, both campaign transitions and later battle restore passed.');
 // First-use combat is visible before opening the manual and confirms exact damage.
-let combat=global.Lemma.fresh();global.Lemma.start(combat);combat.battle.enemies[0].type='patrol';combat.battle.enemies[0].x=3;combat.battle.enemies[0].y=6;el('backup').onclick();el('save-import').value=JSON.stringify(combat);el('restore').onclick();assert.match(el('agents').innerHTML,/READY · 1 action/);assert.match(el('enemies').innerHTML,/ATTACK AVAILABLE · 2 damage/);el('board').onpointerup({clientX:333,clientY:303.5});assert.match(el('order-preview').innerHTML,/4 → 2 HP/);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let hit=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(hit.battle.enemies[0].hp,2);assert.equal(hit.battle.agents[0].ap,0);assert.match(el('agents').innerHTML,/ACTED · 0 actions/);assert.match(el('log').innerHTML,/2 damage/);el('backup').onclick();el('save-import').value=JSON.stringify(hit);el('restore').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[0].ap,0);
+let combat=global.Lemma.fresh();global.Lemma.start(combat);combat.battle.enemies[0].type='patrol';combat.battle.enemies[0].x=3;combat.battle.enemies[0].y=6;el('backup').onclick();el('save-import').value=JSON.stringify(combat);restoreReviewed();assert.match(el('agents').innerHTML,/READY · 1 action/);assert.match(el('enemies').innerHTML,/ATTACK AVAILABLE · 2 damage/);el('board').onpointerup({clientX:333,clientY:303.5});assert.match(el('order-preview').innerHTML,/4 → 2 HP/);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let hit=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(hit.battle.enemies[0].hp,2);assert.equal(hit.battle.agents[0].ap,0);assert.match(el('agents').innerHTML,/ACTED · 0 actions/);assert.match(el('log').innerHTML,/2 damage/);el('backup').onclick();el('save-import').value=JSON.stringify(hit);restoreReviewed();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[0].ap,0);
 console.log('Discoverability: visible ready states, target availability, damage preview, confirm, damage feedback and spent-action restore passed.');
 
 // Force decode bypasses a live network: the objective must immediately become extraction.
-let forced=global.Lemma.fresh();forced.mission=2;forced.verified=2;global.Lemma.start(forced);forced.battle.agents[0].x=forced.battle.target.x-1;forced.battle.agents[0].y=forced.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(forced);el('restore').onclick();assert.equal(el('force').disabled,false);el('force').onclick();assert.match(el('objective').textContent,/EVIDENCE SECURED/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).understanding,60);
+let forced=global.Lemma.fresh();forced.mission=2;forced.verified=2;global.Lemma.start(forced);forced.battle.agents[0].x=forced.battle.target.x-1;forced.battle.agents[0].y=forced.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(forced);restoreReviewed();assert.equal(el('force').disabled,false);el('force').onclick();assert.match(el('objective').textContent,/EVIDENCE SECURED/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).understanding,60);
 console.log('Practice completion leaves campaign save unchanged; bypassed-network objective points to extraction.');
 
 // Every mission's actual choice receives its own memo and persists only that choice.
 const escapeHtml=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 for(let mission=0;mission<18;mission++)for(const method of ['verify','automate'])for(const captured of [false,true]){
   let candidate=global.Lemma.fresh();candidate.mission=mission;candidate.verified=Math.floor(mission/2);candidate.automated=mission-candidate.verified;candidate.understanding=method==='verify'?95:10;global.Lemma.start(candidate);candidate.battle.secured=true;candidate.battle.captured=captured;candidate.captured=captured?1:0;candidate.phase='decision';
-  el('backup').onclick();el('save-import').value=JSON.stringify(candidate);el('restore').onclick();assert.equal(el('screen').hidden,false);
+  el('backup').onclick();el('save-import').value=JSON.stringify(candidate);restoreReviewed();assert.equal(el('screen').hidden,false);
   if(mission===17)assert.ok(!el('screen').innerHTML.includes('next rival a 15-point'));
   const m=global.Lemma.MISSIONS[mission];assert.ok(el('screen').innerHTML.includes(m.after));el(method).onclick();
   let result=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(result.mission,mission+1);assert.deepEqual(result.journal,[{mission,method,captured}]);
@@ -52,23 +53,23 @@ for(let mission=0;mission<18;mission++)for(const method of ['verify','automate']
   assert.ok(el('modal-body').innerHTML.includes((method==='verify'?20:45)-(captured?10:0)+' CREDITS'));
   if(mission===17)assert.ok(!el('modal-body').innerHTML.includes('NEXT RIVAL HEAD START'));
   el('memo-continue').onclick();assert.equal(el('modal').hidden,true);
-  el('backup').onclick();el('save-import').value=JSON.stringify(result);el('restore').onclick();el('case-file').onclick();
+  el('backup').onclick();el('save-import').value=JSON.stringify(result);restoreReviewed();el('case-file').onclick();
   assert.ok(el('modal-body').innerHTML.includes(escapeHtml(m.resolution[method].body)));
   const other=method==='verify'?'automate':'verify';assert.ok(!el('modal-body').innerHTML.includes(escapeHtml(m.resolution[other].body)));
 }
 // Older saves keep unknown choices unknown, and malformed journals cannot replace a save.
-el('backup').onclick();el('save-import').value=JSON.stringify(old);el('restore').onclick();el('case-file').onclick();assert.match(el('modal-body').innerHTML,/did not record/);assert.ok(!el('modal-body').innerHTML.includes('HUMAN REVIEW'));
-let invalid={...old,journal:[{mission:7,method:'verify',captured:false}]};el('backup').onclick();el('save-import').value=JSON.stringify(invalid);el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+el('backup').onclick();el('save-import').value=JSON.stringify(old);restoreReviewed();el('case-file').onclick();assert.match(el('modal-body').innerHTML,/did not record/);assert.ok(!el('modal-body').innerHTML.includes('HUMAN REVIEW'));
+let invalid={...old,journal:[{mission:7,method:'verify',captured:false}]};el('backup').onclick();el('save-import').value=JSON.stringify(invalid);restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);
 console.log('Story UI: all 72 mission/choice/capture cases, clamped resource deltas, saved case files, legacy unknowns and invalid-journal rejection passed.');
 
 // A hollow outcome can follow automation even when understanding remains intact.
 for(let campaign=0;campaign<3;campaign++){
   let high=global.Lemma.fresh();high.mission=campaign*6+5;high.verified=campaign*3+1;high.automated=campaign*3+4;high.baselineVerified=campaign*3;high.baselineAutomated=campaign*3;high.understanding=100;global.Lemma.start(high);high.phase='decision';high.battle.secured=true;
-  el('backup').onclick();el('save-import').value=JSON.stringify(high);el('restore').onclick();el('verify').onclick();let result=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(result.ending,'hollow');assert.equal(result.understanding,100);const endings=campaign===0?global.LemmaNarrative.endings:global.Lemma.CAMPAIGNS[campaign].endings;assert.ok(el('screen').innerHTML.includes(endings.hollow.body));
+  el('backup').onclick();el('save-import').value=JSON.stringify(high);restoreReviewed();el('verify').onclick();let result=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(result.ending,'hollow');assert.equal(result.understanding,100);const endings=campaign===0?global.LemmaNarrative.endings:global.Lemma.CAMPAIGNS[campaign].endings;assert.ok(el('screen').innerHTML.includes(endings.hollow.body));
 }
 // Contradictory known choices cannot be imported as a valid story history.
 for(const journal of [[0,1,2].map(mission=>({mission,method:'automate',captured:false})),[{mission:0,method:'verify',captured:true}]]){
-  el('backup').onclick();el('save-import').value=JSON.stringify({...old,journal,captured:0});el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+  el('backup').onclick();el('save-import').value=JSON.stringify({...old,journal,captured:0});restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);
 }
 // Fresh-page Case file reads the saved journal without requiring Continue first.
 let boot=global.Lemma.fresh();boot.mission=1;boot.automated=1;boot.journal=[{mission:0,method:'automate',captured:false}];storage['lemma-debt-save-v1']=JSON.stringify(boot);delete require.cache[require.resolve('../game.js')];require('../drill.js');require('../school.js');require('../hints.js');require('../game.js');el('case-file').onclick();assert.ok(el('modal-body').innerHTML.includes(escapeHtml(global.Lemma.MISSIONS[0].resolution.automate.body)));assert.equal(storage['lemma-debt-save-v1'],JSON.stringify(boot));
@@ -77,17 +78,17 @@ console.log('All three high-understanding hollow outcomes, journal consistency a
 // Later endings acknowledge exactly the recorded earlier outcomes, including missing old history.
 for(const first of ['commons','contested','hollow'])for(const second of ['commons','contested','hollow'])for(const final of ['commons','contested','hollow']){
   let finished=global.Lemma.fresh();finished.mission=18;finished.verified=9;finished.automated=9;finished.phase='ending';finished.ending=final;finished.history=[{campaign:0,outcome:first},{campaign:1,outcome:second}];
-  el('backup').onclick();el('save-import').value=JSON.stringify(finished);el('restore').onclick();assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.ownership[first])));assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.implants[second])));assert.ok(el('screen').innerHTML.includes(global.Lemma.CAMPAIGNS[2].endings[final].body));
+  el('backup').onclick();el('save-import').value=JSON.stringify(finished);restoreReviewed();assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.ownership[first])));assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.implants[second])));assert.ok(el('screen').innerHTML.includes(global.Lemma.CAMPAIGNS[2].endings[final].body));
 }
-let uncertain=global.Lemma.fresh();uncertain.mission=12;uncertain.verified=6;uncertain.automated=6;uncertain.phase='ending';uncertain.ending='contested';delete uncertain.history;el('backup').onclick();el('save-import').value=JSON.stringify(uncertain);el('restore').onclick();assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.ownership.unknown)));assert.ok(!el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.implants.unknown)));
+let uncertain=global.Lemma.fresh();uncertain.mission=12;uncertain.verified=6;uncertain.automated=6;uncertain.phase='ending';uncertain.ending='contested';delete uncertain.history;el('backup').onclick();el('save-import').value=JSON.stringify(uncertain);restoreReviewed();assert.ok(el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.ownership.unknown)));assert.ok(!el('screen').innerHTML.includes(escapeHtml(global.LemmaNarrative.legacy.implants.unknown)));
 console.log('Ending UI: all 27 recorded outcome histories and neutral missing-history fallback passed.');
 
 // Objective finding changes only the view, and recovery redirects it to extraction.
 const drawnLabels=[];let badgeBounds;ctx.fillText=text=>drawnLabels.push(String(text));ctx.strokeRect=(x,y,width,height)=>{badgeBounds={x,y,width,height}};let scrollLeft=null;el('map-wrap').clientWidth=360;el('map-wrap').scrollIntoView=()=>{};el('map-wrap').scrollTo=opts=>{scrollLeft=opts.left};
-let objective=global.Lemma.fresh();global.Lemma.start(objective);el('backup').onclick();el('save-import').value=JSON.stringify(objective);el('restore').onclick();
+let objective=global.Lemma.fresh();global.Lemma.start(objective);el('backup').onclick();el('save-import').value=JSON.stringify(objective);restoreReviewed();
 assert.match(el('objective-title').textContent,/RECOVER/);assert.equal(el('objective-step').textContent,'01 / 02');assert.equal(drawnLabels.at(-1),'◆ EVIDENCE');
 const unchanged=storage['lemma-debt-save-v1'];el('board').onpointerup({clientX:badgeBounds.x+badgeBounds.width/2,clientY:badgeBounds.y+badgeBounds.height/2});assert.match(el('order-preview').innerHTML,/Secure evidence/);assert.equal(storage['lemma-debt-save-v1'],unchanged);el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Secure evidence/);assert.equal(storage['lemma-debt-save-v1'],unchanged);assert.ok(Number.isFinite(scrollLeft)&&scrollLeft>0);
-objective.battle.agents[0].x=objective.battle.target.x-1;objective.battle.agents[0].y=objective.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(objective);el('restore').onclick();el('force').onclick();assert.equal(el('objective-title').textContent,'TRANSMIT THE EVIDENCE');assert.equal(el('objective-step').textContent,'02 / 02');assert.equal(drawnLabels.at(-1),'↑ UPLOAD');assert.equal(el('locate-objective').textContent,'Locate uplink ↗');const extractedView=storage['lemma-debt-save-v1'];el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Transmit evidence/);assert.equal(storage['lemma-debt-save-v1'],extractedView);
+objective.battle.agents[0].x=objective.battle.target.x-1;objective.battle.agents[0].y=objective.battle.target.y;el('backup').onclick();el('save-import').value=JSON.stringify(objective);restoreReviewed();el('force').onclick();assert.equal(el('objective-title').textContent,'TRANSMIT THE EVIDENCE');assert.equal(el('objective-step').textContent,'02 / 02');assert.equal(drawnLabels.at(-1),'↑ UPLOAD');assert.equal(el('locate-objective').textContent,'Locate uplink ↗');const extractedView=storage['lemma-debt-save-v1'];el('locate-objective').onclick();assert.match(el('order-preview').innerHTML,/Transmit evidence/);assert.equal(storage['lemma-debt-save-v1'],extractedView);
 console.log('Objective UI: evidence/extraction beacons, exact stage labels and free locate actions passed.');
 
 // Larger figure hit areas must select the person shown, including at narrow-board scale.
@@ -95,7 +96,7 @@ const actualFigureDraw=global.LemmaFigures.draw,figureBoxes=[],fills=[];
 global.LemmaFigures.draw=(context,unit,x,y,width)=>{const box=actualFigureDraw(context,unit,x,y,width);figureBoxes.push({unit,box});return box};
 ctx.fill=()=>fills.push(ctx.fillStyle);
 el('board').getBoundingClientRect=()=>({width:580,height:360,left:0,top:0});
-let visual=global.Lemma.fresh();global.Lemma.start(visual);el('backup').onclick();el('save-import').value=JSON.stringify(visual);el('restore').onclick();
+let visual=global.Lemma.fresh();global.Lemma.start(visual);el('backup').onclick();el('save-import').value=JSON.stringify(visual);restoreReviewed();
 const wren=figureBoxes.find(f=>f.unit.kind==='agent'&&f.unit.idx===1).box;
 const headTap={clientX:wren.x+wren.width/2,clientY:wren.y+8};el('board').onpointerdown(headTap);el('board').onpointerup(headTap);
 assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.selected,1);
@@ -124,7 +125,7 @@ for(const view of ['iso','flat']){
  let checked=0;
  for(let y=0;y<9;y++)for(let x=0;x<9;x++){
   const o=global.Lemma.order(start,x,y);if(!o.ok||o.kind!=='move')continue;
-  el('backup').onclick();el('save-import').value=JSON.stringify(start);el('restore').onclick();
+  el('backup').onclick();el('save-import').value=JSON.stringify(start);restoreReviewed();
   const cell=354/9,tw=Math.min(550/9,260/9*2,78),th=tw/2,oy=Math.max(70,(360-9*th)/2-16);
   const point=view==='flat'?{clientX:18+(x+.5)*cell,clientY:14+(y+.5)*cell}:{clientX:290+(x-y)*tw/2,clientY:oy+(x+y)*th/2+th/2};
   el('board').onpointerdown(point);el('board').onpointerup(point);assert.equal(el('confirm-order').disabled,false,view+' '+x+','+y);
@@ -134,18 +135,18 @@ for(const view of ['iso','flat']){
 }
 // Optional new save fields are validated rather than trusted as executable game state.
 for(const fields of [{caseRecords:'not an array'},{caseRecords:[{mission:999,method:'verify',forced:false,repaired:false}]},{endingGaps:['bad']},{explainedMission:999}]){
- el('backup').onclick();el('save-import').value=JSON.stringify({...global.Lemma.fresh(),...fields});el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+ el('backup').onclick();el('save-import').value=JSON.stringify({...global.Lemma.fresh(),...fields});restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);
 }
 console.log('All legal move centers in both projections, original sprite-overlap regression, 81 keyboard-accessible grid cells and new save validation passed.');
 
 // Repair can raise the rival head start to 25; that campaign must remain importable.
 let repaired=global.Lemma.fresh();repaired.phase='decision';repaired.battle={captured:false,forced:true};global.Lemma.resolve(repaired,'verify');assert.ok(global.Lemma.repair(repaired,0));assert.equal(repaired.headstart,25);
-el('backup').onclick();el('save-import').value=JSON.stringify(repaired);el('restore').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).headstart,25);assert.match(el('screen').innerHTML,/CHECKED/);
+el('backup').onclick();el('save-import').value=JSON.stringify(repaired);restoreReviewed();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).headstart,25);assert.match(el('screen').innerHTML,/CHECKED/);
 console.log('Repaired evidence with maximum rival head start survives save import.');
 // Actual version-1 battle snapshots generated by the published b1308d0 engine.
 for(const mission of [3,6]){
  const legacy=require('./fixtures/legacy-op'+mission+'.json'),original=JSON.parse(JSON.stringify(legacy));
- el('backup').onclick();el('save-import').value=JSON.stringify(legacy);el('restore').onclick();
+ el('backup').onclick();el('save-import').value=JSON.stringify(legacy);restoreReviewed();
  el('backup').onclick();const roundtrip=JSON.parse(el('save-export').value);
  assert.equal(roundtrip.battle.rules,undefined);assert.deepEqual(roundtrip.battle.agents,original.battle.agents);assert.deepEqual(roundtrip.battle.exit,original.battle.exit);assert.deepEqual(roundtrip.battle.walls,original.battle.walls);assert.deepEqual(roundtrip.battle.network,original.battle.network);assert.equal(roundtrip.battle.agents[0].ap,0);
  assert.doesNotThrow(()=>global.Lemma.wait(roundtrip));assert.equal(roundtrip.battle.turn,1);
@@ -153,10 +154,10 @@ for(const mission of [3,6]){
 console.log('Published-engine battle fixtures retain layout, exit, actions, circuit and playable enemy response.');
 // Tutorial suggestions preview an order without spending AP; progress and off/on
 // preference survive the same backup/restore path as campaign progress.
-let learner=global.Lemma.fresh();global.Lemma.start(learner);el('backup').onclick();el('save-import').value=JSON.stringify(learner);el('restore').onclick();
+let learner=global.Lemma.fresh();global.Lemma.start(learner);el('backup').onclick();el('save-import').value=JSON.stringify(learner);restoreReviewed();
 assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Make your first move/);const learnerBefore=JSON.parse(storage['lemma-debt-save-v1']);el('tutorial-hint').onclick();assert.match(el('tutorial').innerHTML,/Check it/);assert.deepEqual(JSON.parse(storage['lemma-debt-save-v1']),learnerBefore);assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();let learned=JSON.parse(storage['lemma-debt-save-v1']);assert.ok(learned.battle.guide.done.includes('move'));assert.equal(learned.battle.agents.filter(a=>a.ap===0).length,1);
-el('toggle-guide').onclick();learned=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(learned.battle.guide.off,true);el('backup').onclick();el('save-import').value=JSON.stringify(learned);el('restore').onclick();assert.equal(el('tutorial').hidden,true);el('toggle-guide').onclick();assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Choose a READY/);
-const malformed=JSON.parse(JSON.stringify(learned));malformed.battle.guide.done=['invented'];el('backup').onclick();el('save-import').value=JSON.stringify(malformed);el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);
+el('toggle-guide').onclick();learned=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(learned.battle.guide.off,true);el('backup').onclick();el('save-import').value=JSON.stringify(learned);restoreReviewed();assert.equal(el('tutorial').hidden,true);el('toggle-guide').onclick();assert.equal(el('tutorial').hidden,false);assert.match(el('tutorial').innerHTML,/Choose a READY/);
+const malformed=JSON.parse(JSON.stringify(learned));malformed.battle.guide.done=['invented'];el('backup').onclick();el('save-import').value=JSON.stringify(malformed);restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);
 console.log('Tutorial UI: free preview, confirmed action, learned lesson, skip/resume, saved preference and malformed-state rejection passed.');
 
 // Opening-menu school is isolated even while an unfinished campaign is loaded.
@@ -171,7 +172,7 @@ el('retreat').onclick();assert.match(el('screen').innerHTML,/Attendance Is a Lia
 el('school-exit').onclick();assert.match(el('screen').innerHTML,/Continue campaign/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
 el('continue').onclick();assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
 // A practice snapshot must never be imported over the real campaign.
-el('backup').onclick();el('save-import').value=JSON.stringify(global.LemmaSchool.create(global.Lemma));el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
+el('backup').onclick();el('save-import').value=JSON.stringify(global.LemmaSchool.create(global.Lemma));restoreReviewed();assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],campaignSnapshot);
 console.log('School UI: opening entry, free touch tips, mute/reopen, real enemy response, restart, campaign-only backup, exit/resume and practice-import rejection preserve the campaign byte for byte.');
 
 // Hostile rows always preview an attack, except Ada's explicit interrupt mode.
@@ -181,7 +182,7 @@ document.querySelectorAll=selector=>selector==='[data-enemy]'?[row]:originalQuer
 for(const selected of [0,1,2]){
  const fixture=global.Lemma.fresh();global.Lemma.start(fixture);const b=fixture.battle;
  b.selected=selected;b.guide={done:[],off:false};b.enemies=[{id:0,x:2,y:5,type:'patrol',hp:4,max:4,alive:true}];global.Lemma.planEnemies(fixture);
- el('backup').onclick();el('save-import').value=JSON.stringify(fixture);el('restore').onclick();el('ability').onclick();
+ el('backup').onclick();el('save-import').value=JSON.stringify(fixture);restoreReviewed();el('ability').onclick();
  assert.match(el('enemies').innerHTML,selected===0?/INTERRUPT AVAILABLE/:/ATTACK AVAILABLE/);
  const before=storage['lemma-debt-save-v1'];row.onclick();assert.equal(storage['lemma-debt-save-v1'],before);
  assert.match(el('order-preview').innerHTML,selected===0?/Objection · cancel one enemy response/:/Attack/);
@@ -193,25 +194,138 @@ document.querySelectorAll=originalQuery;
 
 // Saves preserve an in-progress recharge; malformed or future counters cannot replace them.
 const recharging=global.Lemma.fresh();global.Lemma.start(recharging);recharging.battle.turn=1;recharging.battle.relay.lastStayRound=0;
-el('backup').onclick();el('save-import').value=JSON.stringify(recharging);el('restore').onclick();
+el('backup').onclick();el('save-import').value=JSON.stringify(recharging);restoreReviewed();
 const rechargeSave=storage['lemma-debt-save-v1'];assert.equal(global.Lemma.relayReady(JSON.parse(rechargeSave).battle),false);
 for(const invalidRound of [-1,2,0.5,'0',null]){
  const invalidRecharge=JSON.parse(rechargeSave);invalidRecharge.battle.relay.lastStayRound=invalidRound;
- el('backup').onclick();el('save-import').value=JSON.stringify(invalidRecharge);el('restore').onclick();
+ el('backup').onclick();el('save-import').value=JSON.stringify(invalidRecharge);restoreReviewed();
  assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],rechargeSave);
 }
-delete recharging.battle.relay.lastStayRound;el('backup').onclick();el('save-import').value=JSON.stringify(recharging);el('restore').onclick();assert.equal(global.Lemma.relayReady(JSON.parse(storage['lemma-debt-save-v1']).battle),true);
+delete recharging.battle.relay.lastStayRound;el('backup').onclick();el('save-import').value=JSON.stringify(recharging);restoreReviewed();assert.equal(global.Lemma.relayReady(JSON.parse(storage['lemma-debt-save-v1']).battle),true);
 console.log('Hostile rows preview and execute the advertised attack/interrupt; relay recharge survives restore, rejects invalid counters, and accepts older saves.');
 
 // The map and confirmation panel must agree with the coach at the final upload.
 const uploadRefresh=global.Lemma.fresh();global.Lemma.start(uploadRefresh);
 uploadRefresh.battle.secured=true;uploadRefresh.battle.enemies=[];uploadRefresh.battle.selected=2;
 Object.assign(uploadRefresh.battle.agents[2],{x:uploadRefresh.battle.exit.x-1,y:uploadRefresh.battle.exit.y,ap:0});
-el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);el('restore').onclick();
+el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);restoreReviewed();
 assert.match(el('tutorial').innerHTML,/Refresh actions to upload/);assert.match(el('order-preview').innerHTML,/End round to refresh the uploader/);assert.match(el('board-hint').textContent,/End round.*refresh.*upload/);
 el('wait').onclick();assert.doesNotMatch(el('order-preview').innerHTML,/has acted/);
 assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.agents[2].ap,1);
 uploadRefresh.battle.enemies=[{id:0,x:8,y:8,type:'clerk',hp:4,max:4,alive:true}];
-el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);el('restore').onclick();
+el('backup').onclick();el('save-import').value=JSON.stringify(uploadRefresh);restoreReviewed();
 assert.doesNotMatch(el('order-preview').innerHTML,/No officers remain|refresh the uploader/);assert.match(el('order-preview').innerHTML,/This agent has acted/);
 console.log('Upload refresh guidance agrees across coach, map and order panel; live threats retain ordinary spent-agent guidance.');
+
+// Revision 05: an import is reviewable and cannot replace progress until explicitly applied.
+const beforeReview=storage['lemma-debt-save-v1'],reviewCandidate=global.Lemma.fresh();reviewCandidate.credits=321;
+el('backup').onclick();el('save-import').value=JSON.stringify(reviewCandidate);
+const nativeConfirm=global.confirm;global.confirm=()=>{throw Error('Restore must not open native confirmation')};
+el('restore').onclick();assert.equal(el('restore-review').hidden,false);assert.match(el('restore-summary').textContent,/321 credits/);assert.equal(storage['lemma-debt-save-v1'],beforeReview);
+el('restore-cancel').onclick();el('restore-confirm').onclick();assert.equal(storage['lemma-debt-save-v1'],beforeReview);
+el('restore').onclick();el('save-import').oninput();el('restore-confirm').onclick();assert.equal(storage['lemma-debt-save-v1'],beforeReview);
+el('restore').onclick();el('restore-confirm').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).credits,321);global.confirm=nativeConfirm;
+assert.ok(el('screen').innerHTML.indexOf('id="deploy"')<el('screen').innerHTML.indexOf('Read the full briefing'));
+assert.ok(el('screen').innerHTML.includes('<details class="brief-details">'));
+console.log('Save review is non-mutating, cancel and editing invalidate approval, and only explicit inline confirmation replaces the campaign.');
+
+// Named protection, ranged/adjacent upgrade values and last-action timing share the actual engine preview.
+const shieldFixture=global.Lemma.fresh();shieldFixture.upgrades.tools=2;global.Lemma.start(shieldFixture);
+Object.assign(shieldFixture.battle.agents[0],{x:2,y:4,ap:0});Object.assign(shieldFixture.battle.agents[1],{x:2,y:5,ap:1});Object.assign(shieldFixture.battle.agents[2],{x:6,y:6,ap:0});shieldFixture.battle.selected=1;
+shieldFixture.battle.enemies=[{id:0,x:3,y:5,type:'clerk',hp:4,max:4,alive:true},{id:1,x:8,y:8,type:'clerk',hp:4,max:4,alive:true}];global.Lemma.planEnemies(shieldFixture);
+el('backup').onclick();el('save-import').value=JSON.stringify(shieldFixture);restoreReviewed();el('ability').onclick();
+assert.match(el('order-preview').innerHTML,/Dr. Ada Null, Prof. Emil Wren/);assert.doesNotMatch(el('order-preview').innerHTML,/Inez Quill/);assert.match(el('order-preview').innerHTML,/Filing stopped: Certifier 1/);assert.doesNotMatch(el('order-preview').innerHTML,/Certifier 2/);
+assert.match(el('action-response').textContent,/LAST ACTION.*immediately/);assert.match(el('agents').innerHTML,/3 ranged \/ 4 adjacent damage/);
+const beforeProtect=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(beforeProtect.battle.turn,0);el('confirm-order').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.turn,1);
+console.log('Protection names exactly the shielded agents and nearby certifier; last-action response and range-sensitive tools are visible.');
+
+// Reassign remains a preview until confirmation, then preserves the translated shot in portable saves.
+const pushFixture=global.Lemma.fresh();global.Lemma.start(pushFixture);pushFixture.battle.guide={done:[],off:true};pushFixture.battle.walls=[];pushFixture.battle.selected=0;
+Object.assign(pushFixture.battle.agents[0],{x:2,y:5,ap:1});Object.assign(pushFixture.battle.agents[1],{x:1,y:7,ap:1});Object.assign(pushFixture.battle.agents[2],{x:2,y:7,ap:1});
+pushFixture.battle.enemies=[{id:0,x:3,y:5,type:'sentinel',hp:4,max:4,alive:true,intent:{kind:'fire',x:8,y:5,damage:3}}];
+const pushRow=el('push-row');pushRow.dataset.enemy='0';document.querySelectorAll=selector=>selector==='[data-enemy]'?[pushRow]:[];
+el('backup').onclick();el('save-import').value=JSON.stringify(pushFixture);restoreReviewed();assert.equal(el('mode-reassign').hidden,false);el('mode-reassign').onclick();const beforePush=storage['lemma-debt-save-v1'];pushRow.onclick();assert.equal(storage['lemma-debt-save-v1'],beforePush);assert.match(el('order-preview').innerHTML,/Reassign/);el('confirm-order').onclick();
+const pushed=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(pushed.battle.enemies[0].x,4);assert.equal(pushed.battle.enemies[0].intent.x,9);assert.equal(pushed.battle.enemies[0].hp,3);
+el('backup').onclick();el('save-import').value=JSON.stringify(pushed);restoreReviewed();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).battle.enemies[0].intent.x,9);
+for(const mutation of [b=>{b.tactics=4},b=>{delete b.tactics},b=>{b.rules=1},b=>{b.enemies[0].intent.x=17}]){const invalid=JSON.parse(JSON.stringify(pushed));mutation(invalid.battle);el('backup').onclick();el('save-import').value=JSON.stringify(invalid);el('restore').onclick();assert.match(el('restore-message').textContent,/invalid/);assert.equal(storage['lemma-debt-save-v1'],JSON.stringify(pushed));}
+document.querySelectorAll=originalQuery;
+console.log('Reassign previews freely, commits the push and translated FIRE, and save validation accepts only bounded tactical-3 aim coordinates.');
+
+// Final decision forecasts are computed from the exact same resolve operation without mutating the save.
+const finalChoice=global.Lemma.fresh();for(let i=0;i<5;i++){finalChoice.phase='decision';finalChoice.battle={forced:false,captured:false};global.Lemma.resolve(finalChoice,'verify');}global.Lemma.start(finalChoice);finalChoice.phase='decision';finalChoice.battle.secured=true;finalChoice.understanding=30;
+el('backup').onclick();el('save-import').value=JSON.stringify(finalChoice);restoreReviewed();const beforeForecast=storage['lemma-debt-save-v1'];
+for(const method of ['verify','automate']){const forecast=global.Lemma.forecast(finalChoice,method);assert.ok(el('screen').innerHTML.includes(forecast.understanding+'% understanding'));assert.ok(el('screen').innerHTML.includes(forecast.credits+' credits'));}
+assert.match(el('screen').innerHTML,/Campaign outcome: <strong>CONTESTED/);assert.equal(storage['lemma-debt-save-v1'],beforeForecast);
+console.log('Final cards show exact projected resources and outcome while preserving the live campaign.');
+// The combined final hearing changes its guidance when the access circuit is solved.
+const hearingFixture=global.Lemma.fresh();hearingFixture.mission=17;hearingFixture.verified=17;global.Lemma.start(hearingFixture);
+assert.ok(hearingFixture.battle.network);assert.equal(hearingFixture.battle.puzzle.type,'hold');
+assert.notEqual(global.LemmaHints.objective(hearingFixture),'hearing');hearingFixture.battle.network.forEach(n=>n.on=false);assert.equal(global.LemmaHints.objective(hearingFixture),'hearing');assert.notEqual(global.LemmaHints.context(hearingFixture,{kind:'toggle'},'move'),'hearing');
+el('backup').onclick();el('save-import').value=JSON.stringify(hearingFixture);restoreReviewed();assert.match(el('objective').textContent,/DECODE 0\/2.*second witness/);
+console.log('Final hearing guidance progresses from circuit access to consecutive decode with a second witness.');
+
+
+// Non-critical past records can be repaired at headquarters, with their original choice preserved.
+const optionalRepair=global.Lemma.fresh();for(let i=0;i<2;i++){optionalRepair.phase='decision';optionalRepair.battle={forced:false,captured:false};global.Lemma.resolve(optionalRepair,i===1?'automate':'verify');optionalRepair.journal=[...(optionalRepair.journal||[]),{mission:i,method:i===1?'automate':'verify',captured:false}];}
+el('backup').onclick();el('save-import').value=JSON.stringify(optionalRepair);restoreReviewed();el('case-file').onclick();assert.match(el('modal-body').innerHTML,/id="case-repair-1"/);const repairCredits=optionalRepair.credits;el('case-repair-1').onclick();const optionalRepaired=JSON.parse(storage['lemma-debt-save-v1']);assert.equal(optionalRepaired.credits,repairCredits-30);assert.equal(optionalRepaired.caseRecords.find(r=>r.mission===1).repaired,true);assert.equal(optionalRepaired.journal.find(j=>j.mission===1).method,'automate');assert.match(el('modal-title').textContent,/repair entered/);
+console.log('Case file repairs optional records with the real cost and a response, without rewriting the publication history.');
+
+// Reload during a required confirm step retains its exact tile/mode and cannot overwrite campaign progress.
+const campaignBeforeCheckpoint=storage['lemma-debt-save-v1'];delete storage['lemma-debt-school-v1'];
+delete require.cache[require.resolve('../game.js')];require('../game.js');el('night-school').onclick();el('school-enter').onclick();
+const schoolAgent=el('school-agent');schoolAgent.dataset.agent='0';document.querySelectorAll=selector=>selector==='[data-agent]'?[schoolAgent]:[];
+// Re-render from a saved initial checkpoint to attach the mock squad row.
+el('school-exit').onclick();el('night-school').onclick();el('school-resume').onclick();schoolAgent.onclick();
+assert.equal(JSON.parse(storage['lemma-debt-school-v1']).checkpoint.school.drill.step,1);
+// Use a grid-coordinate button after making the flat map active, with the forced marked destination.
+const drillCell=el('school-tile');drillCell.dataset.cell=String(5*9+3);document.querySelectorAll=selector=>selector==='[data-cell]'?[drillCell]:selector==='[data-agent]'?[schoolAgent]:[];
+if(el('map-view').textContent.includes('isometric'))el('map-view').onclick();else el('ability-help').onclick();
+// A reload recreates the class controls from its persisted state.
+el('school-exit').onclick();el('night-school').onclick();el('school-resume').onclick();drillCell.onclick();
+let checkpoint=JSON.parse(storage['lemma-debt-school-v1']);assert.equal(checkpoint.checkpoint.school.drill.step,2);assert.deepEqual(checkpoint.view.planned,{x:3,y:5});assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);
+delete require.cache[require.resolve('../game.js')];require('../game.js');el('night-school').onclick();assert.match(el('screen').innerHTML,/Resume saved class/);el('school-resume').onclick();assert.equal(el('confirm-order').disabled,false);el('confirm-order').onclick();checkpoint=JSON.parse(storage['lemma-debt-school-v1']);assert.equal(checkpoint.checkpoint.school.drill.step,3);assert.equal(checkpoint.checkpoint.battle.agents[0].x,3);assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);
+// Finish a released fixture through the actual upload button; completion unlocks class two persistently.
+checkpoint.checkpoint.school.drill={step:19,skipped:false};checkpoint.checkpoint.battle.secured=true;checkpoint.checkpoint.battle.enemies=[];checkpoint.checkpoint.battle.selected=0;Object.assign(checkpoint.checkpoint.battle.agents[0],{x:4,y:4,ap:1});checkpoint.view={mode:'move',planned:{x:5,y:4}};storage['lemma-debt-school-v1']=JSON.stringify(checkpoint);
+delete require.cache[require.resolve('../game.js')];require('../game.js');el('night-school').onclick();el('school-resume').onclick();el('confirm-order').onclick();checkpoint=JSON.parse(storage['lemma-debt-school-v1']);assert.equal(checkpoint.unlocked,1);assert.deepEqual(checkpoint.completed,[0]);assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);el('school-next').onclick();assert.match(el('screen').innerHTML,/Group Work, Individual Liability/);el('school-class-0').onclick();assert.match(el('screen').innerHTML,/Attendance Is a Liability/);el('school-class-1').onclick();el('school-enter').onclick();assert.equal(el('mission-title').textContent,'Group Work, Individual Liability');assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);document.querySelectorAll=originalQuery;
+console.log('Night School reload retains the forced drill confirmation, completing upload unlocks the next class, and direct class selection preserves campaign bytes.');
+const futureSchoolView=JSON.parse(storage['lemma-debt-school-v1']);futureSchoolView.view={mode:'reassign',planned:null};storage['lemma-debt-school-v1']=JSON.stringify(futureSchoolView);
+delete require.cache[require.resolve('../game.js')];require('../game.js');el('night-school').onclick();assert.match(el('screen').innerHTML,/Resume saved class/);el('school-resume').onclick();assert.equal(el('mission-title').textContent,'Group Work, Individual Liability');assert.equal(el('mode-reassign').hidden,true);assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);
+
+
+// Reduced motion is honoured by automatic board orientation; text preferences are separate from saves.
+const motions=[];for(const id of ['map-wrap','board-orders','coach-tip'])el(id).scrollIntoView=opts=>motions.push(opts.behavior);global.matchMedia=q=>({matches:q.includes('prefers-reduced-motion')});
+el('school-exit').onclick();el('continue').onclick();el('tactical-text').onclick();assert.equal(JSON.parse(storage['lemma-debt-interface-v1']).largeText,true);assert.equal(storage['lemma-debt-save-v1'],campaignBeforeCheckpoint);el('deploy').onclick();el('scene-deploy').onclick();assert.equal(motions.at(-1),'auto');
+delete global.matchMedia;
+console.log('Deployment orientation respects reduced motion and tactical text size is saved outside campaign state.');
+
+// New mobile mechanics teach automatically in normal flow without issuing an order or moving the viewport.
+const beforeCoachScrolls=motions.length,placedTips=[];global.matchMedia=q=>({matches:q.includes('max-width:800px')});el('board-orders').before=child=>placedTips.push(child.id);
+const mobileLesson=global.Lemma.fresh();mobileLesson.mission=3;mobileLesson.verified=3;global.Lemma.start(mobileLesson);mobileLesson.coaching={seen:['recovery','clerk','relay','rival'],off:false};mobileLesson.battle.guide={done:[],off:true};
+el('backup').onclick();el('save-import').value=JSON.stringify(mobileLesson);restoreReviewed();const beforeInlineLesson=storage['lemma-debt-save-v1'];
+assert.equal(el('coach-tip').hidden,false);assert.equal(el('coach-tip').className,'inline-tip');assert.equal(placedTips.at(-1),'coach-tip');assert.match(el('coach-title').textContent,/assignment/);assert.equal(el('coach-tip').style.left,'');assert.equal(el('coach-tip').style.top,'');assert.equal(el('coach-tip').style.width,'');
+// Reopening an automatic unseen lesson through a free mode selection leaves all campaign/action state unchanged.
+const beforeMobileModeScrolls=motions.length;el('mode-reassign').onclick();assert.equal(el('coach-tip').hidden,false);assert.equal(el('coach-tip').className,'inline-tip');assert.equal(storage['lemma-debt-save-v1'],beforeInlineLesson);assert.equal(motions.length,beforeMobileModeScrolls);
+el('tip-close').onclick();let mobileSeen=JSON.parse(storage['lemma-debt-save-v1']);assert.ok(mobileSeen.coaching.seen.includes('reassign'));assert.deepEqual(mobileSeen.battle,mobileLesson.battle);el('mode-reassign').onclick();assert.equal(el('coach-tip').hidden,true);
+el('order-help').onclick();assert.equal(el('coach-tip').className,'inline-tip');el('tip-auto').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).coaching.off,true);el('mode-attack').onclick();assert.equal(el('coach-tip').hidden,true);assert.equal(motions.length,beforeMobileModeScrolls);
+delete global.matchMedia;delete el('board-orders').before;
+console.log('Mobile new-mechanic tips appear inline without actions or forced scroll, persist acknowledgment and respect Pause automatic tips.');
+
+(async()=>{
+ const clipboardWrites=[],downloads=[];Object.defineProperty(global,'navigator',{value:{clipboard:{writeText:async text=>clipboardWrites.push(text)}},configurable:true});
+ el('backup').onclick();const portable=el('save-export').value;await el('save-copy').onclick();assert.equal(clipboardWrites[0],portable);assert.match(el('restore-message').textContent,/copied/);
+ const create=document.createElement,makeURL=URL.createObjectURL,dropURL=URL.revokeObjectURL,delay=global.setTimeout;
+ document.createElement=()=>({click(){downloads.push({href:this.href,download:this.download})}});URL.createObjectURL=()=> 'blob:test';URL.revokeObjectURL=()=>{};global.setTimeout=fn=>fn();el('save-download').onclick();assert.deepEqual(downloads,[{href:'blob:test',download:'lemma-debt-campaign.json'}]);document.createElement=create;URL.createObjectURL=makeURL;URL.revokeObjectURL=dropURL;global.setTimeout=delay;
+ const fileCandidate=global.Lemma.fresh();fileCandidate.credits=444;const beforeFile=storage['lemma-debt-save-v1'];el('save-file').files=[{size:500,text:async()=>JSON.stringify(fileCandidate)}];await el('save-file').onchange();assert.equal(storage['lemma-debt-save-v1'],beforeFile);assert.match(el('restore-summary').textContent,/444 credits/);el('restore-confirm').onclick();assert.equal(JSON.parse(storage['lemma-debt-save-v1']).credits,444);
+ el('backup').onclick();el('save-file').files=[{size:3000000,text:async()=>JSON.stringify(fileCandidate)}];await el('save-file').onchange();assert.match(el('restore-message').textContent,/too large/);assert.equal(JSON.parse(storage['lemma-debt-save-v1']).credits,444);
+ console.log('Copy, downloadable JSON and file import preserve full saves; import requires review and rejects oversized input.');
+ const healthySave=storage['lemma-debt-save-v1'];for(const damaged of ['{damaged','{"mission":999}']){storage['lemma-debt-save-v1']=damaged;delete require.cache[require.resolve('../game.js')];require('../game.js');assert.doesNotThrow(()=>el('backup').onclick());assert.equal(el('save-export').value,damaged);assert.match(el('modal-body').innerHTML,/saved text/);assert.equal(storage['lemma-debt-save-v1'],damaged);}storage['lemma-debt-save-v1']=healthySave;
+ console.log('Damaged stored text remains exportable and does not crash the readable save summary.');
+ // Missing assets must never enter save validation or label an intact campaign as damaged.
+ const savedHints=global.LemmaHints,savedNarrative=global.LemmaNarrative,savedLocation=global.location,getStored=global.localStorage.getItem,setStored=global.localStorage.setItem;
+ let startupReads=0,startupWrites=0,reloads=0;global.localStorage.getItem=k=>{startupReads++;return getStored(k)};global.localStorage.setItem=(k,v)=>{startupWrites++;return setStored(k,v)};global.location={reload(){reloads++}};
+ for(const unavailable of ['hints','story']){if(unavailable==='hints')delete global.LemmaHints;else delete global.LemmaNarrative;const intact=storage['lemma-debt-save-v1'];delete require.cache[require.resolve('../game.js')];assert.doesNotThrow(()=>require('../game.js'));assert.match(el('screen').innerHTML,/game could not start/);assert.match(el('storage-warning').textContent,/required game files/);assert.doesNotMatch(el('storage-warning').textContent,/damaged/);assert.equal(el('backup').disabled,true);assert.equal(el('backup').onclick,null);assert.equal(storage['lemma-debt-save-v1'],intact);assert.equal(startupReads,0);assert.equal(startupWrites,0);el('retry-startup').onclick();global.LemmaHints=savedHints;global.LemmaNarrative=savedNarrative;}
+ assert.equal(reloads,2);global.localStorage.getItem=getStored;global.localStorage.setItem=setStored;global.location=savedLocation;delete require.cache[require.resolve('../game.js')];require('../game.js');assert.match(el('screen').innerHTML,/Continue campaign/);assert.equal(el('storage-warning').hidden,true);assert.equal(el('backup').disabled,false);assert.equal(storage['lemma-debt-save-v1'],healthySave);
+ console.log('Missing Hints or Story stops startup before any save read/write, offers safe reload, and resumes normally once assets are present.');
+
+
+})().catch(error=>{console.error(error);process.exitCode=1;});

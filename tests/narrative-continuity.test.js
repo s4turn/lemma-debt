@@ -6,6 +6,7 @@ const E=require('../engine');require('../narrative');
 const N=global.LemmaNarrative;
 N.missions.forEach((m,i)=>Object.assign(E.MISSIONS[i],m));
 assert.equal(typeof N.incident,'function');
+for(const name of ['relationship','repairBeat','endingRelationship'])assert.equal(typeof N[name],'function');
 const clone=value=>structuredClone(value);
 function freeze(value){if(value&&typeof value==='object'){Object.values(value).forEach(freeze);Object.freeze(value);}return value;}
 function readOnly(fn,state){const input=freeze(clone(state)),before=JSON.stringify(input),text=fn(input);assert.equal(typeof text,'string');assert.equal(JSON.stringify(input),before,'Story selection must not write a save');assert.equal(fn(JSON.parse(before)),text,'JSON restoration must preserve the story selection');return text;}
@@ -48,6 +49,80 @@ for(const mission of [1,5,6,11,12,17]){
   const board=clone(s);E.start(board);assert.equal(board.battle.consequence,'unknown');
 }
 
+// Social consequences follow original recorded publications, not current link
+// status, aggregate counters, the journal, or a guessed moral meaning of a ruling.
+function published(methods){
+ const s=E.fresh();
+ for(const method of methods){
+  if(s.phase==='ending')assert.ok(E.continueCampaign(s));
+  s.phase='decision';s.battle={captured:false,forced:false};
+  assert.ok(E.resolve(s,method));
+ }
+ return s;
+}
+const checkpoints=[4,7,10,13,16,17],restricted=new Set(),trusted=new Set();
+for(const mission of checkpoints){
+ const bad=published(Array(mission).fill('automate')),good=published(Array(mission).fill('verify'));
+ const badText=readOnly(N.relationship,bad),goodText=readOnly(N.relationship,good);
+ assert.ok(badText.length&&goodText.length,'Authored checkpoints have a scene for both complete histories');
+ assert.notEqual(badText,goodText,'Repeated falsification must alter cooperation');restricted.add(badText);trusted.add(goodText);
+ const repaired=clone(bad);repaired.caseRecords.forEach(r=>r.repaired=true);
+ assert.equal(readOnly(N.relationship,repaired),badText,'Correction cannot erase the original social betrayal');
+ const missing=clone(bad);delete missing.caseRecords;missing.journal=bad.caseRecords.map(r=>({mission:r.mission,method:r.method,captured:false}));
+ assert.equal(readOnly(N.relationship,missing),'','Counters and journals cannot invent a personal publication history');
+ const sparse=clone(good);sparse.caseRecords=sparse.caseRecords.slice(-1);
+ assert.equal(readOnly(N.relationship,sparse),'','Sparse clean records cannot invent a history of trust');
+ for(const phase of ['battle','decision','failed','ending'])assert.equal(readOnly(N.relationship,{...bad,phase}),'','A cooperation checkpoint belongs at headquarters');
+}
+assert.equal(restricted.size,checkpoints.length,'Each cooperation checkpoint develops a distinct exchange');
+assert.equal(trusted.size,checkpoints.length);
+for(let mission=0;mission<18;mission++)if(!checkpoints.includes(mission)){
+ const s=published(Array(mission).fill('automate'));if(s.phase==='ending')E.continueCampaign(s);
+ assert.equal(readOnly(N.relationship,s),'','Do not repeat the same cumulative rebuke at every operation');
+}
+const restrictedModel=published(Array(10).fill('automate'));
+assert.match(N.relationship(restrictedModel),/signed extract/);assert.match(N.relationship(restrictedModel),/will not join another interview/);
+const changedCourse=published([...Array(6).fill('automate'),...Array(10).fill('verify')]);
+assert.match(readOnly(N.relationship,changedCourse),/recent checked accounts/);
+assert.match(N.relationship(changedCourse),/keeps approval/,'Better conduct permits limited cooperation, not an erased history');
+assert.notEqual(N.relationship(changedCourse),N.relationship(published(Array(16).fill('verify'))));
+const newBetrayal=published([...Array(6).fill('automate'),...Array(9).fill('verify'),'automate']);
+assert.doesNotMatch(readOnly(N.relationship,newBetrayal),/recent checked accounts/,'A new false publication resets the later-careful-work branch');
+
+// Every accessible repair gets a specific, stable response. The repaired flag is
+// required, and forcing an honestly reviewed source is not a fabricated quote.
+for(let mission=0;mission<17;mission++){
+ const s=published(Array(mission+1).fill('automate'));if(s.phase==='ending')assert.ok(E.continueCampaign(s));
+ assert.equal(readOnly(state=>N.repairBeat(state,mission),s),'','No acknowledgment before an actual repair');
+ assert.ok(E.repair(s,mission));const afterRepair=clone(s),reply=readOnly(state=>N.repairBeat(state,mission),s);
+ assert.ok(reply.length,'Each repaired automated claim gets a human response');
+ assert.equal(s.caseRecords.find(r=>r.mission===mission).method,'automate');
+ assert.deepEqual(s,afterRepair,'Reading the repair does not change the original record');
+ const later=clone(s);later.mission=18;later.caseRecords.push({mission:17,method:'verify',forced:false,repaired:false});
+ assert.equal(readOnly(state=>N.repairBeat(state,mission),later),reply,'Later choices cannot rewrite a recorded repair exchange');
+ const forced=clone(s),r=forced.caseRecords.find(r=>r.mission===mission);r.method='verify';r.forced=true;
+ assert.match(readOnly(state=>N.repairBeat(state,mission),forced),/restored source trail/);
+ assert.doesNotMatch(N.repairBeat(forced,mission),/false|unanimous|retraction/i);
+ r.forced=false;assert.equal(N.repairBeat(forced,mission),'','An impossible clean-human repair must not invent an incident');
+}
+for(const mission of [6,12,18]){
+ const s=published(Array(mission).fill('automate')),text=readOnly(N.endingRelationship,s),before=clone(s);
+ assert.ok(text.length);assert.deepEqual(s,before,'Social accountability does not recompute the legal outcome');
+ for(const outcome of ['commons','contested','hollow'])assert.equal(N.endingRelationship({...s,ending:outcome}),text,'A ruling cannot erase publication history');
+ const amended=clone(s);amended.caseRecords[0].repaired=true;
+ assert.match(readOnly(N.endingRelationship,amended),/later corrections/);assert.ok(N.endingRelationship(amended).startsWith(text));
+ const missing=clone(s);delete missing.caseRecords;assert.equal(readOnly(N.endingRelationship,missing),'');
+ assert.equal(readOnly(N.endingRelationship,{...s,phase:'hub'}),'');
+}
+const lateRecovery=published([...Array(6).fill('automate'),...Array(12).fill('verify')]);
+assert.match(readOnly(N.endingRelationship,lateRecovery),/later careful work/);
+assert.match(N.endingRelationship(lateRecovery),/earlier false publications remain/);
+for(const flag of ['school','practice']){
+ const s={...published(Array(10).fill('automate')),[flag]:true};s.caseRecords[0].repaired=true;
+ assert.equal(readOnly(N.relationship,s),'');assert.equal(readOnly(state=>N.repairBeat(state,0),s),'');
+ assert.equal(readOnly(N.endingRelationship,{...s,mission:12,phase:'ending'}),'');
+}
+
 function decision(mission=0){const s=E.fresh();s.mission=mission;s.verified=mission;s.baselineVerified=Math.floor(mission/6)*6;s.caseRecords=Array.from({length:mission},(_,i)=>({mission:i,method:'verify',forced:false,repaired:false}));E.start(s);s.battle.secured=true;s.phase='decision';return s;}
 for(const s of [E.fresh(),{phase:'decision'},{phase:'decision',battle:{}},{phase:'decision',battle:{agents:[]}}])assert.equal(readOnly(N.incident,s),'','Unknown injury evidence must remain unknown');
 const healthy=decision(),wounded=clone(healthy),incapacitated=clone(healthy);
@@ -70,7 +145,7 @@ global.document={getElementById:el,querySelectorAll(){return [];}};global.window
 global.localStorage={getItem(k){return storage[k]||null;},setItem(k,v){storage[k]=v;}};
 for(const file of ['scenes','practice','figures','tutorial','drill','school','hints','game'])require('../'+file+'.js');
 const escapeHtml=v=>String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-function restore(s){el('backup').onclick();el('save-import').value=JSON.stringify(s);el('restore').onclick();assert.doesNotMatch(el('restore-message').textContent,/invalid/);}
+function restore(s){el('backup').onclick();el('save-import').value=JSON.stringify(s);el('restore').onclick();assert.doesNotMatch(el('restore-message').textContent,/invalid/);el('restore-confirm').onclick();}
 for(const mission of [5,11,17])for(const method of ['verify','automate']){
   const s=decision(mission),m=E.MISSIONS[mission];s.battle.agents[0].hp=1;restore(s);
   assert.ok(el('screen').innerHTML.includes(escapeHtml(N.incident(s))),'Current injuries appear in the live aftermath');
@@ -122,4 +197,23 @@ assert.equal(storage['lemma-debt-save-v1'],beforeArchive);assert.deepEqual(JSON.
 const recordsMissing=clone(corrected);delete recordsMissing.caseRecords;restore(recordsMissing);el('case-file').onclick();
 assert.doesNotMatch(el('modal-body').innerHTML,/Later repaired:|Source trail lost/i,'An older journal cannot supply missing repair/provenance facts');
 assert.ok(el('modal-body').innerHTML.includes(escapeHtml(E.MISSIONS[0].resolution.automate.body)),'Known old publication choices remain readable without new provenance records');
-console.log(`Narrative continuity: ${combinations} recorded enforcement combinations, legacy uncertainty, pure incident selection, all six finale choices, archive isolation and non-retroactive repair history passed.`);
+// The selected relationship and repair are visible through the actual UI; a
+// source repair preserves the publication label, restrictions, and saved history.
+const socialHub=published(Array(4).fill('automate'));
+socialHub.journal=socialHub.caseRecords.map(r=>({mission:r.mission,method:r.method,captured:false}));
+restore(socialHub);const socialText=N.relationship(socialHub);
+assert.ok(el('screen').innerHTML.includes(escapeHtml(socialText)),'Cumulative cooperation appears at its authored headquarters checkpoint');
+el('repair-0').onclick();const repairedHub=JSON.parse(storage['lemma-debt-save-v1']);
+assert.equal(repairedHub.caseRecords[0].method,'automate');assert.equal(repairedHub.caseRecords[0].repaired,true);
+assert.ok(el('modal-body').innerHTML.includes(escapeHtml(N.repairBeat(repairedHub,0))),'A successful repair shows the harmed person’s response immediately');
+assert.ok(el('screen').innerHTML.includes(escapeHtml(socialText)),'Repair does not silently remove cumulative restrictions');
+el('case-file').onclick();assert.ok(el('modal-body').innerHTML.includes(escapeHtml(N.repairBeat(repairedHub,0))),'The repair response remains readable in its case entry');
+el('case-repair-1').onclick();const repairedOther=JSON.parse(storage['lemma-debt-save-v1']);
+assert.equal(repairedOther.caseRecords[1].repaired,true,'An optional record can be repaired through its archive entry');
+assert.ok(el('modal-body').innerHTML.includes(escapeHtml(N.repairBeat(repairedOther,1))));
+for(const mission of [6,12,18]){
+ const s=published(Array(mission).fill('automate'));restore(s);
+ assert.ok(el('screen').innerHTML.includes(escapeHtml(N.endingRelationship(s))),'The actual ending includes cumulative accountability');
+ assert.equal(JSON.parse(storage['lemma-debt-save-v1']).ending,s.ending,'Appending a social ending does not change the judgment');
+}
+console.log(`Narrative continuity: ${combinations} enforcement combinations, six cumulative cooperation checkpoints, 17 actual repairs, changed-course and legacy branches, pure incidents, all six finale choices, archive isolation and non-retroactive history passed.`);

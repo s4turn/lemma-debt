@@ -8,6 +8,30 @@ const templates=[
  {kind:'paired',target:[4,1],starts:[[1,7],[2,7],[1,6]],relay:[6,6],lock:[7,3],walls:[[3,3],[3,4],[3,5],[5,3],[5,4],[5,5]],enemies:[[4,3,'guard'],[6,2,'sentinel'],[2,2,'clerk']],lesson:'Split around the walls for two signatures, or send Quill to the override. Neither route requires defeating everyone.'},
  {kind:'hold',target:[5,3],starts:[[1,6],[2,6],[1,5]],relay:[3,3],walls:[[2,2],[3,2],[4,2],[6,5],[7,5]],enemies:[[5,1,'sentinel'],[7,3,'clerk'],[3,4,'patrol']],lesson:'Decode twice in consecutive rounds. The same decoder must stay beside gold and avoid damage. Wren can protect them.'}
 ];
+// Later circuits are separate places, with doors that alter an actual route.
+// Bypasses on 3/9/18 remain open; 15's inner control reopens its own chamber.
+const circuits={
+ 2:{kind:'network',target:[7,1],starts:[[1,7],[2,7],[1,6]],relay:[3,7],
+  walls:[[4,1],[4,2],[4,3],[4,4],[4,6],[4,7],[4,8],[6,0],[6,1],[6,3],[6,4]],
+  nodes:[[1,5],[3,5],[5,3],[7,3]],gates:[[4,5,1],[6,2,2]],bits:[true,false,true,true],edges:[[0,1],[1,2],[2,3]],
+  enemies:[[7,4,'sentinel',2],[7,5,'clerk',3],[3,2,'guard']],
+  lesson:'The B door is a shortcut through the long wall. A switch may close it behind your scout. The north end stays open; OFF also stops linked officers.'},
+ 8:{kind:'network',target:[4,1],starts:[[3,7],[4,7],[5,7]],relay:[4,5],
+  walls:[[1,3],[3,3],[4,3],[5,3],[7,3]],
+  nodes:[[1,6],[2,1],[6,1],[7,6]],gates:[[2,3,0],[6,3,1]],bits:[false,true,false,false],edges:[[0,1],[1,2],[2,3],[3,0]],
+  enemies:[[7,2,'sentinel',2],[3,1,'clerk',1],[4,4,'guard']],
+  lesson:'Two doors cross the divider: A on the west, B on the east. Follow each switch preview before committing a route. Both outside edges remain passable.'},
+ 14:{kind:'network',target:[4,0],starts:[[3,7],[4,8],[5,7]],relay:[4,7],
+  walls:[[2,0],[2,1],[2,2],[2,3],[3,3],[5,3],[6,3],[6,2],[6,1],[6,0]],
+  nodes:[[1,3],[7,3],[4,5],[4,2]],gates:[[4,3,2]],bits:[false,false,true,false],edges:[[0,1],[0,2],[1,2],[2,3]],
+  enemies:[[3,2,'sentinel',2],[5,2,'clerk',3],[1,6,'guard']],
+  lesson:'A and B repeat the same source: either opens the C chamber and stops both linked officers. Choose a flank. D inside can reopen the chamber; plan who crosses before switching again.'},
+ 17:{kind:'hold',target:[7,1],starts:[[1,7],[2,7],[1,6]],relay:[3,6],
+  walls:[[4,0],[4,1],[4,3],[4,4],[4,6],[4,7],[5,3],[6,3]],
+  nodes:[[1,5],[3,2],[6,6],[7,2]],gates:[[4,5,1],[4,2,0],[7,3,2]],bits:[false,true,true,false],edges:[[0,1],[1,2],[2,3]],
+  enemies:[[6,1,'sentinel',1],[8,4,'clerk',2],[6,5,'guard']],
+  lesson:'The hearing combines the circuit with testimony. All signals must be OFF to decode. Keep the same decoder beside gold for two consecutive rounds, and bring a second witness for the finish. The south and east edges bypass the doors.'}
+};
 function get(index){const chapter=Math.floor(index/6),base=JSON.parse(JSON.stringify(templates[index%6]));
 
  const slot=index%6;
@@ -28,7 +52,8 @@ function get(index){const chapter=Math.floor(index/6),base=JSON.parse(JSON.strin
  const transform=([x,y,...rest])=>chapter===1?[8-y,x,...rest]:chapter===2?[8-x,8-y,...rest]:[x,y,...rest];
  for(const k of ['target','relay','lock'])if(base[k])base[k]=transform(base[k]);
  for(const k of ['starts','walls','enemies','nodes','gates'])if(base[k])base[k]=base[k].map(transform);
- if(chapter&&base.kind==='network'){base.edges=chapter===1?[[0,1],[1,2],[2,3],[3,0]]:[[0,1],[0,2],[1,2],[2,3]];const solution=chapter===1?[0,2]:[1,2,3];base.bits=[false,false,false,false];for(const id of solution){const hit=new Set([id]);for(const [a,b] of base.edges){if(a===id)hit.add(b);if(b===id)hit.add(a);}for(const j of hit)base.bits[j]=!base.bits[j];}}
+ if(circuits[index])Object.assign(base,JSON.parse(JSON.stringify(circuits[index])));
+ if(index===3)Object.assign(base,{starts:[[3,4],[4,3],[1,7]],enemies:[[3,3,'sentinel'],[2,4,'clerk'],[2,1,'guard']],lesson:'When enforcement resumes, Reassign moves an officer and its aim. Redirect a shot to stop another order.'});
  base.hearing=index%6===5;base.chapter=chapter;return base;
 }
 root.LemmaEncounters={get};if(typeof module!=='undefined')module.exports=root.LemmaEncounters;

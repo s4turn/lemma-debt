@@ -483,6 +483,104 @@ N.arrival=function(s){
  if(r.forced)return 'The human review did not repair the missing provenance. An extra certifier enforces that gap here. Its desk sells the missing paperwork as an opportunity to strengthen the record.';
  return 'The previous checked record stays enforcement for the first response. Laleh writes the expiry on the board: one round. “It is a right,” Inez says, “with a very short opening hour.”';
 };
+// Social history is separate from a case link's current legal status. An amended
+// automated record still records an automated publication. Missing older records,
+// aggregate counters and journals cannot supply the missing personal history.
+function socialHistory(s){
+ if(!s||s.school||s.practice||!Number.isInteger(s.mission)||s.mission<0||s.mission>18||!Array.isArray(s.caseRecords))return [];
+ return s.caseRecords.filter(r=>r&&Number.isInteger(r.mission)&&r.mission>=0&&r.mission<s.mission&&['verify','automate'].includes(r.method)&&s.caseRecords.filter(other=>other?.mission===r.mission).length===1).slice().sort((a,b)=>a.mission-b.mission);
+}
+// Render at the upcoming operation's hub, not after every publication. These
+// distinct checkpoints let cooperation change without repeating a trust meter.
+N.relationship=function(s){
+ if(s?.phase!=='hub')return '';
+ const records=socialHistory(s),automated=records.filter(r=>r.method==='automate'),last=automated.at(-1)?.mission??-1;
+ const laterChecks=records.filter(r=>r.mission>last&&r.method==='verify'&&(!r.forced||r.repaired)).length;
+ const clean=records.length===s.mission&&records.length>0&&records.every(r=>r.method==='verify'&&(!r.forced||r.repaired));
+ const at=mission=>records.find(r=>r.mission===mission);
+ if(automated.length<2){
+  if(!clean)return '';
+  const trusted={
+   4:'Voss gives Ada her working copy, including a margin marked WRONG in large letters. “You have been leaving those parts in.” Emil asks whether he may quote that as praise. “You may quote the margin,” she says.',
+   7:'Laleh puts Emil’s name beside MINUTES without asking for a sample. He adds a second column for what nobody agreed to. She leaves him the good pencil.',
+   10:'Ortega leaves Ada to check the permission clauses while she reads the appendices. They can divide the work because the other person’s doubts have been surviving publication. Neither calls the arrangement frictionless.',
+   13:'MODEL EMPLOYEE sends the complete resignation with permission to quote the marked lines. It trusts them to leave the rest alone. Inez writes the limit above the extract, where an editor cannot mistake it for packaging.',
+   16:'Voss asks Inez to carry the corrected page to the hearing. She keeps a copy, as she always does, but does not keep hold of the envelope. Inez waits until it is offered.',
+   17:'Laleh leaves a space in the speaking order for the squad. “You can answer for your own part.” Inez writes her collector number beside her name. Emil leaves the next line blank for somebody they have not met.'
+  };
+  return trusted[s.mission]||'';
+ }
+ const learning=laterChecks>=3;
+ switch(s.mission){
+  case 4:return at(3)?.method==='automate'
+   ?'Laleh keeps the notebook under her arm. After the repeated false summaries, she will supply numbered copies and read every proposed quotation herself. “You can recover the documents. You cannot borrow my name.” Emil starts to call this a delay, then looks at the supervisor’s name on their publication.'
+   :'Ortega brings copies of the squad’s unchecked publications to the next briefing. She will still supply evidence; she will no longer supply a signature for a summary she has not read. The company offers to certify her reluctance. She adds that offer to the pile.';
+  case 7:return at(5)?.method==='automate'
+   ?'Emil refuses to introduce the union meeting on the squad’s behalf. Their pension summary is one of several publications he cannot stand behind. He will take minutes under his own name. Laleh gives him a chair at the table, away from the promotional camera.'
+   :'Laleh asks the union to choose its own minute-taker. The squad has published too many statements the speakers did not make. Inez brings the recovered papers and sits among the people whose names are on them. Nobody asks her to chair.';
+  case 10:return at(9)?.method==='automate'
+   ?'MODEL EMPLOYEE supplies a signed extract and ends the connection. After being made unanimous among the squad’s other false summaries, it will answer written source questions only; it will not join another interview or endorse the campaign. Inez copies its terms above the HR lead. The lead is useful. The refusal stays.'
+   :'Ortega will check the consent key, but declines to appear in the squad’s announcement. She has enough of their earlier summaries to know how an appearance becomes approval. Ada makes a separate space for her actual finding. Ortega asks to see that space filled before she signs.';
+  case 13:return learning
+   ?'Laleh has read the recent human reviews. She lets the squad carry copies to the exchange again, but keeps the originals and approves every use of her name. “Better,” she tells Inez. Inez waits for the rest. There is no rest yet.'
+   :at(12)?.method==='automate'
+    ?'Laleh takes the institute’s witness list back from the squad. “Voluntarily unsubscribed” has joined too many earlier inventions. She will arrange the teachers’ testimony herself. Inez can explain the collections she signed; she cannot introduce anyone else as satisfied.'
+    :'Inez offers to coordinate the teachers’ statements. Laleh asks her to coordinate the document boxes instead. After the repeated false publications, each witness will speak and approve quotations separately. Inez labels the boxes. The work still needs doing.';
+  case 16:return learning
+   ?'Voss has seen the recent checked accounts. She agrees to answer source questions again, with Ortega present, but keeps approval of the final wording. Ada starts to thank her for trusting them. “For reading these pages,” Voss says. They begin there.'
+   :'Voss brings her own copy to the audit briefing. Ortega will hold it; the squad gets an extract. Repeated false publications have made the distinction necessary. “I am still giving evidence,” Voss says. “I am choosing who gets to carry it.”';
+  case 17:return learning
+   ?'At the microphone check, Laleh acknowledges the squad’s later reviews. The witnesses still retain their own speaking slots and copies. “You may answer for what you did,” she tells them. Emil moves the collective endorsement off the lectern. There is room for the source pages now.'
+   :'Laleh removes the squad’s collective endorsement from the hearing programme. After the repeated false publications, the witnesses will testify in their own names and keep their own recordings. The squad still has a speaking slot: it must answer for what it published. Inez puts those pages on the lectern first.';
+  default:return '';
+ }
+};
+// Called after a successful repair, and safe to reread in the case file. These
+// acknowledgments depend only on this record, so later choices cannot rewrite an
+// earlier repair scene. Forced human review is never described as falsification.
+const repairReplies=[
+ 'Voss reads the withdrawn ownership claim. “Send that to everyone who received the first one.” She accepts the correction and keeps her proof on her side of the desk.',
+ 'Emil checks that definitive has gone. “Now I can recommend the argument we actually have.” He leaves the honorary citation in its torn envelope.',
+ 'Ortega reads the corrected audit. “This says what I checked.” Ada asks whether she can use that sentence. “With its subject attached.”',
+ 'Laleh finds her warnings restored. “My supervisor has already quoted the other version.” She files the correction and keeps the pencil original.',
+ 'Voss checks that her theorem is no longer the thing announced as disproved. “Thank you. Now send it where you sent the headline.” She declines a photograph beside the correction.',
+ 'Emil reads his objection in the restored transcript. He will sign that page. He will not join the pension office’s photograph. “They already have one of me waiting.”',
+ 'Emil points to the blank signature in the corrected minutes. “Leave it like that.” Ada does. He keeps a copy without thanking the committee for its retrospective invitation.',
+ 'Laleh reads the permission clause back to the union. The signatories accept the correction. She declines to describe the original publication as a misunderstanding: their conditions were written down.',
+ 'Ada puts the corrected clinic report beside Emil’s appeal. “The score was wrong,” she says. “I know,” he answers. She waits while he finishes reading.',
+ 'MODEL EMPLOYEE acknowledges receipt of the restored objection. It declines a new interview. Inez records both sentences without asking for a friendlier closing.',
+ 'Ada asks Emil to check the corrected account of the consent key. “It says I may choose,” he says. “That is as far as my answer goes.” She leaves the next box empty.',
+ 'Emil reads the restored blank box. Ada asks if there is anything else to add. “No.” This time nobody supplies the missing word after it.',
+ 'Laleh accepts the retraction of voluntarily unsubscribed. “The teacher still needs heat.” Inez keeps that sentence beside the correction. Neither asks the other to call it closure.',
+ 'MODEL EMPLOYEE checks that its resignation is no longer a vote of confidence. It permits that extract to be used, then ends the exchange. Ortega does not reopen it for a thank-you.',
+ 'The teacher reads the corrected temperatures. She keeps her coat on. Emil folds a copy into his brochure, without suggesting the paper will help.',
+ 'Voss finds her correction restored beside Inez’s collection history. “Those are the witnesses who will attend,” she says. Inez keeps her signature visible.',
+ 'Sable signs the withdrawal of the self-certification. Ortega retains the first certificate beside it. Sable does not ask which version will appear at the hearing.',
+ 'Laleh checks the restored public questions. She accepts the transcript, then asks the squad to send the correction to everyone sold the satisfied audience. She does not authorize another endorsement.'
+];
+N.repairBeat=function(s,mission){
+ const r=socialHistory(s).find(r=>r.mission===mission);
+ if(!r?.repaired)return '';
+ if(r.method==='automate')return repairReplies[mission]||'';
+ if(r.forced)return 'Ortega checks the restored source trail against the recovered record. “Now I can follow how it got here.” Ada offers an explanation of the forced access. “Keep that too,” says Ortega. “The repair does not need a cleaner past.”';
+ return '';
+};
+// Append to the existing judgment. Social cooperation does not grant a legal win,
+// cure an implant, warm a school, or alter an earlier chapter's recorded outcome.
+N.endingRelationship=function(s){
+ if(s?.phase!=='ending'||![6,12,18].includes(s.mission))return '';
+ const records=socialHistory(s),automated=records.filter(r=>r.method==='automate');
+ if(automated.length<2)return '';
+ const last=automated.at(-1).mission,laterChecks=records.filter(r=>r.mission>last&&r.method==='verify'&&(!r.forced||r.repaired)).length;
+ const amendment=automated.some(r=>r.repaired)?' The file includes their later corrections beside the first versions. Nobody is asked to treat one as the absence of the other.':'';
+ if(s.mission===6)return 'Ortega returns the squad’s proposed joint statement unsigned. After the repeated false summaries, she will authenticate the source pages, not endorse their account of her. Voss keeps custody of her proof. They will continue the case on those terms.'+amendment;
+ if(s.mission===12)return (laterChecks>=3
+  ?'Laleh acknowledges the later checked accounts. She will work with the squad on the next case, with witnesses approving their own quotations. Emil stays to take minutes. Nobody mistakes his attendance for agreement.'
+  :'Laleh sets a condition for the next case: each witness keeps the original, chooses the words supplied, and speaks in their own name. Too many of the squad’s publications have changed what people said. Emil will take minutes; he declines to present the coalition as unanimous.')+amendment;
+ return (laterChecks>=3
+  ?'When the chairs are put away, Ortega acknowledges the squad’s later careful work. It has made further cooperation possible. The witnesses still control their own statements, and the earlier false publications remain under the squad’s names. Inez stays to answer for them before helping with the next room.'
+  :'The witnesses do not sign the squad’s account of what happened. Laleh keeps their originals; Ortega sends each person a copy of the statement attributed to them. The squad’s names remain on its false publications. Inez takes the first questions. There is work they can do together, but nobody has authorized them to speak for everyone.')+amendment;
+};
 // Live field report only: archived Case files must not borrow a later battle's injuries.
 N.incident=function(s){
  const agents=s?.battle?.agents;
